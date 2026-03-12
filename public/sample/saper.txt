@@ -1,0 +1,156 @@
+# title: сапер
+# title: сапер
+
+# X = (A * X + C) % 256
+
+# Как играть:
+# 1. Включи режим потокового ввода. Он отключает буфер ввода и каждый введенный символ сразу попадает в программу без нажатия Enter
+#    Это по сути все, что отличает эту программу от всех виденных тобою ранее.
+# 2. После запуска введи сид. Любая последовательность символов без пробелов(!). Нужен для рандомизации поля.
+# 3. Дальше используй WASD + Space
+# 4. Поиграй...
+# 5. И признай уже, что я гений с двухзначным с icq
+#
+
+byte seed;
+char map[16][16] = 0; # 1-8 - бомбы вокруг скрытые. '1'-'8' - Бомбы открытые, 'B'
+byte xPos = 0, yPos = 0;
+byte size = 8;
+byte bombs = 16;
+
+
+out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+out 'Итак... Приступим\n';
+out 'Для начала тебе нужно ввести сид.\nОн нужен для рандомизации карт.\nВведи слово или число и нажми Enter\n';
+out '\n\n\n\n\n\n> ';
+in seed;
+
+out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+out 'Отлично! Все почти готово...\n\n'
+out '1. Продолжить\n'
+out '\n\n\n\n\n\n> ';
+char choice;
+in choice;
+if (choice != '1')
+{
+    out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+    out 'Чтобы продолжить, введи 1...\n\n'
+    out '1. Продолжить\n'
+    out '\n\n\n\n\n\n> ';
+    do
+    {
+        in choice;
+    } while (choice != '1');
+}
+
+
+#   ***   Закладываем бомбы    ***   #
+for (byte i = 0; i < bombs; i++)
+{
+    byte x, y;
+
+    do
+    {
+        seed = 137 * seed + 1;
+        y = (seed + (seed / size)) % size;
+        seed = 137 * seed + 1;
+        x = (seed + (seed / size)) % size;
+        seed++;
+
+    } while (map[y][x])
+
+    map[y][x] = 'B';
+}
+
+
+#   ***   Расставляем цифорки    ***   #
+for (byte i = 0; i < size; i++)
+{
+    for (byte j = 0; j < size; j++)
+    {
+        if (map[i][j] == 'B')
+        {
+            byte fromI = i, toI = i, fromJ = j, toJ = j;
+            if (i > 0) fromI--;
+            if (j > 0) fromJ--;
+            if (i < size - 1) toI++;
+            if (j < size - 1) toJ++;
+
+            for (byte y = fromI; y <= toI; y++)
+            {
+                for (byte x = fromJ; x <= toJ; x++)
+                {
+                    if (map[y][x] != 'B')
+                    {
+                        map[y][x]++;
+                    }
+                }
+            }
+        }
+    }
+}
+
+bool loop = true;
+
+while (loop)
+{
+    out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+    char input;
+
+    for (byte i = 0; i < size; i++)
+    {
+        for (byte j = 0; j < size; j++)
+        {
+            if (i == xPos && j == yPos) out '>';
+            else out ' ';
+            out '.';
+        }
+
+        if (i == 0)             out '    Бомбы: ', bombs;
+        else if (i == 1)        out '    Флаги: ', 0;
+        else if (i == size - 3) out '    WASD  - Перемещение';
+        else if (i == size - 2) out '    Space - Открыть';
+        else if (i == size - 1) out '    F     - Флаг';
+
+        out eol;
+    }
+
+    out '\n> ';
+
+
+    bool again;
+    while (again)
+    {
+        again = false;
+        in input;
+        if (input == 'w' && xPos > 0) xPos--;
+        else if (input == 's' && xPos < size - 1) xPos++;
+        else if (input == 'a' && yPos > 0) yPos--;
+        else if (input == 'd' && yPos < size - 1) yPos++;
+        else again = true;
+    }
+}
+
+out '\n\n\n\n';
+
+
+for (byte i = 0; i < sizeof map; i++)
+{
+    for (byte j = 0; j < sizeof map[0]; j++)
+    {
+        if (map[i][j] == 'B')
+        {
+            out ' B';
+        }
+        else if (map[i][j])
+        {
+            char ch = map[i][j] + '0';
+            out ' ', ch;
+        }
+        else
+        {
+            out ' -';
+        }
+    }
+    out eol;
+}
