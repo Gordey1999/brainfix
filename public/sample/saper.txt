@@ -115,22 +115,22 @@ while (intro)
                 {
                     if (selected == 0)
                     {
-                        size = 9;
-                        bombs = 9;
+                        size = 8;
+                        bombs = 8;
                     }
                     else if (selected == 1)
                     {
-                        size = 13;
-                        bombs = 17;
+                        size = 12;
+                        bombs = 16;
                     }
                     else if (selected == 2)
                     {
                         size = 16;
-                        bombs = 30;
+                        bombs = 32;
                     }
                     else if (selected == 3)
                     {
-                        size = 6;
+                        size = 16;
                         bombs = 1;
                     }
                     intro--;
@@ -234,9 +234,9 @@ while (intro)
 
             if      (i == 0)        out '   Бомбы: ', bombs;
             else if (i == 1)        out '   Флаги: ', rightFlags + wrongFlags;
-            else if (i == size - 3) out '   WASD  - Перемещение';
-            else if (i == size - 2) out '   Space - Открыть';
-            else if (i == size - 1) out '   F     - Флаг';
+            else if (i == size - 3) out '   WASD  - перемещение';
+            else if (i == size - 2) out '   Space - открыть';
+            else if (i == size - 1) out '   F     - флаг';
 
             out eol;
         }
@@ -367,14 +367,45 @@ while (intro)
             else         out ' ';
         }
 
-        if (i == 0)
+        if (win)
         {
-            if (win) out '   ПОБЕДА!';
-            else     out '   БА-БАХ!!!';
+            if (i == 0)
+                out '   ПОБЕДА!';
+            else if (i == 1)
+            {
+                if (selected == 3)
+                    out '   Поздравляю! Ваш IQ: 7';
+                else if (selected == 0)
+                    out '   Новичкам везет...';
+                else if (selected == 1)
+                    out '   Неплохо';
+                else
+                    out '   Л Е Г Е Н Д А'
+            }
+
         }
-        else if (i == size - 1)
+        else
         {
-            out '   Нажми любую кнопку...';
+            if (i == 0)
+                out '   БА-БАХ!!!';
+            else if (i == 1)
+            {
+                if (selected == 3)
+                    out '   Чтож... ты пытался)';
+                else if (rightFlags == 0 && wrongFlags == 0)
+                    out '   Это было... Быстро';
+                else if (rightFlags + 4 > bombs)
+                    out '   Почти, но нет)';
+                else if (selected == 0)
+                    out '   Может выберешь уровень попроще?)';
+                else
+                    out '   Поплачь';
+            }
+        }
+
+        if (i == size - 1)
+        {
+            out     '   Нажми любую кнопку';
         }
 
         out eol;
