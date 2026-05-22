@@ -8,14 +8,16 @@ class Processor
 	protected int $pointer = 0;
 	protected array $registry;
 	protected bool $uglify;
+	protected int $offset;
 
 	protected OutputStream $stream;
 
-	public function __construct(OutputStream $stream, int $registrySize, bool $uglify)
+	public function __construct(OutputStream $stream, int $registrySize, bool $uglify, int $offset)
 	{
 		$this->stream = $stream;
-		$this->registry = array_fill(0, $registrySize, false);
+		$this->registry = array_fill($offset, $registrySize, false);
 		$this->uglify = $uglify;
+		$this->offset = $offset;
 
 		foreach ($this->registry as $address => $isReserved)
 		{

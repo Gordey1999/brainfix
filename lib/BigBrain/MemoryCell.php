@@ -29,6 +29,10 @@ class MemoryCell
 		{
 			return sprintf('%s', $this->label);
 		}
+		else if (in_array($this->label, ['T_DVD', 'T_REM', 'T_RES', 'T_DM1',  'T_DM2']))
+		{
+			return sprintf('%s', $this->label);
+		}
 		else
 		{
 			return sprintf('%s(%s)', $this->label, $this->address);

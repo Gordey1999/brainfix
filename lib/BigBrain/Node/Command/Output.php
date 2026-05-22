@@ -119,7 +119,7 @@ class Output implements Node\Command
 
 	protected function printExpression(Environment $env, Expression $expr, Type\Scalar $resultType) : void
 	{
-		$result = $env->processor()->reserve();
+		$result = $env->processor()->reserve($env->trickyProcessor()->getCell(BigBrain\TrickyProcessor::T_DVD));
 
 		$expr->compileCalculation($env, $result);
 
@@ -136,7 +136,7 @@ class Output implements Node\Command
 		}
 		else if ($resultType instanceof Type\Byte)
 		{
-			$env->processor()->printNumber($result);
+			$env->trickyProcessor()->printNumber($result);
 		}
 		else
 		{
