@@ -52,16 +52,32 @@ export class Console {
 	}
 
 	_input(char) {
-		this._el.textContent += char;
+		this._render(char);
 		this._buffer.push(char);
+
+		this._streamIn.push(...this._buffer);
+		this._buffer = [];
+		this._resolveInput();
 	}
 
 	_enter() {
 		this._buffer.push('\n');
 		this._streamIn.push(...this._buffer);
 		this._buffer = [];
-		this._el.textContent += '\n';
+		this._render('\n');
 		this._resolveInput();
+	}
+
+	_render(text) {
+		let content = this._el.textContent;
+
+		content += text;
+
+		if (content.length > 10000) {
+			content = content.substring(content.length - 10000);
+		}
+
+		this._el.textContent = content;
 	}
 
 	_resolveInput() {
@@ -130,7 +146,7 @@ export class Console {
 	}
 
 	echo(text) {
-		this._el.textContent += text;
+		this._render(text);
 
 		if (!this._scrollPending) {
 			this._scrollPending = true;
