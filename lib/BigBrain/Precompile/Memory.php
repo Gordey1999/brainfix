@@ -9,17 +9,18 @@ use Gordy\Brainfuck\BigBrain\Memory as BaseMemory;
 
 class Memory extends BaseMemory
 {
-	protected int $memorySize = 0;
+	protected int $maxMemorySize = 0;
 
 	public function allocate(Type\BaseType $type, Token $name) : MemoryCellTyped
 	{
-		$this->memorySize++;
+		$cell = parent::allocate($type, $name);
+		$this->maxMemorySize = max($this->maxMemorySize, $this->count());
 
-		return parent::allocate($type, $name);
+		return $cell;
 	}
 
 	public function computedMemorySize() : int
 	{
-		return $this->memorySize;
+		return $this->maxMemorySize;
 	}
 }
