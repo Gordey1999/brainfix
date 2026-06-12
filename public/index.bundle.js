@@ -26744,6 +26744,8 @@
   	}
 
   	async getStateForSave() {
+  		this._updateActiveTabData();
+
   		return this._tabData.map((tab) => {
   			return {
   				code: this._editor.getStateCode(tab.tabId),
@@ -26803,8 +26805,7 @@
   		if (!activeTab) { return; }
 
   		const code = this._editor.getCode();
-  		let title = this.getTitle(code, activeTab.language);
-  		activeTab.querySelector('.tab-name').textContent = title;
+  		activeTab.querySelector('.tab-name').textContent = this.getTitle(code, activeTab.language);
   	}
 
   	getTitle(code, language) {
@@ -26870,6 +26871,7 @@
   		if (activeTab === el) { return; }
 
   		this._updateActiveTabData();
+  		activeTab?.classList.remove('tab-active');
   		this._controller.onStop();
 
   		const tabData = this._getTabData(el);
@@ -26885,8 +26887,6 @@
   		const activeTab = this._getActiveTab();
 
   		if (activeTab) {
-  			activeTab.classList.remove('--active');
-
   			const tabData = this._getTabData(activeTab);
   			tabData.input = this._input.getRaw();
   			tabData.inputActive = this._input.isActive();
@@ -29983,6 +29983,7 @@
 
   		if (isConfirmed) {
   			const data = await this._tabManager.getStateForSave();
+  			console.log(data);
   			await this._storage.save(slotId, data);
   			await this._renderSaveSlots();
   		}
