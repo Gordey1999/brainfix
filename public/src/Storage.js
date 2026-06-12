@@ -88,6 +88,23 @@ export class Storage {
 		}
 	}
 
+	async saveCurrentSession(data) {
+		try {
+			await localforage.setItem('last_session_state', data);
+		} catch (err) {
+			console.error('Ошибка автосохранения сессии:', err);
+		}
+	}
+
+	async loadCurrentSession() {
+		try {
+			return await localforage.getItem('last_session_state') || null;
+		} catch (err) {
+			console.error('Ошибка загрузки сессии:', err);
+			return null;
+		}
+	}
+
 	_formatRelativeTime(timestamp) {
 		if (!timestamp) return 'never';
 

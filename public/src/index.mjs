@@ -32,6 +32,8 @@ const tabManager = new TabManager(tabs, controller, builder, editor, fileInput);
 
 const storage = new Storage();
 const storageController = new StorageController(saveModal, loadModal, storage, tabManager);
+
+editor.onChange(storageController.onEditorChange);
 builder.setTabManager(tabManager);
 
 const nav = document.querySelector('.nav');

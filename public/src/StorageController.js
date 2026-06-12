@@ -6,8 +6,10 @@ export class StorageController {
 		this._loadModal = loadModal;
 		this._storage = storage;
 		this._tabManager = tabManager;
+		this._autoSaveTimeout = null;
 
 		this._bind();
+		this._initSession();
 	}
 
 	_bind() {
@@ -20,6 +22,16 @@ export class StorageController {
 		this._saveModal.querySelector('.link-export').addEventListener('click', this.onExport);
 		this._saveModal.querySelector('.link-download').addEventListener('click', this.onDownload);
 		this._loadModal.querySelector('.link-import').addEventListener('click', this.onImport);
+
+		window.addEventListener('beforeunload', this.onBeforeUnload);
+	}
+
+	async _initSession() {
+		const lastSession = await this._storage.loadCurrentSession();
+
+		if (lastSession) {
+			this._tabManager.setFullState(lastSession);
+		}
 	}
 
 	onSave = () => {
@@ -128,6 +140,22 @@ export class StorageController {
 				console.error(err);
 			}
 		}
+	}
+
+	onEditorChange = () => {
+		if (this._autoSaveTimeout) {
+			clearTimeout(this._autoSaveTimeout);
+		}
+
+		this._autoSaveTimeout = setTimeout(async () => {
+			const data = await this._tabManager.getFullState();
+			await this._storage.saveCurrentSession(data);
+		}, 5000);
+	}
+
+	onBeforeUnload = async () => {
+		const data = await this._tabManager.getFullState();
+		await this._storage.saveCurrentSession(data);
 	}
 
 	async _exportWithPicker(data) {

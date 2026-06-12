@@ -20552,6 +20552,14 @@
           })
       ];
   }
+  /**
+  The state field used to store the history data. Should probably
+  only be used when you want to
+  [serialize](https://codemirror.net/6/docs/ref/#state.EditorState.toJSON) or
+  [deserialize](https://codemirror.net/6/docs/ref/#state.EditorState^fromJSON) state objects in a way
+  that preserves history.
+  */
+  const historyField = historyField_;
   function cmd(side, selection) {
       return function ({ state, dispatch }) {
           if (!selection && state.readOnly)
@@ -25449,6 +25457,7 @@
   	_states = {};
   	_currentState = null;
   	_editor = null;
+  	_onChangeCallback = null
 
   	constructor(parent, code = '') {
   		this._defineBf();
@@ -25461,11 +25470,21 @@
   			activeLineField,
   			compileErrorField,
   			scrollExt,
+
+  			EditorView.updateListener.of((update) => {
+  				if (update.docChanged && this._onChangeCallback) {
+  					this._onChangeCallback();
+  				}
+  			})
   		];
 
   		this._editor = new EditorView({
   			parent: parent,
   		});
+  	}
+
+  	onChange(callback) {
+  		this._onChangeCallback = callback;
   	}
 
   	addState(name, code, language) {
@@ -25483,13 +25502,7 @@
   	}
 
   	switchState(name) {
-  		if (this._currentState !== null) {
-  			this._states[this._currentState] = {
-  				state: this._editor.state,
-  				scrollTop: this._editor.scrollDOM.scrollTop,
-  				scrollLeft: this._editor.scrollDOM.scrollLeft
-  			};
-  		}
+  		this._updateState();
 
   		if (!this._states[name]) {
   			throw new Error(`State ${name} not found`);
@@ -25507,11 +25520,7 @@
 
   	getState(name) {
   		if (this._currentState === name) {
-  			this._states[this._currentState] = {
-  				state: this._editor.state,
-  				scrollTop: this._editor.scrollDOM.scrollTop,
-  				scrollLeft: this._editor.scrollDOM.scrollLeft
-  			};
+  			this._updateState();
   		}
 
   		return this._states[name];
@@ -25695,6 +25704,65 @@
 
   	getCode() {
   		return this._editor.state.doc.toString();
+  	}
+
+
+  	getSerializableState(name) {
+  		const state = this.getState(name);
+
+  		let serializedState = null;
+  		try {
+  			serializedState = state.state.toJSON({ history: historyField });
+  		} catch (e) {
+  			console.warn("Не удалось сериализовать стейт для " + name, e);
+  		}
+
+  		return {
+  			scrollTop: state.scrollTop,
+  			scrollLeft: state.scrollLeft,
+  			serializedState: serializedState,
+  		};
+  	}
+
+  	setSerializableState(name, language, code, data) {
+  		const languageExt = language === 'bf' ? this._bfExt : this._bbExt;
+
+  		let finalState = null;
+
+  		if (data.serializedState) {
+  			try {
+  				finalState = EditorState.fromJSON(
+  					data.serializedState,
+  					{ extensions: [...this._defaultExt, ...languageExt] },
+  					{ history: historyField }
+  				);
+  			} catch (e) {
+  				console.error("Ошибка десериализации для " + name, e);
+  			}
+  		}
+
+  		if (!finalState) {
+  			finalState = EditorState.create({
+  				doc: code,
+  				extensions: [...this._defaultExt, ...languageExt]
+  			});
+  		}
+
+  		this._states[name] = {
+  			state: finalState,
+  			scrollTop: data.scrollTop || 0,
+  			scrollLeft: data.scrollLeft || 0
+  		};
+  	}
+
+  	_updateState() {
+  		if (this._currentState !== null) {
+  			this._states[this._currentState] = {
+  				state: this._editor.state,
+  				scrollTop: this._editor.scrollDOM.scrollTop,
+  				scrollLeft: this._editor.scrollDOM.scrollLeft
+  			};
+  		}
   	}
   }
 
@@ -26604,107 +26672,6 @@
   	}
   }
 
-  const files = [
-  	// {
-  	// 	url: 'sample/bf.txt',
-  	// 	input: '',
-  	// 	lang: 'bf',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/01_greetings.txt',
-  	// 	input: '',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/02_types.txt',
-  	// 	input: '',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/03_operators.txt',
-  	// 	input: '',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/04_arithmetics.txt',
-  	// 	input: '',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/05_constructions.txt',
-  	// 	input: '',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/06_arrays.txt',
-  	// 	input: 'ямап туртос ,тяничоп оге икинхет ,адеб ен — илибу атобор илсЕ .йивтсйед удобовс юунлоп и ьтсонназаканзеб илавовтсвуч ет ыботч ,йелетитесоп итохирп еыбюл тюянлопыв ыдиордна еыннавориуртснокс оньлаицепс »адапаЗ огокиД риМ« йинечелвзар екрап моксечитсирутуф В\n',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/07_translit.txt',
-  	// 	input: 'В футуристическом парке развлечений «Мир Дикого Запада» специально сконструированные андроиды выполняют любые прихоти посетителей, чтобы те чувствовали безнаказанность и полную свободу действий. Если робота убили — не беда, техники его починят, сотрут память и снова поставят в строй, навстречу новому дню и новым людским прихотям. Но оказывается, что далеко не все роботы теряют воспоминания. КРУТО\n',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/08_cursed.txt',
-  	// 	input: 'В футуристическом парке развлечений «Мир Дикого Запада» специально сконструированные андроиды выполняют любые прихоти посетителей, чтобы те чувствовали безнаказанность и полную свободу действий. Если робота убили — не беда, техники его починят, сотрут память и снова поставят в строй, навстречу новому дню и новым людским прихотям. Но оказывается, что далеко не все роботы теряют воспоминания. ОЧЕНЬ КРУТО... И ПРОКЛЯТО\n',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/09_mult.txt',
-  	// 	input: '',
-  	// 	lang: 'bb',
-  	// },
-  	// {
-  	// 	url: 'sample/ivan/10_bye.txt',
-  	// 	input: '>++++++[-<---------->]<+.>++++[-<+++++++>]<+.+.++.++++.++++.-----.+.>+++++[-<+++++++++++>]<.>+++++++++[-<--------->]<.>+++++[-<+++++>]<.----.++++++++++.++.>+++++++[-<+++++++>]<.[-]\n',
-  	// 	lang: 'bb',
-  	// },
-  	{
-  		url: 'sample/saper_compiled.txt',
-  		input: '',
-  		lang: 'bf',
-  	},
-  	{
-  		url: 'sample/saper.txt',
-  		input: '',
-  		lang: 'bb',
-  	},
-  ];
-
-
-  class SampleStorage {
-
-  	static async load() {
-  		const result = [];
-  		for (const file of files) {
-  			result.push({
-  				code: await this.loadFile(file.url),
-  				input: file.input,
-  				lang: file.lang,
-  			});
-  		}
-
-  		return result;
-  	}
-
-  	static async loadFile(url) {
-  		try {
-  			const response = await fetch(url);
-
-  			if (!response.ok) {
-  				throw new Error(`download error: ${response.statusText}`);
-  			}
-
-  			return await response.text();
-
-  		} catch (error) {
-  			console.error("cant download file:", error);
-  			alert("cant read file");
-  		}
-  	}
-  }
-
   class TabManager {
 
   	constructor(element, controller, builder, editor, input) {
@@ -26735,14 +26702,6 @@
   		this._addTab(true, parent, code, tabData.input);
   	}
 
-  	async getFullState() {
-
-  	}
-
-  	async setFullState(tabs) {
-  		this._closeAll();
-  	}
-
   	async getStateForSave() {
   		this._updateActiveTabData();
 
@@ -26753,28 +26712,53 @@
   				language: tab.language,
   				isSubtab: tab.isSubtab,
   			};
-  		})
+  		});
   	}
 
   	async setStateFromSave(data) {
   		this._closeAll();
 
+  		let active = null;
   		let lastParent = null;
   		for (const tab of data) {
 
-  			const tabData = this._addTab(
-  				tab.language === 'bf',
+  			const tabData = this._createTab(
+  				tab.language,
   				tab.isSubtab ? lastParent : null,
   				tab.code,
-  				tab.input
+  				tab.input,
+  				tab?.editor ?? null
   			);
 
   			if (!tab.isSubtab) {
   				lastParent = tabData.el;
   			}
+
+  			if (tab?.active) {
+  				active = tabData;
+  			}
   		}
 
-  		this._setActiveTab(this._tabData[0].el);
+  		this._setActiveTab(active ? active.el : this._tabData[0].el);
+  	}
+
+  	async getFullState() {
+  		this._updateActiveTabData();
+
+  		return this._tabData.map((tab) => {
+  			return {
+  				code: this._editor.getStateCode(tab.tabId),
+  				input: tab.input,
+  				language: tab.language,
+  				isSubtab: tab.isSubtab,
+  				editor: this._editor.getSerializableState(tab.tabId),
+  				active: tab.el === this._getActiveTab(),
+  			};
+  		});
+  	}
+
+  	async setFullState(state) {
+  		await this.setStateFromSave(state);
   	}
 
   	onAddTab(language) {
@@ -26784,11 +26768,8 @@
   	}
 
   	async _init() {
-  		const samples = await SampleStorage.load();
-  		for (const sample of samples) {
-  			this._addTab(sample.lang === 'bf', null, sample.code, sample.input);
-  		}
-  		this._setActiveTab(this._el.firstElementChild);
+  		const code = "# title: Hello\n\n out 'Hello, World!'";
+  		this._addTab(false, null, code);
   	}
 
   	_bind() {
@@ -26815,7 +26796,7 @@
   		return title ?? (language === 'bf' ? 'untitled.bf' : 'untitled');
   	}
 
-  	_addTab(bf = false, parent = null, code = '', input = '') {
+  	_createTab(language, parent = null, code = '', input = '', editor = null) {
   		const el = document.createElement('div');
   		const name = document.createElement('span');
   		const close = document.createElement('span');
@@ -26824,12 +26805,10 @@
   		name.classList.add('tab-name');
   		close.classList.add('tab-close');
 
-  		let title = this.getTitle(code);
-
-  		name.textContent = title;
+  		name.textContent = this.getTitle(code);
   		close.textContent = 'x';
 
-  		if (bf) {
+  		if (language === 'bf') {
   			el.classList.add('tab-bf');
   		}
   		if (parent) {
@@ -26846,14 +26825,18 @@
   		}
 
   		const tabId = this._tabIdCounter++;
-  		this._editor.addState(tabId, code, bf ? 'bf' : 'bb');
+  		if (editor) {
+  			this._editor.setSerializableState(tabId, language, code, editor);
+  		} else {
+  			this._editor.addState(tabId, code, language);
+  		}
 
   		const tab = {
   			el: el,
   			tabId: tabId,
   			input: input,
   			inputActive: input.length > 0,
-  			language: bf ? 'bf' : 'bb',
+  			language: language,
   			isSubtab: !!parent,
   		};
   		this._tabData.push(tab);
@@ -26861,9 +26844,12 @@
   		el.addEventListener('click', this._setActiveTab.bind(this, el));
   		close.addEventListener('click', this._closeTab.bind(this, el));
 
-  		this._setActiveTab(el);
-
   		return tab;
+  	}
+
+  	_addTab(bf = false, parent = null, code = '', input = '') {
+  		const tab = this._createTab(bf ? 'bf' : 'bb', parent, code, input);
+  		this._setActiveTab(tab.el);
   	}
 
   	_setActiveTab(el) {
@@ -26871,7 +26857,7 @@
   		if (activeTab === el) { return; }
 
   		this._updateActiveTabData();
-  		activeTab?.classList.remove('tab-active');
+  		activeTab?.classList.remove('--active');
   		this._controller.onStop();
 
   		const tabData = this._getTabData(el);
@@ -29898,6 +29884,23 @@
   		}
   	}
 
+  	async saveCurrentSession(data) {
+  		try {
+  			await localforage.setItem('last_session_state', data);
+  		} catch (err) {
+  			console.error('Ошибка автосохранения сессии:', err);
+  		}
+  	}
+
+  	async loadCurrentSession() {
+  		try {
+  			return await localforage.getItem('last_session_state') || null;
+  		} catch (err) {
+  			console.error('Ошибка загрузки сессии:', err);
+  			return null;
+  		}
+  	}
+
   	_formatRelativeTime(timestamp) {
   		if (!timestamp) return 'never';
 
@@ -29930,8 +29933,10 @@
   		this._loadModal = loadModal;
   		this._storage = storage;
   		this._tabManager = tabManager;
+  		this._autoSaveTimeout = null;
 
   		this._bind();
+  		this._initSession();
   	}
 
   	_bind() {
@@ -29944,6 +29949,16 @@
   		this._saveModal.querySelector('.link-export').addEventListener('click', this.onExport);
   		this._saveModal.querySelector('.link-download').addEventListener('click', this.onDownload);
   		this._loadModal.querySelector('.link-import').addEventListener('click', this.onImport);
+
+  		window.addEventListener('beforeunload', this.onBeforeUnload);
+  	}
+
+  	async _initSession() {
+  		const lastSession = await this._storage.loadCurrentSession();
+
+  		if (lastSession) {
+  			this._tabManager.setFullState(lastSession);
+  		}
   	}
 
   	onSave = () => {
@@ -29983,7 +29998,6 @@
 
   		if (isConfirmed) {
   			const data = await this._tabManager.getStateForSave();
-  			console.log(data);
   			await this._storage.save(slotId, data);
   			await this._renderSaveSlots();
   		}
@@ -30053,6 +30067,22 @@
   				console.error(err);
   			}
   		}
+  	}
+
+  	onEditorChange = () => {
+  		if (this._autoSaveTimeout) {
+  			clearTimeout(this._autoSaveTimeout);
+  		}
+
+  		this._autoSaveTimeout = setTimeout(async () => {
+  			const data = await this._tabManager.getFullState();
+  			await this._storage.saveCurrentSession(data);
+  		}, 5000);
+  	}
+
+  	onBeforeUnload = async () => {
+  		const data = await this._tabManager.getFullState();
+  		await this._storage.saveCurrentSession(data);
   	}
 
   	async _exportWithPicker(data) {
@@ -30214,6 +30244,8 @@
 
   const storage = new Storage();
   const storageController = new StorageController(saveModal, loadModal, storage, tabManager);
+
+  editor.onChange(storageController.onEditorChange);
   builder.setTabManager(tabManager);
 
   const nav = document.querySelector('.nav');

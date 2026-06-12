@@ -2,7 +2,7 @@ import {basicSetup} from "codemirror"
 import {EditorView, keymap, Decoration} from "@codemirror/view"
 import {StreamLanguage, HighlightStyle, syntaxHighlighting, bracketMatching, indentUnit} from "@codemirror/language"
 import {tags} from "@lezer/highlight"
-import {indentWithTab} from "@codemirror/commands"
+import { indentWithTab, historyField } from "@codemirror/commands"
 import { StateField, StateEffect, EditorState } from "@codemirror/state"
 
 const setActivePosition = StateEffect.define()
@@ -95,6 +95,7 @@ export class Editor {
 	_states = {};
 	_currentState = null;
 	_editor = null;
+	_onChangeCallback = null
 
 	constructor(parent, code = '') {
 		this._defineBf();
@@ -107,11 +108,21 @@ export class Editor {
 			activeLineField,
 			compileErrorField,
 			scrollExt,
+
+			EditorView.updateListener.of((update) => {
+				if (update.docChanged && this._onChangeCallback) {
+					this._onChangeCallback();
+				}
+			})
 		];
 
 		this._editor = new EditorView({
 			parent: parent,
 		})
+	}
+
+	onChange(callback) {
+		this._onChangeCallback = callback;
 	}
 
 	addState(name, code, language) {
@@ -129,13 +140,7 @@ export class Editor {
 	}
 
 	switchState(name) {
-		if (this._currentState !== null) {
-			this._states[this._currentState] = {
-				state: this._editor.state,
-				scrollTop: this._editor.scrollDOM.scrollTop,
-				scrollLeft: this._editor.scrollDOM.scrollLeft
-			};
-		}
+		this._updateState();
 
 		if (!this._states[name]) {
 			throw new Error(`State ${name} not found`);
@@ -153,11 +158,7 @@ export class Editor {
 
 	getState(name) {
 		if (this._currentState === name) {
-			this._states[this._currentState] = {
-				state: this._editor.state,
-				scrollTop: this._editor.scrollDOM.scrollTop,
-				scrollLeft: this._editor.scrollDOM.scrollLeft
-			};
+			this._updateState();
 		}
 
 		return this._states[name];
@@ -341,5 +342,64 @@ export class Editor {
 
 	getCode() {
 		return this._editor.state.doc.toString();
+	}
+
+
+	getSerializableState(name) {
+		const state = this.getState(name);
+
+		let serializedState = null;
+		try {
+			serializedState = state.state.toJSON({ history: historyField });
+		} catch (e) {
+			console.warn("Не удалось сериализовать стейт для " + name, e);
+		}
+
+		return {
+			scrollTop: state.scrollTop,
+			scrollLeft: state.scrollLeft,
+			serializedState: serializedState,
+		};
+	}
+
+	setSerializableState(name, language, code, data) {
+		const languageExt = language === 'bf' ? this._bfExt : this._bbExt;
+
+		let finalState = null;
+
+		if (data.serializedState) {
+			try {
+				finalState = EditorState.fromJSON(
+					data.serializedState,
+					{ extensions: [...this._defaultExt, ...languageExt] },
+					{ history: historyField }
+				);
+			} catch (e) {
+				console.error("Ошибка десериализации для " + name, e);
+			}
+		}
+
+		if (!finalState) {
+			finalState = EditorState.create({
+				doc: code,
+				extensions: [...this._defaultExt, ...languageExt]
+			});
+		}
+
+		this._states[name] = {
+			state: finalState,
+			scrollTop: data.scrollTop || 0,
+			scrollLeft: data.scrollLeft || 0
+		};
+	}
+
+	_updateState() {
+		if (this._currentState !== null) {
+			this._states[this._currentState] = {
+				state: this._editor.state,
+				scrollTop: this._editor.scrollDOM.scrollTop,
+				scrollLeft: this._editor.scrollDOM.scrollLeft
+			};
+		}
 	}
 }
