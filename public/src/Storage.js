@@ -72,7 +72,6 @@ export class Storage {
 
 	async save(slotId, data) {
 		try {
-			console.log(data);
 			await localforage.setItem(`save_slot_${slotId}`, data);
 
 			await this.updateSlotTime(slotId, Date.now());

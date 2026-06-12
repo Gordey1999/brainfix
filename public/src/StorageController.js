@@ -106,7 +106,8 @@ export class StorageController {
 	}
 
 	onDownload = async () => {
-		await this._exportWithBlob();
+		const data = await this._tabManager.getStateForSave();
+		await this._exportWithBlob(data);
 	}
 
 	onImport = async () => {

@@ -152,6 +152,14 @@ export class Editor {
 	}
 
 	getState(name) {
+		if (this._currentState === name) {
+			this._states[this._currentState] = {
+				state: this._editor.state,
+				scrollTop: this._editor.scrollDOM.scrollTop,
+				scrollLeft: this._editor.scrollDOM.scrollLeft
+			};
+		}
+
 		return this._states[name];
 	}
 

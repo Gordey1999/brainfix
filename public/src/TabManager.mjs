@@ -70,6 +70,12 @@ export class TabManager {
 		this._setActiveTab(this._tabData[0].el);
 	}
 
+	onAddTab(language) {
+		const title = this.getTitle('', language);
+		const code = `# title: ${title}\n\n`;
+		this._addTab(language === 'bf', null, code, '');
+	}
+
 	async _init() {
 		const samples = await SampleStorage.load();
 		for (const sample of samples) {
@@ -80,9 +86,9 @@ export class TabManager {
 
 	_bind() {
 		this._el.querySelector('.tab-plus')
-			.addEventListener('click', this._addTab.bind(this, false, null, '', ''));
+			.addEventListener('click', this.onAddTab.bind(this, 'bb'));
 		this._el.querySelector('.tab-plus-bf')
-			.addEventListener('click', this._addTab.bind(this, true, null, '', ''));
+			.addEventListener('click', this.onAddTab.bind(this, 'bf'));
 
 		setInterval(this._setTitle.bind(this), 5000);
 	}
@@ -92,16 +98,15 @@ export class TabManager {
 		if (!activeTab) { return; }
 
 		const code = this._editor.getCode();
-		let title = this.getTitle(code);
-		if (title.trim() === '') {
-			title = 'untitled';
-		}
+		let title = this.getTitle(code, activeTab.language);
 		activeTab.querySelector('.tab-name').textContent = title;
 	}
 
-	getTitle(code) {
+	getTitle(code, language) {
 		const match = code.match(/^#\s*title:\s*([\wА-Яа-я .]+)/);
-		return match ? match[1] : '';
+		const title = match ? match[1] : null;
+
+		return title ?? (language === 'bf' ? 'untitled.bf' : 'untitled');
 	}
 
 	_addTab(bf = false, parent = null, code = '', input = '') {
@@ -114,15 +119,6 @@ export class TabManager {
 		close.classList.add('tab-close');
 
 		let title = this.getTitle(code);
-		if (title === '') {
-			if (bf) {
-				title = 'untitled.bf';
-				code = '# title: untitled.bf\n\n' + code;
-			} else {
-				title = 'untitled';
-				code = '# title: untitled\n\n' + code;
-			}
-		}
 
 		name.textContent = title;
 		close.textContent = 'x';
