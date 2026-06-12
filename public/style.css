@@ -3,6 +3,9 @@ body {
 	width: 100vw;
 	height: 100vh;
 	min-height: 600px;
+
+	--text-color-red: rgb(150 1 1);
+	--text-color-blue: blue;
 }
 
 pre {
@@ -61,6 +64,7 @@ pre {
 	margin-right: 3px;
 	color: #65645b;
 	font-family: monospace;
+	border-radius: 2px;
 }
 
 
@@ -380,7 +384,7 @@ pre {
 }
 
 .tracing-address-label {
-	color: rgb(150 1 1);
+	color: var(--text-color-red);
 	text-align: start;
 	margin-right: 5px;
 	/*font-weight: 600;*/
@@ -416,4 +420,118 @@ pre {
 
 .tracing-cell.--active .tracing-address {
 	background: rgb(254 195 0 / 82%);
+}
+
+
+/************ MODAL ************/
+
+
+.modal {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: url(./img/modal-back.png);
+	background-repeat: repeat;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	font-family: monospace;
+	display: none;
+}
+
+.modal.--active {
+	display: block;
+}
+
+.modal-content {
+	width: 400px;
+	background: white;
+	margin: 50px auto;
+	/*border-radius: 8px;*/
+	box-shadow: 15px 22px 0 0 var(--text-color-blue);
+	border: 1px solid #808080;
+}
+
+.modal-header {
+	text-transform: uppercase;
+	padding: 15px 20px;
+	font-size: 16px;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.modal-header-close {
+	color: var(--text-color-red);
+	cursor: pointer;
+	margin-right: -0.5em;
+}
+
+.modal-body {
+	padding: 15px calc(20px - 0.5em);
+}
+
+.saves {
+
+}
+
+.saves-row {
+	display: flex;
+	justify-content: space-between;
+	border: 1px dashed black;
+	padding: 5px;
+	margin: 0;
+}
+
+.saves-row:not(:last-child) {
+	border-bottom: none;
+}
+
+.saves-row__left {
+	margin-left: 0.5em;
+}
+
+.saves-row__time {
+	color: grey;
+}
+
+.links-row {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+}
+
+.link-separator {
+	color: #a5a5a5;
+}
+
+.link {
+	user-select: none;
+	padding: 0 0.5em;
+	cursor: pointer;
+	color: var(--text-color-blue);
+}
+
+.link.--red {
+	color: var(--text-color-red);
+}
+
+.link:active {
+	background: var(--text-color-blue);
+	color: white;
+}
+
+.link.--red:active {
+	background: var(--text-color-red);
+	color: white;
+}
+
+.saves-top {
+	margin-bottom: 5px;
+}
+
+.saves-bottom {
+	margin-top: 35px;
+	margin-bottom: 10px;
 }

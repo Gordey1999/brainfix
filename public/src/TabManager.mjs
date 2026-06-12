@@ -30,6 +30,46 @@ export class TabManager {
 		this._addTab(true, parent, code, tabData.input);
 	}
 
+	async getFullState() {
+
+	}
+
+	async setFullState(tabs) {
+		this._closeAll();
+	}
+
+	async getStateForSave() {
+		return this._tabData.map((tab) => {
+			return {
+				code: this._editor.getStateCode(tab.tabId),
+				input: tab.input,
+				language: tab.language,
+				isSubtab: tab.isSubtab,
+			};
+		})
+	}
+
+	async setStateFromSave(data) {
+		this._closeAll();
+
+		let lastParent = null
+		for (const tab of data) {
+
+			const tabData = this._addTab(
+				tab.language === 'bf',
+				tab.isSubtab ? lastParent : null,
+				tab.code,
+				tab.input
+			);
+
+			if (!tab.isSubtab) {
+				lastParent = tabData.el;
+			}
+		}
+
+		this._setActiveTab(this._tabData[0].el);
+	}
+
 	async _init() {
 		const samples = await SampleStorage.load();
 		for (const sample of samples) {
@@ -106,19 +146,22 @@ export class TabManager {
 		const tabId = this._tabIdCounter++;
 		this._editor.addState(tabId, code, bf ? 'bf' : 'bb');
 
-		this._tabData.push({
+		const tab = {
 			el: el,
 			tabId: tabId,
 			input: input,
 			inputActive: input.length > 0,
 			language: bf ? 'bf' : 'bb',
-		})
+			isSubtab: !!parent,
+		};
+		this._tabData.push(tab);
 
 		el.addEventListener('click', this._setActiveTab.bind(this, el));
 		close.addEventListener('click', this._closeTab.bind(this, el));
 
 		this._setActiveTab(el);
 
+		return tab;
 	}
 
 	_setActiveTab(el) {
@@ -144,7 +187,6 @@ export class TabManager {
 			activeTab.classList.remove('--active');
 
 			const tabData = this._getTabData(activeTab);
-			tabData.code = this._editor.getCode();
 			tabData.input = this._input.getRaw();
 			tabData.inputActive = this._input.isActive();
 		}
@@ -218,5 +260,13 @@ export class TabManager {
 				this._tabData.splice(i, 1);
 			}
 		}
+	}
+
+	_closeAll() {
+		for (const tab of this._tabData) {
+			tab.el.remove();
+		}
+		this._tabData = [];
+		this._editor.clearStates();
 	}
 }

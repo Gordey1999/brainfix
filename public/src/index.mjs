@@ -5,6 +5,8 @@ import {FileInput} from "./FileInput.mjs";
 import {Controller} from "./Controller.mjs";
 import {Builder} from "./Builder.mjs";
 import {TabManager} from "./TabManager.mjs";
+import {Storage} from "./Storage.js";
+import {StorageController} from "./StorageController.js";
 
 // node_modules/.bin/rollup public/src/index.mjs -f iife -o public/index.bundle.js -p @rollup/plugin-node-resolve
 
@@ -15,6 +17,8 @@ const statusEl = document.querySelector('.console-status');
 const counterEl = document.querySelector('.console-commands');
 const input = document.querySelector('.console-input');
 const tabs = document.querySelector('.tabs');
+const saveModal = document.querySelector('.modal-save');
+const loadModal = document.querySelector('.modal-load');
 
 const editor = new Editor(editorEl, '');
 const profiler = new Profiler(profilerEl, 500);
@@ -25,32 +29,34 @@ const controller = new Controller(editor, profiler, console, fileInput);
 const builder = new Builder(editor, console);
 
 const tabManager = new TabManager(tabs, controller, builder, editor, fileInput);
+
+const storage = new Storage();
+const storageController = new StorageController(saveModal, loadModal, storage, tabManager);
 builder.setTabManager(tabManager);
 
-const buttonsBf = document.querySelector('.buttons-bf');
+const nav = document.querySelector('.nav');
 const buttonsBb = document.querySelector('.buttons-bb');
 
-buttonsBf.querySelector('.btn-run')
-	.addEventListener('click', controller.onRun);
-buttonsBf.querySelector('.btn-stop')
-	.addEventListener('click', controller.onStop);
-buttonsBf.querySelector('.btn-step')
-	.addEventListener('click', controller.onStep);
-buttonsBf.querySelector('.btn-line')
-	.addEventListener('click', controller.onStepLine);
-buttonsBf.querySelector('.btn-out')
-	.addEventListener('click', controller.onStepOut);
-buttonsBf.querySelector('.btn-input')
-	.addEventListener('click', fileInput.onToggle);
+nav.querySelector('.btn-run').addEventListener('click', controller.onRun);
+nav.querySelector('.btn-stop').addEventListener('click', controller.onStop);
+nav.querySelector('.btn-step').addEventListener('click', controller.onStep);
+nav.querySelector('.btn-line').addEventListener('click', controller.onStepLine);
+nav.querySelector('.btn-out').addEventListener('click', controller.onStepOut);
 
-buttonsBb.querySelector('.btn-build')
-	.addEventListener('click', builder.onBuild);
-buttonsBb.querySelector('.btn-build-min')
-	.addEventListener('click', builder.onBuildMin);
-buttonsBb.querySelector('.btn-uglify')
-	.addEventListener('click', builder.onUglify)
-buttonsBb.querySelector('.btn-input')
-	.addEventListener('click', fileInput.onToggle);
+nav.querySelector('.btn-build').addEventListener('click', builder.onBuild);
+nav.querySelector('.btn-build-min').addEventListener('click', builder.onBuildMin);
+nav.querySelector('.btn-uglify').addEventListener('click', builder.onUglify)
+
+nav.querySelectorAll('.btn-input').forEach((el) => {
+	el.addEventListener('click', fileInput.onToggle);
+});
+nav.querySelectorAll('.btn-save').forEach((el) => {
+	el.addEventListener('click', storageController.onSave)
+});
+nav.querySelectorAll('.btn-load').forEach((el) => {
+	el.addEventListener('click', storageController.onLoad)
+});
+
 
 window.MyEditor = editor;
 

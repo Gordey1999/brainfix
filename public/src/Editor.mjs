@@ -151,6 +151,18 @@ export class Editor {
 		this._currentState = name;
 	}
 
+	getState(name) {
+		return this._states[name];
+	}
+
+	getStateCode(name) {
+		return this.getState(name).state.doc.toString();
+	}
+
+	clearStates() {
+		this._states = {};
+	}
+
 	removeState(name) {
 		this._states[name] = null;
 	}
