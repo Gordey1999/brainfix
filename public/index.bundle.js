@@ -25506,6 +25506,14 @@
   	}
 
   	getState(name) {
+  		if (this._currentState === name) {
+  			this._states[this._currentState] = {
+  				state: this._editor.state,
+  				scrollTop: this._editor.scrollDOM.scrollTop,
+  				scrollLeft: this._editor.scrollDOM.scrollLeft
+  			};
+  		}
+
   		return this._states[name];
   	}
 
@@ -26767,6 +26775,12 @@
   		this._setActiveTab(this._tabData[0].el);
   	}
 
+  	onAddTab(language) {
+  		const title = this.getTitle('', language);
+  		const code = `# title: ${title}\n\n`;
+  		this._addTab(language === 'bf', null, code, '');
+  	}
+
   	async _init() {
   		const samples = await SampleStorage.load();
   		for (const sample of samples) {
@@ -26777,9 +26791,9 @@
 
   	_bind() {
   		this._el.querySelector('.tab-plus')
-  			.addEventListener('click', this._addTab.bind(this, false, null, '', ''));
+  			.addEventListener('click', this.onAddTab.bind(this, 'bb'));
   		this._el.querySelector('.tab-plus-bf')
-  			.addEventListener('click', this._addTab.bind(this, true, null, '', ''));
+  			.addEventListener('click', this.onAddTab.bind(this, 'bf'));
 
   		setInterval(this._setTitle.bind(this), 5000);
   	}
@@ -26789,16 +26803,15 @@
   		if (!activeTab) { return; }
 
   		const code = this._editor.getCode();
-  		let title = this.getTitle(code);
-  		if (title.trim() === '') {
-  			title = 'untitled';
-  		}
+  		let title = this.getTitle(code, activeTab.language);
   		activeTab.querySelector('.tab-name').textContent = title;
   	}
 
-  	getTitle(code) {
+  	getTitle(code, language) {
   		const match = code.match(/^#\s*title:\s*([\wА-Яа-я .]+)/);
-  		return match ? match[1] : '';
+  		const title = match ? match[1] : null;
+
+  		return title ?? (language === 'bf' ? 'untitled.bf' : 'untitled');
   	}
 
   	_addTab(bf = false, parent = null, code = '', input = '') {
@@ -26811,15 +26824,6 @@
   		close.classList.add('tab-close');
 
   		let title = this.getTitle(code);
-  		if (title === '') {
-  			if (bf) {
-  				title = 'untitled.bf';
-  				code = '# title: untitled.bf\n\n' + code;
-  			} else {
-  				title = 'untitled';
-  				code = '# title: untitled\n\n' + code;
-  			}
-  		}
 
   		name.textContent = title;
   		close.textContent = 'x';
@@ -26884,7 +26888,6 @@
   			activeTab.classList.remove('--active');
 
   			const tabData = this._getTabData(activeTab);
-  			//tabData.code = this._editor.getCode();
   			tabData.input = this._input.getRaw();
   			tabData.inputActive = this._input.isActive();
   		}
@@ -29879,7 +29882,6 @@
 
   	async save(slotId, data) {
   		try {
-  			console.log(data);
   			await localforage.setItem(`save_slot_${slotId}`, data);
 
   			await this.updateSlotTime(slotId, Date.now());
@@ -30028,7 +30030,8 @@
   	}
 
   	onDownload = async () => {
-  		await this._exportWithBlob();
+  		const data = await this._tabManager.getStateForSave();
+  		await this._exportWithBlob(data);
   	}
 
   	onImport = async () => {
@@ -30136,7 +30139,6 @@
   					resolve(null);
   				}
   			};
-  			console.log('import!');
 
   			input.click();
   		});
