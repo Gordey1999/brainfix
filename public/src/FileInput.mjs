@@ -15,7 +15,9 @@ export class FileInput {
 		if (!this._active) {
 			return [];
 		}
-		return this.getTextarea().textContent.split('');
+		const chars = this.getTextarea().textContent.split('');
+		chars.push('\n');
+		return chars;
 	}
 
 	getRaw() {

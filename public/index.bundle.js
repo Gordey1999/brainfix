@@ -25457,7 +25457,7 @@
   	_states = {};
   	_currentState = null;
   	_editor = null;
-  	_onChangeCallback = null
+  	_onChangeCallback = [];
 
   	constructor(parent, code = '') {
   		this._defineBf();
@@ -25472,8 +25472,10 @@
   			scrollExt,
 
   			EditorView.updateListener.of((update) => {
-  				if (update.docChanged && this._onChangeCallback) {
-  					this._onChangeCallback();
+  				if (update.docChanged) {
+  					for (let callback of this._onChangeCallback) {
+  						callback();
+  					}
   				}
   			})
   		];
@@ -25484,7 +25486,7 @@
   	}
 
   	onChange(callback) {
-  		this._onChangeCallback = callback;
+  		this._onChangeCallback.push(callback);
   	}
 
   	addState(name, code, language) {
@@ -25555,10 +25557,10 @@
 
   				if (!state.inComment) {
   					if (
-  						stream.match(/^#\s*@title.*/)
-  						|| stream.match(/^#\s*@memory.*/)
-  						|| stream.match(/^#\s*@stepsPerFrame.*/)
-  						|| stream.match(/^#\s*@bufferedInput.*/)
+  						stream.match(/^#\s*@title.*/i)
+  						|| stream.match(/^#\s*@memory.*/i)
+  						|| stream.match(/^#\s*@steps_per_frame.*/i)
+  						|| stream.match(/^#\s*@buffered_input.*/i)
   					) {
   						return "meta"
   					}
@@ -25639,9 +25641,9 @@
   						return "string"
   					}
   					if (
-  						stream.match(/^#\s*@title.*/)
-  						|| stream.match(/^#\s*@stepsPerFrame.*/)
-  						|| stream.match(/^#\s*@bufferedInput.*/)
+  						stream.match(/^#\s*@title.*/i)
+  						|| stream.match(/^#\s*@steps_per_frame.*/i)
+  						|| stream.match(/^#\s*@buffered_input.*/i)
   					) {
   						return "meta"
   					}
@@ -25874,7 +25876,7 @@
   		const result = [];
 
   		for (let i = 0; i < lines.length; i++) {
-  			const matches = lines[i].match(/# @memory(.*)/);
+  			const matches = lines[i].match(/^\s*#\s*@memory(.*)/);
   			if (matches) {
   				const valuesStr = matches[1] + ' ';
   				const values = [...valuesStr.matchAll(/(\d+):(.+?)\s/g)];
@@ -26004,6 +26006,7 @@
   		this._status = status;
   		this._counter = counter;
   		this._inputResolve = null;
+  		this._useInputBuffer = true;
 
   		this.clear();
   		this.setStatus('* * * HELLO * * *');
@@ -26050,9 +26053,11 @@
   		this._render(char);
   		this._buffer.push(char);
 
-  		this._streamIn.push(...this._buffer);
-  		this._buffer = [];
-  		this._resolveInput();
+  		if (!this._useInputBuffer) {
+  			this._streamIn.push(...this._buffer);
+  			this._buffer = [];
+  			this._resolveInput();
+  		}
   	}
 
   	_enter() {
@@ -26171,8 +26176,8 @@
   		this.echo(message + '\n');
   	}
 
-  	checkBufferSize() {
-
+  	setUseInputBuffer(value = true) {
+  		this._useInputBuffer = value;
   	}
   }
 
@@ -26192,7 +26197,9 @@
   		if (!this._active) {
   			return [];
   		}
-  		return this.getTextarea().textContent.split('');
+  		const chars = this.getTextarea().textContent.split('');
+  		chars.push('\n');
+  		return chars;
   	}
 
   	getRaw() {
@@ -26221,6 +26228,7 @@
   	_commentSeparator = '#';
   	_storageSize = 30000;
   	_outputCallback = null;
+  	_stepsPerFrame = 10 * 1000 * 1000;
 
   	constructor(outputCallback) {
   		this._storage = Array(this._storageSize).fill(0);
@@ -26307,31 +26315,23 @@
   		console.log('translator run');
   		const length = this._code.length;
 
-  		const time = performance.now();
-  		const checkCount = 50000000;
   		let i = 0;
 
   		if (debug) {
   			this._debugInit(debugParams);
   		}
 
-  		while (true) {
-  			while (this._current < length && i < checkCount) {
-  				this._nextStep();
-  				i++;
-  				if (debug && this._debugCheck(debugParams)) { return; }
-  			}
-
-  			if (this._current === length) {
-  				return;
-  			}
-
-  			const passed = performance.now() - time;
-  			if (passed > 50) {
-  				throw new Error('timeout');
-  			}
-  			i = 0;
+  		while (this._current < length && i < this._stepsPerFrame) {
+  			this._nextStep();
+  			i++;
+  			if (debug && this._debugCheck(debugParams)) { return; }
   		}
+
+  		if (this._current === length) {
+  			return;
+  		}
+
+  		throw new Error('timeout');
   	}
 
   	_debugInit(params) {
@@ -26482,6 +26482,71 @@
   	commandsCount() {
   		return this._counter;
   	}
+
+  	setStepsPerFrame(value) {
+  		console.log(value);
+  		if (value > 0) {
+  			this._stepsPerFrame = value;
+  		} else {
+  			this._stepsPerFrame = 10 * 1000 * 1000;
+  		}
+  	}
+  }
+
+  class MetaParser {
+  	static getHeaderValue(code, header, defaultValue) {
+  		const headers = this.parseHeaders(code);
+
+  		return headers[header] ?? defaultValue;
+  	}
+
+  	static parseHeaders(code) {
+  		const lines = code.split("\n");
+  		const result = {};
+
+  		for (let line of lines) {
+  			if (line.trim() && line.trim()[0] !== "#") {
+  				break;
+  			}
+
+  			// # @title: 123
+  			// # @set=12
+  			// # @key value
+  			// #@TITLE=YEA
+  			const matches = line.match(/^\s*#\s*@([a-zA-Z][^\s=:]*)\s*[=:]?\s*(.*)$/);
+  			if (matches) {
+  				result[matches[1].toLowerCase()] = matches[2];
+  			}
+  		}
+
+  		return result;
+  	}
+
+  	static parseBool(value, defaultValue) {
+  		const falseValues = ['false', 'no', 'off', 'n', '0'];
+  		const trueValues = ['true', 'yes', 'on', 'y', '1'];
+
+  		if (defaultValue) {
+  			return !falseValues.includes(value.toLowerCase());
+  		} else {
+  			return !trueValues.includes(value.toLowerCase());
+  		}
+  	}
+
+  	static parseInt(value, defaultValue) {
+  		let matches = value.match(/^(\d+)([MK])?$/i);
+  		if (matches) {
+  			if (!matches[2]) {
+  				return parseInt(matches[1]);
+  			} else if (matches[2].toUpperCase() === 'M') {
+  				return parseInt(matches[1]) * 1000000;
+  			} else { // K
+  				return parseInt(matches[1]) * 1000;
+  			}
+  		}
+
+  		return defaultValue;
+  	}
   }
 
   class Controller {
@@ -26541,6 +26606,8 @@
   		this._console.clear();
   		try {
   			const text = this._editor.getCode();
+  			this._applyHeaders(text);
+
   			this._translator.compile(text);
   			this._translator.pushInput(this._input.get());
   			this._profiler.reset(text);
@@ -26597,6 +26664,16 @@
   		this._editor.highlightPosition(position);
   		this._profiler.render(this._translator.getStorage(), this._translator.getPointer(), position);
   		this._console.setCommandsCount(this._translator.commandsCount());
+  	}
+
+  	_applyHeaders(code) {
+  		const headers = MetaParser.parseHeaders(code);
+
+  		const bufferedInput = headers['buffered_input'] ?? 'on';
+  		const stepsPerFrame = headers['steps_per_frame'] ?? '';
+
+  		this._console.setUseInputBuffer(MetaParser.parseBool(bufferedInput, true));
+  		this._translator.setStepsPerFrame(MetaParser.parseInt(stepsPerFrame, null));
   	}
   }
 
@@ -26702,6 +26779,7 @@
   		this._input = input;
   		this._tabData = [];
   		this._tabIdCounter = 0;
+  		this._fillTitleTimeout = null;
 
   		this._bind();
   		this._init();
@@ -26752,6 +26830,7 @@
 
   			if (!tab.isSubtab) {
   				lastParent = tabData.el;
+  				console.log(lastParent);
   			}
 
   			if (tab?.active) {
@@ -26783,8 +26862,16 @@
 
   	onAddTab(language) {
   		const title = this.getTitle('', language);
-  		const code = `# title: ${title}\n\n`;
+  		const code = `# @title: ${title}\n\n`;
   		this._addTab(language === 'bf', null, code, '');
+  	}
+
+  	onEditorChange = () => {
+  		if (this._fillTitleTimeout) {
+  			clearTimeout(this._fillTitleTimeout);
+  		}
+
+  		this._fillTitleTimeout = setTimeout(this._setTitle.bind(this), 1000);
   	}
 
   	async _init() {
@@ -26797,8 +26884,6 @@
   			.addEventListener('click', this.onAddTab.bind(this, 'bb'));
   		this._el.querySelector('.tab-plus-bf')
   			.addEventListener('click', this.onAddTab.bind(this, 'bf'));
-
-  		setInterval(this._setTitle.bind(this), 5000);
   	}
 
   	_setTitle() {
@@ -26810,10 +26895,8 @@
   	}
 
   	getTitle(code, language) {
-  		const match = code.match(/^#\s*title:\s*([\wА-Яа-я .]+)/);
-  		const title = match ? match[1] : null;
-
-  		return title ?? (language === 'bf' ? 'untitled.bf' : 'untitled');
+  		const defaultName = language === 'bf' ? 'untitled.bf' : 'untitled';
+  		return MetaParser.getHeaderValue(code, 'title', defaultName);
   	}
 
   	_createTab(language, parent = null, code = '', input = '', editor = null) {
@@ -26859,7 +26942,13 @@
   			language: language,
   			isSubtab: !!parent,
   		};
-  		this._tabData.push(tab);
+
+  		if (parent) {
+  			const parentIndex = this._tabData.indexOf(this._getTabData(parent));
+  			this._tabData.splice(parentIndex + 1, 0, tab);
+  		} else {
+  			this._tabData.push(tab);
+  		}
 
   		el.addEventListener('click', this._setActiveTab.bind(this, el));
   		close.addEventListener('click', this._closeTab.bind(this, el));
@@ -26876,6 +26965,7 @@
   		const activeTab = this._getActiveTab();
   		if (activeTab === el) { return; }
 
+  		this._setTitle();
   		this._updateActiveTabData();
   		activeTab?.classList.remove('--active');
   		this._controller.onStop();
@@ -30266,6 +30356,7 @@
   const storageController = new StorageController(saveModal, loadModal, storage, tabManager);
 
   editor.onChange(storageController.onEditorChange);
+  editor.onChange(tabManager.onEditorChange);
   builder.setTabManager(tabManager);
 
   const nav = document.querySelector('.nav');

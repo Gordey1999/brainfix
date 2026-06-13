@@ -195,10 +195,10 @@ export class Editor {
 
 				if (!state.inComment) {
 					if (
-						stream.match(/^#\s*@title.*/)
-						|| stream.match(/^#\s*@memory.*/)
-						|| stream.match(/^#\s*@stepsPerFrame.*/)
-						|| stream.match(/^#\s*@bufferedInput.*/)
+						stream.match(/^#\s*@title.*/i)
+						|| stream.match(/^#\s*@memory.*/i)
+						|| stream.match(/^#\s*@steps_per_frame.*/i)
+						|| stream.match(/^#\s*@buffered_input.*/i)
 					) {
 						return "meta"
 					}
@@ -279,9 +279,9 @@ export class Editor {
 						return "string"
 					}
 					if (
-						stream.match(/^#\s*@title.*/)
-						|| stream.match(/^#\s*@stepsPerFrame.*/)
-						|| stream.match(/^#\s*@bufferedInput.*/)
+						stream.match(/^#\s*@title.*/i)
+						|| stream.match(/^#\s*@steps_per_frame.*/i)
+						|| stream.match(/^#\s*@buffered_input.*/i)
 					) {
 						return "meta"
 					}

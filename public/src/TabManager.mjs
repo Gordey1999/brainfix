@@ -172,7 +172,13 @@ export class TabManager {
 			language: language,
 			isSubtab: !!parent,
 		};
-		this._tabData.push(tab);
+
+		if (parent) {
+			const parentIndex = this._tabData.indexOf(this._getTabData(parent));
+			this._tabData.splice(parentIndex + 1, 0, tab);
+		} else {
+			this._tabData.push(tab);
+		}
 
 		el.addEventListener('click', this._setActiveTab.bind(this, el));
 		close.addEventListener('click', this._closeTab.bind(this, el));

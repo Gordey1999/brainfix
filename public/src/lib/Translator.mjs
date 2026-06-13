@@ -2,6 +2,7 @@ export class Translator {
 	_commentSeparator = '#';
 	_storageSize = 30000;
 	_outputCallback = null;
+	_stepsPerFrame = 10 * 1000 * 1000;
 
 	constructor(outputCallback) {
 		this._storage = Array(this._storageSize).fill(0);
@@ -88,31 +89,23 @@ export class Translator {
 		console.log('translator run');
 		const length = this._code.length;
 
-		const time = performance.now();
-		const checkCount = 10000;
 		let i = 0;
 
 		if (debug) {
 			this._debugInit(debugParams);
 		}
 
-		while (true) {
-			while (this._current < length && i < checkCount) {
-				this._nextStep();
-				i++;
-				if (debug && this._debugCheck(debugParams)) { return; }
-			}
-
-			if (this._current === length) {
-				return;
-			}
-
-			const passed = performance.now() - time;
-			if (passed > 50) {
-				throw new Error('timeout');
-			}
-			i = 0;
+		while (this._current < length && i < this._stepsPerFrame) {
+			this._nextStep();
+			i++;
+			if (debug && this._debugCheck(debugParams)) { return; }
 		}
+
+		if (this._current === length) {
+			return;
+		}
+
+		throw new Error('timeout');
 	}
 
 	_debugInit(params) {
@@ -262,5 +255,14 @@ export class Translator {
 
 	commandsCount() {
 		return this._counter;
+	}
+
+	setStepsPerFrame(value) {
+		console.log(value);
+		if (value > 0) {
+			this._stepsPerFrame = value;
+		} else {
+			this._stepsPerFrame = 10 * 1000 * 1000;
+		}
 	}
 }

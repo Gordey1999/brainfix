@@ -1,5 +1,6 @@
 import {Editor} from "./Editor";
 import {Translator} from "./lib/Translator.mjs";
+import {MetaParser} from "./lib/MetaParser.js";
 
 export class Controller {
 	constructor(editor, profiler, console, input) {
@@ -58,6 +59,8 @@ export class Controller {
 		this._console.clear();
 		try {
 			const text = this._editor.getCode();
+			this._applyHeaders(text);
+
 			this._translator.compile(text);
 			this._translator.pushInput(this._input.get());
 			this._profiler.reset(text);
@@ -114,5 +117,15 @@ export class Controller {
 		this._editor.highlightPosition(position);
 		this._profiler.render(this._translator.getStorage(), this._translator.getPointer(), position);
 		this._console.setCommandsCount(this._translator.commandsCount());
+	}
+
+	_applyHeaders(code) {
+		const headers = MetaParser.parseHeaders(code);
+
+		const bufferedInput = headers['buffered_input'] ?? 'on';
+		const stepsPerFrame = headers['steps_per_frame'] ?? '';
+
+		this._console.setUseInputBuffer(MetaParser.parseBool(bufferedInput, true));
+		this._translator.setStepsPerFrame(MetaParser.parseInt(stepsPerFrame, null));
 	}
 }

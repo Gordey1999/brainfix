@@ -9,6 +9,7 @@ export class Console {
 		this._status = status;
 		this._counter = counter;
 		this._inputResolve = null;
+		this._useInputBuffer = true;
 
 		this.clear();
 		this.setStatus('* * * HELLO * * *');
@@ -55,9 +56,11 @@ export class Console {
 		this._render(char);
 		this._buffer.push(char);
 
-		this._streamIn.push(...this._buffer);
-		this._buffer = [];
-		this._resolveInput();
+		if (!this._useInputBuffer) {
+			this._streamIn.push(...this._buffer);
+			this._buffer = [];
+			this._resolveInput();
+		}
 	}
 
 	_enter() {
@@ -176,7 +179,7 @@ export class Console {
 		this.echo(message + '\n');
 	}
 
-	checkBufferSize() {
-
+	setUseInputBuffer(value = true) {
+		this._useInputBuffer = value;
 	}
 }
