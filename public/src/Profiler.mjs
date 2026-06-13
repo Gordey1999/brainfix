@@ -1,4 +1,4 @@
-import {numberToCharPretty} from "./CharConverter.mjs";
+import {numberToCharPretty} from "./lib/CharConverter.mjs";
 
 export class Profiler {
 	_rowSize = 20;

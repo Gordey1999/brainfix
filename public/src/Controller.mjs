@@ -1,5 +1,5 @@
 import {Editor} from "./Editor";
-import {Translator} from "./Translator.mjs";
+import {Translator} from "./lib/Translator.mjs";
 
 export class Controller {
 	constructor(editor, profiler, console, input) {

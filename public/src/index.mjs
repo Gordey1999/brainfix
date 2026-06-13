@@ -5,7 +5,7 @@ import {FileInput} from "./FileInput.mjs";
 import {Controller} from "./Controller.mjs";
 import {Builder} from "./Builder.mjs";
 import {TabManager} from "./TabManager.mjs";
-import {Storage} from "./Storage.js";
+import {Storage} from "./lib/Storage.js";
 import {StorageController} from "./StorageController.js";
 
 // node_modules/.bin/rollup public/src/index.mjs -f iife -o public/index.bundle.js -p @rollup/plugin-node-resolve

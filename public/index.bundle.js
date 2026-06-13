@@ -25553,13 +25553,20 @@
   					return "string"
   				}
 
-  				if (stream.match(/^# @memory.*/)) {
-  					return "attributeName"
-  				}
+  				if (!state.inComment) {
+  					if (
+  						stream.match(/^#\s*@title.*/)
+  						|| stream.match(/^#\s*@memory.*/)
+  						|| stream.match(/^#\s*@stepsPerFrame.*/)
+  						|| stream.match(/^#\s*@bufferedInput.*/)
+  					) {
+  						return "meta"
+  					}
 
-  				if (!state.inComment && stream.eat('#')) {
-  					state.inComment = true;
-  					return "comment"
+  					if (stream.eat('#')) {
+  						state.inComment = true;
+  						return "comment"
+  					}
   				}
 
   				if (state.inComment) {
@@ -25600,7 +25607,7 @@
   			{ tag: tags.string, color: "#0062c7", fontStyle: "italic" },
   			{ tag: tags.number, color: "#0062c7", fontStyle: "italic" },
   			{ tag: tags.variableName, color: "#bd8b29", fontStyle: "italic" },
-  			{ tag: tags.attributeName, color: "#bd8b29" },
+  			{ tag: tags.meta, color: "#bd8b29" },
   		]);
 
   		this._bfExt = [ bfLanguage, syntaxHighlighting(bfHighlight) ];
@@ -25630,6 +25637,13 @@
   					if (stream.eat("'")) {
   						state.inString = "'";
   						return "string"
+  					}
+  					if (
+  						stream.match(/^#\s*@title.*/)
+  						|| stream.match(/^#\s*@stepsPerFrame.*/)
+  						|| stream.match(/^#\s*@bufferedInput.*/)
+  					) {
+  						return "meta"
   					}
   					if (stream.eat('#')) {
   						state.inComment = true;
@@ -25680,7 +25694,8 @@
   			{ tag: tags.string, color: "#1d7f2f" },
   			{ tag: tags.number, color: "#0062c7" },
   			{ tag: tags.variableName, color: "#a22222" },
-  			{ tag: tags.modifier, color: "#1395bd", fontWeight: "bold" }
+  			{ tag: tags.modifier, color: "#1395bd", fontWeight: "bold" },
+  			{ tag: tags.meta, color: "#bd8b29" },
   		]);
 
   		this._bbExt = [ bbLanguage, syntaxHighlighting(bbHighlight), indentUnit.of('    ') ];
