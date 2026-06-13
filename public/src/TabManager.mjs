@@ -1,4 +1,3 @@
-import {SampleStorage} from "./SampleStorage.mjs";
 
 export class TabManager {
 

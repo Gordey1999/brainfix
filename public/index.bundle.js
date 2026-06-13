@@ -25650,6 +25650,10 @@
   					return "string"
   				}
 
+  				if (stream.match(/^@[$_a-zA-Z][$_a-zA-Z0-9]*/)) {
+  					return 'modifier'
+  				}
+
   				if (stream.match(/^(?:char|byte|bool|if|else|do|while|for|in|out|sizeof)\b/)) {
   					return "keyword"
   				}
@@ -25676,6 +25680,7 @@
   			{ tag: tags.string, color: "#1d7f2f" },
   			{ tag: tags.number, color: "#0062c7" },
   			{ tag: tags.variableName, color: "#a22222" },
+  			{ tag: tags.modifier, color: "#1395bd", fontWeight: "bold" }
   		]);
 
   		this._bbExt = [ bbLanguage, syntaxHighlighting(bbHighlight), indentUnit.of('    ') ];
