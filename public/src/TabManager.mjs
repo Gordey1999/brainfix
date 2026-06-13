@@ -1,3 +1,4 @@
+import {MetaParser} from "./lib/MetaParser.js";
 
 export class TabManager {
 
@@ -9,6 +10,7 @@ export class TabManager {
 		this._input = input;
 		this._tabData = [];
 		this._tabIdCounter = 0;
+		this._fillTitleTimeout = null;
 
 		this._bind();
 		this._init();
@@ -90,8 +92,16 @@ export class TabManager {
 
 	onAddTab(language) {
 		const title = this.getTitle('', language);
-		const code = `# title: ${title}\n\n`;
+		const code = `# @title: ${title}\n\n`;
 		this._addTab(language === 'bf', null, code, '');
+	}
+
+	onEditorChange = () => {
+		if (this._fillTitleTimeout) {
+			clearTimeout(this._fillTitleTimeout);
+		}
+
+		this._fillTitleTimeout = setTimeout(this._setTitle.bind(this), 1000);
 	}
 
 	async _init() {
@@ -104,8 +114,6 @@ export class TabManager {
 			.addEventListener('click', this.onAddTab.bind(this, 'bb'));
 		this._el.querySelector('.tab-plus-bf')
 			.addEventListener('click', this.onAddTab.bind(this, 'bf'));
-
-		setInterval(this._setTitle.bind(this), 5000);
 	}
 
 	_setTitle() {
@@ -117,10 +125,8 @@ export class TabManager {
 	}
 
 	getTitle(code, language) {
-		const match = code.match(/^#\s*title:\s*([\wА-Яа-я .]+)/);
-		const title = match ? match[1] : null;
-
-		return title ?? (language === 'bf' ? 'untitled.bf' : 'untitled');
+		const defaultName = language === 'bf' ? 'untitled.bf' : 'untitled';
+		return MetaParser.getHeaderValue(code, 'title', defaultName);
 	}
 
 	_createTab(language, parent = null, code = '', input = '', editor = null) {
@@ -183,6 +189,7 @@ export class TabManager {
 		const activeTab = this._getActiveTab();
 		if (activeTab === el) { return; }
 
+		this._setTitle();
 		this._updateActiveTabData();
 		activeTab?.classList.remove('--active');
 		this._controller.onStop();

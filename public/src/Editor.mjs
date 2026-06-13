@@ -95,7 +95,7 @@ export class Editor {
 	_states = {};
 	_currentState = null;
 	_editor = null;
-	_onChangeCallback = null
+	_onChangeCallback = [];
 
 	constructor(parent, code = '') {
 		this._defineBf();
@@ -110,8 +110,10 @@ export class Editor {
 			scrollExt,
 
 			EditorView.updateListener.of((update) => {
-				if (update.docChanged && this._onChangeCallback) {
-					this._onChangeCallback();
+				if (update.docChanged) {
+					for (let callback of this._onChangeCallback) {
+						callback();
+					}
 				}
 			})
 		];
@@ -122,7 +124,7 @@ export class Editor {
 	}
 
 	onChange(callback) {
-		this._onChangeCallback = callback;
+		this._onChangeCallback.push(callback);
 	}
 
 	addState(name, code, language) {
@@ -191,13 +193,20 @@ export class Editor {
 					return "string"
 				}
 
-				if (stream.match(/^# @memory.*/)) {
-					return "attributeName"
-				}
+				if (!state.inComment) {
+					if (
+						stream.match(/^#\s*@title.*/)
+						|| stream.match(/^#\s*@memory.*/)
+						|| stream.match(/^#\s*@stepsPerFrame.*/)
+						|| stream.match(/^#\s*@bufferedInput.*/)
+					) {
+						return "meta"
+					}
 
-				if (!state.inComment && stream.eat('#')) {
-					state.inComment = true
-					return "comment"
+					if (stream.eat('#')) {
+						state.inComment = true
+						return "comment"
+					}
 				}
 
 				if (state.inComment) {
@@ -238,7 +247,7 @@ export class Editor {
 			{ tag: tags.string, color: "#0062c7", fontStyle: "italic" },
 			{ tag: tags.number, color: "#0062c7", fontStyle: "italic" },
 			{ tag: tags.variableName, color: "#bd8b29", fontStyle: "italic" },
-			{ tag: tags.attributeName, color: "#bd8b29" },
+			{ tag: tags.meta, color: "#bd8b29" },
 		])
 
 		this._bfExt = [ bfLanguage, syntaxHighlighting(bfHighlight) ];
@@ -268,6 +277,13 @@ export class Editor {
 					if (stream.eat("'")) {
 						state.inString = "'"
 						return "string"
+					}
+					if (
+						stream.match(/^#\s*@title.*/)
+						|| stream.match(/^#\s*@stepsPerFrame.*/)
+						|| stream.match(/^#\s*@bufferedInput.*/)
+					) {
+						return "meta"
 					}
 					if (stream.eat('#')) {
 						state.inComment = true
@@ -318,7 +334,8 @@ export class Editor {
 			{ tag: tags.string, color: "#1d7f2f" },
 			{ tag: tags.number, color: "#0062c7" },
 			{ tag: tags.variableName, color: "#a22222" },
-			{ tag: tags.modifier, color: "#1395bd", fontWeight: "bold" }
+			{ tag: tags.modifier, color: "#1395bd", fontWeight: "bold" },
+			{ tag: tags.meta, color: "#bd8b29" },
 		])
 
 		this._bbExt = [ bbLanguage, syntaxHighlighting(bbHighlight), indentUnit.of('    ') ];

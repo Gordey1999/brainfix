@@ -54,7 +54,7 @@ export class Profiler {
 		const result = [];
 
 		for (let i = 0; i < lines.length; i++) {
-			const matches = lines[i].match(/# @memory(.*)/);
+			const matches = lines[i].match(/^\s*#\s*@memory(.*)/);
 			if (matches) {
 				const valuesStr = matches[1] + ' ';
 				const values = [...valuesStr.matchAll(/(\d+):(.+?)\s/g)];
