@@ -242,12 +242,12 @@ export class Editor {
 		})
 
 		const bfHighlight = HighlightStyle.define([
-			{ tag: tags.comment, color: "#1d7f2f", fontStyle: "italic" },
+			{ tag: tags.comment, color: "#367d20", fontStyle: "italic" },
 			{ tag: tags.keyword, color: "#952222", fontWeight: "bold" },
 			{ tag: tags.string, color: "#0062c7", fontStyle: "italic" },
 			{ tag: tags.number, color: "#0062c7", fontStyle: "italic" },
 			{ tag: tags.variableName, color: "#bd8b29", fontStyle: "italic" },
-			{ tag: tags.meta, color: "#bd8b29" },
+			{ tag: tags.meta, color: "#007a80", fontStyle: "italic" },
 		])
 
 		this._bfExt = [ bfLanguage, syntaxHighlighting(bfHighlight) ];
@@ -282,6 +282,7 @@ export class Editor {
 						stream.match(/^#\s*@title.*/i)
 						|| stream.match(/^#\s*@steps_per_frame.*/i)
 						|| stream.match(/^#\s*@buffered_input.*/i)
+						|| stream.match(/^#\s*@comment_level.*/i)
 					) {
 						return "meta"
 					}
@@ -331,11 +332,11 @@ export class Editor {
 		const bbHighlight = HighlightStyle.define([
 			{ tag: tags.comment, color: "#777", fontStyle: "italic" },
 			{ tag: tags.keyword, color: "#224395", fontWeight: "600" },
-			{ tag: tags.string, color: "#1d7f2f" },
+			{ tag: tags.string, color: "#367d20" },
 			{ tag: tags.number, color: "#0062c7" },
 			{ tag: tags.variableName, color: "#a22222" },
 			{ tag: tags.modifier, color: "#1395bd", fontWeight: "bold" },
-			{ tag: tags.meta, color: "#bd8b29" },
+			{ tag: tags.meta, color: "#007a80", fontStyle: "italic" },
 		])
 
 		this._bbExt = [ bbLanguage, syntaxHighlighting(bbHighlight), indentUnit.of('    ') ];

@@ -6,6 +6,7 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_STRICT & ~E_USER_NOTICE & ~E
 require_once $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/lib/autoload.php';
 
 use Gordy\Brainfuck\BigBrain;
+use Gordy\Brainfuck\BigBrain\Parser\MetaParser;
 
 $request = json_decode(file_get_contents('php://input'), true);
 
@@ -17,6 +18,8 @@ try
 {
 	$uglify = $request['uglify'];
 	$code = $request['code'];
+
+	[ $commentLevel, $bfHeaders ] = MetaParser::parseHeaders($code);
 
 	$tokens = BigBrain\Parser\TokenSplitter::parse($code);
 	$tokenStream = new BigBrain\Parser\TokenStream($tokens);
@@ -35,25 +38,23 @@ try
 	$log .= "arrays stack size computed: $arraysMemorySize\n";
 
 	$env = BigBrain\Environment::makeForRelease($uglify, $registrySize, $memorySize, $arraysMemorySize);
-	$program->compile($env);
 
-	$min = $env->stream()->buildMin();
-	$minLength = strlen($min);
+	$program->compile($env);
 
 	if ($request['min'])
 	{
-		$result = sprintf("# title: .min.bf\n\n");
-		$minLines = mb_str_split($min, 100);
-		$result .= implode("\n", $minLines);
+		$env->stream()->setHeaders([ 'title' => '.min.bf' ] + $bfHeaders);
+		$result = $env->stream()->buildMin();
 	}
 	else
 	{
-		$result = sprintf("# title: .bf\n\n");
-		$result .= $env->stream()->build();
+		$env->stream()->setCommentLevel($commentLevel);
+		$env->stream()->setHeaders([ 'title' => '.bf' ] + $bfHeaders);
+		$result = $env->stream()->build();
 	}
 
-
-	$log .= "finished! code length: $minLength\n";
+	$codeLength = $env->stream()->codeLength();
+	$log .= "finished! code length: $codeLength\n";
 
 	$result = [
 		'status' => 'ok',

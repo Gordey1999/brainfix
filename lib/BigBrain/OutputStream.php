@@ -4,13 +4,31 @@ namespace Gordy\Brainfuck\BigBrain;
 
 class OutputStream
 {
+	public const int COMMENT_LEVEL_FULL = 3;
+	public const int COMMENT_LEVEL_SOURCE = 2;
+	public const int COMMENT_LEVEL_MEMORY = 1;
+	public const int COMMENT_LEVEL_NONE = 0;
+
+	protected const int CODE_WIDTH = 30;
+	protected const int INDENT_WIDTH = 2;
+
+	private array $headers = [];
 	private array $stream = [];
 
 	private int $inGroup = 0;
 	private string $groupComment;
 
-	protected const int CODE_WIDTH = 30;
-	protected const int INDENT_WIDTH = 2;
+	private int $commentLevel = self::COMMENT_LEVEL_FULL;
+
+	public function setCommentLevel(int $commentLevel): void
+	{
+		$this->commentLevel = $commentLevel;
+	}
+
+	public function setHeaders(array $headers) : void
+	{
+		$this->headers = $headers;
+	}
 
 	public function startGroup(string $comment) : void
 	{
@@ -64,7 +82,7 @@ class OutputStream
 		$last = $this->getLastComment();
 		if (mb_strpos($last, "# @memory") === false)
 		{
-			$this->newBlock('', "# @memory" . $part, true);
+			$this->newBlock('', "# @memory" . $part, true, self::COMMENT_LEVEL_MEMORY);
 			return;
 		}
 
@@ -74,23 +92,24 @@ class OutputStream
 		}
 		else
 		{
-			$this->newBlock('', '# @memory' . $part, true);
+			$this->newBlock('', '# @memory' . $part, true, self::COMMENT_LEVEL_MEMORY);
 		}
 	}
 
 	public function blockComment(string $comment) : void
 	{
-		$this->newBlock('', "### $comment", true);
+		$this->newBlock('', "### $comment", true, self::COMMENT_LEVEL_SOURCE);
 	}
 
 	public function build() : string
 	{
-		$result = [];
 		$indentCount = 0;
+
+		$result = [];
 
 		foreach ($this->stream as $block)
 		{
-			if ($block['commentOnly'])
+			if ($block['commentOnly'] && $block['commentLevel'] <= $this->commentLevel)
 			{
 				$indent = str_repeat(' ', $indentCount);
 				$result[] = sprintf("%s%s", $indent, $block['comment']);
@@ -105,7 +124,14 @@ class OutputStream
 			{
 				$indent = str_repeat(' ', $indentCount);
 
-				$code = sprintf('%s%-30s # %s', $indent, '[', $block['comment']);
+				if ($this->commentLevel === self::COMMENT_LEVEL_FULL)
+				{
+					$code = sprintf('%s%-30s # %s', $indent, '[', $block['comment']);
+				}
+				else
+				{
+					$code = sprintf('%s[', $indent);
+				}
 
 				array_push($result, $code);
 
@@ -126,19 +152,38 @@ class OutputStream
 
 				$lines = $this->combineLines($block['code'], $indent);
 
-				$lines[0] = sprintf('%s%-30s # %s', $indent, $lines[0], $block['comment']);
+				if ($this->commentLevel === self::COMMENT_LEVEL_FULL)
+				{
+					$lines[0] = sprintf('%s%-30s # %s', $indent, $lines[0], $block['comment']);
+				}
+				else
+				{
+					$lines[0] = sprintf('%s%s', $indent, $lines[0]);
+				}
 
 				array_push($result, ...$lines);
 			}
 		}
 
-		return implode(PHP_EOL, $result);
+		return $this->buildHeaders() . implode(PHP_EOL, $result);
+	}
+
+	public function codeLength() : int
+	{
+		return mb_strlen($this->getMin());
 	}
 
 	public function buildMin() : string
 	{
-		$result = [];
+		$code = $this->getMin();
+		$lines = mb_str_split($code, 100);
 
+		return $this->buildHeaders() . implode("\n", $lines);
+	}
+
+	protected function getMin() : string
+	{
+		$result = [];
 		foreach ($this->stream as $block)
 		{
 			$result[] = preg_replace('/[^+\-><\[\].,]/', '', implode('', $block['code']));
@@ -147,12 +192,37 @@ class OutputStream
 		return implode('', $result);
 	}
 
-	protected function newBlock(string $code, string $comment, bool $commentOnly = false) : void
+	protected function buildHeaders() : string
+	{
+		$result = [];
+
+		if ($this->headers['title'])
+		{
+			$result[] = '# @title: ' . $this->headers['title'];
+		}
+
+		foreach ($this->headers as $name => $value)
+		{
+			if ($name === 'title') { continue; }
+
+			$result[] = sprintf('# @%s: %s', $name, $value);
+		}
+
+		if (!empty($result))
+		{
+			return implode(PHP_EOL, $result) . PHP_EOL . PHP_EOL;
+		}
+		return '';
+	}
+
+	protected function newBlock(
+		string $code, string $comment, bool $commentOnly = false, int $level = self::COMMENT_LEVEL_FULL) : void
 	{
 		$this->stream[] = [
 			'code' => $this->split($code),
 			'comment' => $comment,
 			'commentOnly' => $commentOnly,
+			'commentLevel' => $level,
 		];
 	}
 
