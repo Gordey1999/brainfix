@@ -80,9 +80,9 @@ class Parser
 
 	private function parseSplitter() : void
 	{
-		while ($this->stream->eat(';'))
+		if (!$this->stream->eat(';'))
 		{
-			// do nothing
+			throw new ParseError("';' expected", $this->stream->nextObj());
 		}
 	}
 
@@ -199,15 +199,14 @@ class Parser
 
 	protected function parseCondition() : Node\Expression
 	{
-		$needEndingScope = false;
-		if ($this->stream->eat('('))
+		if (!$this->stream->eat('('))
 		{
-			$needEndingScope = true;
+			throw new ParseError("'(' expected", $this->stream->nextObj());
 		}
 
 		$result = $this->parseExpression();
 
-		if ($needEndingScope && !$this->stream->eat(')'))
+		if (!$this->stream->eat(')'))
 		{
 			throw new ParseError("')' expected", $this->stream->nextObj());
 		}
@@ -217,10 +216,9 @@ class Parser
 
 	protected function parseForScope() : array
 	{
-		$needEndingScope = false;
-		if ($this->stream->eat('('))
+		if (!$this->stream->eat('('))
 		{
-			$needEndingScope = true;
+			throw new ParseError("'(' expected", $this->stream->nextObj());
 		}
 
 		$init = $this->parseCommand();
@@ -229,7 +227,7 @@ class Parser
 		$this->parseSplitter();
 		$increment = $this->parseCommand();
 
-		if ($needEndingScope && !$this->stream->eat(')'))
+		if (!$this->stream->eat(')'))
 		{
 			throw new ParseError("')' expected", $this->stream->nextObj());
 		}
