@@ -34,14 +34,16 @@ export class TabManager {
 	async getStateForSave() {
 		this._updateActiveTabData();
 
-		return this._tabData.map((tab) => {
-			return {
-				code: this._editor.getStateCode(tab.tabId),
-				input: tab.input,
-				language: tab.language,
-				isSubtab: tab.isSubtab,
-			};
-		});
+		return this._tabData
+			.filter((tab) => !tab.isSubtab)
+			.map((tab) => {
+				return {
+					code: this._editor.getStateCode(tab.tabId),
+					input: tab.input,
+					language: tab.language,
+					isSubtab: tab.isSubtab,
+				};
+			});
 	}
 
 	async setStateFromSave(data) {
