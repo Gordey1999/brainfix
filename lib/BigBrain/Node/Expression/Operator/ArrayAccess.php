@@ -3,13 +3,14 @@
 namespace Gordy\Brainfuck\BigBrain\Node\Expression\Operator;
 
 use Gordy\Brainfuck\BigBrain;
+use Gordy\Brainfuck\BigBrain\Data\IndexData;
 use Gordy\Brainfuck\BigBrain\Environment;
 use Gordy\Brainfuck\BigBrain\Exception\CompileError;
 use Gordy\Brainfuck\BigBrain\Exception\SyntaxError;
 use Gordy\Brainfuck\BigBrain\MemoryCell;
 use Gordy\Brainfuck\BigBrain\MemoryCellArray;
 use Gordy\Brainfuck\BigBrain\Parser\Token;
-use \Gordy\Brainfuck\BigBrain\Node\Expression;
+use Gordy\Brainfuck\BigBrain\Node\Expression;
 use Gordy\Brainfuck\BigBrain\Node\HasToken;
 use Gordy\Brainfuck\BigBrain\Type;
 use Gordy\Brainfuck\BigBrain\Utils;
@@ -86,12 +87,7 @@ class ArrayAccess implements Expression, Expression\Assignable
 
 	protected function startCell($env) : MemoryCellArray
 	{
-		$cell = $this->variable($env)->memoryCell($env);
-		if (!$cell instanceof MemoryCellArray)
-		{
-			throw new SyntaxError('array expected', $this->to->token());
-		}
-		return $cell;
+		return $this->variable()->memoryCell($env);
 	}
 
 	/** @return Expression[] */
@@ -116,13 +112,13 @@ class ArrayAccess implements Expression, Expression\Assignable
 		return $result;
 	}
 
-	public function calculateIndex(Environment $env, MemoryCell $result) : void
+	public function calculateIndex(Environment $env, MemoryCell $result) : IndexData
 	{
 		$sizes = $this->startCell($env)->type()->sizes();
 		$multipliers = Utils\ArraysHelper::indexMultipliers($sizes);
 		$indexes = $this->indexes($env);
 
-		$computedIndex = $this->startCell($env)->startIndex();
+		$data = new IndexData($this->startCell($env));
 		foreach ($indexes as $key => $index)
 		{
 			$indexResult = $index->resultType($env);
@@ -132,10 +128,11 @@ class ArrayAccess implements Expression, Expression\Assignable
 				{
 					throw new CompileError('numeric index expected', $this->token());
 				}
-				$computedIndex += $indexResult->getNumeric() * $multipliers[$key];
+				$data->addComputedOffset($indexResult->getNumeric() * $multipliers[$key]);
 			}
 			else
 			{
+				$data->setUseDynamicOffset();
 				if ($multipliers[$key] === 1)
 				{
 					$index->compileCalculation($env, $result);
@@ -149,10 +146,8 @@ class ArrayAccess implements Expression, Expression\Assignable
 				}
 			}
 		}
-		if  ($computedIndex > 0)
-		{
-			$env->processor()->addConstant($result, $computedIndex);
-		}
+
+		return $data;
 	}
 
 	public function compileCalculation(Environment $env, MemoryCell $result) : void
@@ -161,8 +156,8 @@ class ArrayAccess implements Expression, Expression\Assignable
 		if ($type instanceof Type\Scalar)
 		{
 			$startCell = $env->arraysProcessor()->startCell();
-			$this->calculateIndex($env, $startCell);
-			$carry = $env->arraysProcessor()->get($startCell);
+			$indexData = $this->calculateIndex($env, $startCell);
+			$carry = $env->arraysProcessor()->get($indexData);
 			$env->processor()->move($carry, $result);
 		}
 		else
@@ -182,9 +177,9 @@ class ArrayAccess implements Expression, Expression\Assignable
 				throw new CompileError('only "=" operator supported to fill array', $value->token());
 			}
 			$indexCell = $env->arraysProcessor()->startCell();
-			$this->calculateIndex($env, $indexCell);
+			$indexData = $this->calculateIndex($env, $indexCell);
 			$plainArray = $this->variable()->prepareArrayValues($env, $selfType, $value);
-			$env->arraysProcessor()->fill($indexCell, $plainArray);
+			$env->arraysProcessor()->fill($indexData, $plainArray);
 		}
 		else if ($selfType instanceof Type\Scalar)
 		{
@@ -219,7 +214,7 @@ class ArrayAccess implements Expression, Expression\Assignable
 		$this->checkAssignType($env, $value, $modifier);
 		$isBool = $this->resultType($env) instanceof Type\Boolean;
 
-		$this->calculateAssignIndex($env, $modifier);
+		$indexData = $this->calculateAssignIndex($env, $modifier);
 
 		if (!$result->numericCompatible())
 		{
@@ -228,24 +223,23 @@ class ArrayAccess implements Expression, Expression\Assignable
 
 		$numericValue = $result->getNumeric();
 
-		$startCell = $env->arraysProcessor()->startCell();
 		if ($modifier === self::ASSIGN_SET)
 		{
-			$env->arraysProcessor()->setConstant($startCell, $isBool ? $numericValue !== 0 : $numericValue);
+			$env->arraysProcessor()->setConstant($indexData, $isBool ? $numericValue !== 0 : $numericValue);
 		}
 		else if ($modifier === self::ASSIGN_ADD)
 		{
-			$env->arraysProcessor()->addConstant($startCell, $numericValue);
+			$env->arraysProcessor()->addConstant($indexData, $numericValue);
 		}
 		else if ($modifier === self::ASSIGN_SUB)
 		{
-			$env->arraysProcessor()->addConstant($startCell, -$numericValue);
+			$env->arraysProcessor()->addConstant($indexData, -$numericValue);
 		}
 		else
 		{
 			$dummyCell = $env->arraysProcessor()->dummyCell();
 			$carryCell = $env->arraysProcessor()->carryCell();
-			$valueCell = $env->arraysProcessor()->get($startCell);
+			$valueCell = $env->arraysProcessor()->get($indexData);
 
 			if ($modifier === self::ASSIGN_MULTIPLY)
 			{
@@ -263,7 +257,8 @@ class ArrayAccess implements Expression, Expression\Assignable
 			{
 				throw new CompileError('undefined modifier', $this->token);
 			}
-			$env->arraysProcessor()->set($dummyCell);
+			$env->processor()->move($dummyCell, $carryCell);
+			$env->arraysProcessor()->set($indexData);
 		}
 	}
 
@@ -273,7 +268,7 @@ class ArrayAccess implements Expression, Expression\Assignable
 		$castBool = $this->resultType($env) instanceof Type\Boolean
 			&& !$value->resultType($env) instanceof Type\Boolean;
 
-		$this->calculateAssignIndex($env, $modifier);
+		$indexData = $this->calculateAssignIndex($env, $modifier);
 
 		$startCell = $env->arraysProcessor()->startCell();
 		$carryCell = $env->arraysProcessor()->carryCell();
@@ -286,30 +281,30 @@ class ArrayAccess implements Expression, Expression\Assignable
 				$value->compileCalculation($env, $tempResult);
 				$env->processor()->moveBoolean($tempResult, $carryCell);
 				$env->processor()->release($tempResult);
-				$env->arraysProcessor()->set($startCell);
+				$env->arraysProcessor()->set($indexData);
 			}
 			else
 			{
 				$value->compileCalculation($env, $carryCell);
-				$env->arraysProcessor()->set($startCell);
+				$env->arraysProcessor()->set($indexData);
 			}
 		}
 		else if ($modifier === self::ASSIGN_ADD)
 		{
 			$value->compileCalculation($env, $carryCell);
-			$env->arraysProcessor()->add($startCell);
+			$env->arraysProcessor()->add($indexData);
 		}
 		else if ($modifier === self::ASSIGN_SUB)
 		{
 			$value->compileCalculation($env, $carryCell);
-			$env->arraysProcessor()->sub($startCell);
+			$env->arraysProcessor()->sub($indexData);
 		}
 		else
 		{
 			$tempResult = $env->processor()->reserve($startCell);
 			$value->compileCalculation($env, $tempResult);
 			$dummyCell = $env->arraysProcessor()->dummyCell();
-			$valueCell = $env->arraysProcessor()->get($startCell);
+			$valueCell = $env->arraysProcessor()->get($indexData);
 
 			if ($modifier === self::ASSIGN_MULTIPLY)
 			{
@@ -327,27 +322,30 @@ class ArrayAccess implements Expression, Expression\Assignable
 			{
 				throw new CompileError('undefined modifier', $this->token);
 			}
-			$env->arraysProcessor()->set($dummyCell);
+			$env->processor()->move($dummyCell, $startCell);
+			$env->arraysProcessor()->set($indexData);
 			$env->processor()->release($tempResult);
 		}
 	}
 
-	protected function calculateAssignIndex(Environment $env, string $modifier) : void
+	protected function calculateAssignIndex(Environment $env, string $modifier) : IndexData
 	{
 		$startCell = $env->arraysProcessor()->startCell();
 		$dummyCell = $env->arraysProcessor()->dummyCell();
 
 		if ($this->isSimpleModifier($modifier))
 		{
-			$this->calculateIndex($env, $startCell);
+			$indexData = $this->calculateIndex($env, $startCell);
 		}
 		else
 		{
 			$temp = $env->processor()->reserve($startCell);
-			$this->calculateIndex($env, $temp);
+			$indexData = $this->calculateIndex($env, $temp);
 			$env->processor()->move($temp, $startCell, $dummyCell);
 			$env->processor()->release($temp);
 		}
+
+		return $indexData;
 	}
 
 	protected function isSimpleModifier(string $modifier) : bool

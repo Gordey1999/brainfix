@@ -3,6 +3,7 @@
 namespace Gordy\Brainfuck\BigBrain\Node\Command;
 
 use Gordy\Brainfuck\BigBrain;
+use Gordy\Brainfuck\BigBrain\Data\IndexData;
 use Gordy\Brainfuck\BigBrain\Environment;
 use Gordy\Brainfuck\BigBrain\Exception\CompileError;
 use Gordy\Brainfuck\BigBrain\Node\Expression\Operator\ArrayAccess;
@@ -95,14 +96,14 @@ class Output implements Node\Command
 	{
 		if ($part instanceof Expression\ArrayVariable)
 		{
-			$startCell = $part->memoryCell($env);
-			$env->arraysProcessor()->printString($startCell, $resultType->size());
+			$indexData = new IndexData($part->memoryCell($env));
+			$env->arraysProcessor()->printString($indexData, $resultType->size());
 		}
 		else if ($part instanceof ArrayAccess)
 		{
 			$indexCell = $env->arraysProcessor()->startCell();
-			$part->calculateIndex($env, $indexCell);
-			$env->arraysProcessor()->printString($indexCell, $resultType->size());
+			$indexData = $part->calculateIndex($env, $indexCell);
+			$env->arraysProcessor()->printString($indexData, $resultType->size());
 		}
 		else
 		{
@@ -113,8 +114,8 @@ class Output implements Node\Command
 	protected function printArrayIndex(Environment $env, ArrayAccess $expr) : void
 	{
 		$cell = $env->arraysProcessor()->startCell();
-		$expr->calculateIndex($env, $cell);
-		$env->arraysProcessor()->print($cell);
+		$indexData = $expr->calculateIndex($env, $cell);
+		$env->arraysProcessor()->print($indexData);
 	}
 
 	protected function printExpression(Environment $env, Expression $expr, Type\Scalar $resultType) : void

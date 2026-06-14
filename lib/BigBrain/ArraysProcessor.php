@@ -2,11 +2,13 @@
 
 namespace Gordy\Brainfuck\BigBrain;
 
+use Gordy\Brainfuck\BigBrain\Data\IndexData;
 use Gordy\Brainfuck\BigBrain\Utils\Encoder;
 
 class ArraysProcessor
 {
 	public const int CELL_SIZE = 2;
+	public const int MAX_INDEX = 255;
 
 	protected Processor $processor;
 	protected OutputStream $stream;
@@ -41,115 +43,139 @@ class ArraysProcessor
 		return new MemoryCell($this->offset + 2 * self::CELL_SIZE, 'i1');
 	}
 
-	public function initIndex(MemoryCell $index) : void
+	public function initIndex(IndexData $index) : int
 	{
-		if ($index instanceof MemoryCellArray)
+		$leftOffset = 0;
+
+		$staticOffset = $index->startOffset() + $index->computedOffset();
+
+		if ($staticOffset + $index->maxDynamicOffset() <= self::MAX_INDEX)
 		{
-			$this->stream->startGroup("init pointer with $index");
-			$this->processor->addConstant($this->startCell(), $index->startIndex());
-			$this->processor->goto($this->startCell());
+			$this->stream->startGroup("init static offset with `$staticOffset`");
+			$this->processor->addConstant($this->startCell(), $staticOffset);
 			$this->stream->endGroup();
-			return;
-		}
-		if ($index->address() === $this->startCell()->address())
-		{
-			$this->processor->goto($this->startCell());
 		}
 		else
 		{
-			$this->stream->startGroup("init pointer with $index");
-			$this->processor->move($index, $this->startCell());
-			$this->processor->goto($this->startCell());
-			$this->stream->endGroup();
+			if ($staticOffset <= self::MAX_INDEX)
+			{
+				$leftOffset = $staticOffset;
+			}
+			else if ($staticOffset % self::MAX_INDEX + $index->maxDynamicOffset() <= self::MAX_INDEX)
+			{
+				$nowOffset = $staticOffset % self::MAX_INDEX;
+				$leftOffset = $staticOffset - $nowOffset;
+
+				$this->stream->startGroup("init static offset with `$nowOffset`(`$leftOffset` in remainder)");
+				$this->processor->addConstant($this->startCell(), $nowOffset);
+				$this->stream->endGroup();
+			}
+			else
+			{
+				$leftOffset = $staticOffset;
+			}
 		}
+		$this->processor->goto($this->startCell());
+
+		return $leftOffset;
 	}
 
-	public function get(MemoryCell $index) : MemoryCell
+	public function get(IndexData $index) : MemoryCell
 	{
-		$this->initIndex($index);
-		$this->stream->write('[[->>+<<]+>>-]>', 'goto pointer');
+		$this->gotoTargetIndex($index);
+
+		$this->stream->write('>', 'goto target cell');
+
 		$this->stream->write('[-<+>>+<]<[->+<]+', 'copy carry');
 		$this->stream->write('[->>[-<<+>>]<<<<]', 'move carry');
+
+		// todo чуть быстрее для больших массивов 570 эл (805k => 687k)
+		// >>[-[<<]>+>[>>]<<]
+		// >-<<<[-<<]
 		$this->processor->setPointer($this->initCell());
 
 		return $this->startCell();
 	}
 
-	public function setConstant(MemoryCell $index, int $value) : void
+	public function setConstant(IndexData $index, int $value) : void
 	{
 		$this->goto($index, function() use ($value) {
 			$this->setCurrentByConstant($value);
 		});
 	}
 
-	public function addConstant(MemoryCell $index, int $value) : void
+	public function addConstant(IndexData $index, int $value) : void
 	{
 		$this->goto($index, function() use ($value) {
 			$this->addConstantToCurrent($value);
 		});
 	}
 
-	public function print(MemoryCell $index) : void
+	public function print(IndexData $index) : void
 	{
 		$this->goto($index, function() {
 			$this->stream->write('.', 'print value');
 		});
 	}
 
-	public function input(MemoryCell $index) : void
+	public function input(IndexData $index) : void
 	{
 		$this->goto($index, function() {
 			$this->stream->write(',', 'input value');
 		});
 	}
 
-	public function printString(MemoryCell $pointer, int $size) : void
+	public function printString(IndexData $index, int $size) : void
 	{
-		$this->walk($pointer, $size, function() use (&$values) {
+		$this->walk($index, $size, function() use (&$values) {
 			$this->stream->write('.');
 		}, 'print array');
 	}
 
-	public function inputString(MemoryCell $pointer) : void
+	public function inputString(IndexData $index) : void
 	{
-		$this->gotoIndex($pointer, function() {
-			$this->stream->write('+[>>>>,----------[++++++++++<<<[-]>>>[-<<<+>>>]<<+>>]<<]<<', "input until enter");
+		$this->gotoIndex($index, function() {
+			$this->stream->write(
+				'+[>>>>,----------[++++++++++<<<[-]>>>[-<<<+>>>]<<+>>]<<]<<',
+				'input until enter'
+			);
 		});
 	}
 
-	public function fill(MemoryCell $pointer, array $values) : void
+	public function fill(IndexData $index, array $values) : void
 	{
-		$this->walk($pointer, count($values), function() use (&$values) {
+		$this->walk($index, count($values), function() use (&$values) {
 			$value = array_shift($values);
 			$this->setCurrentByConstant($value);
 		});
 	}
 
-	public function set(MemoryCell $index) : void
+	public function set(IndexData $index) : void
 	{
 		$this->gotoMove($index, function() {
 			$this->stream->write('[-]>[-<+>]<', 'set value');
 		});
 	}
 
-	public function add(MemoryCell $index) : void
+	public function add(IndexData $index) : void
 	{
 		$this->gotoMove($index, function() {
 			$this->stream->write('>[-<+>]<', 'add to value');
 		});
 	}
 
-	public function sub(MemoryCell $index) : void
+	public function sub(IndexData $index) : void
 	{
 		$this->gotoMove($index, function() {
 			$this->stream->write('>[-<->]<', 'sub from value');
 		});
 	}
 
-	protected function goto(MemoryCell $index, callable $callback) : void
+	protected function goto(IndexData $index, callable $callback) : void
 	{
-		$this->initIndex($index);
-		$this->stream->write('[[->>+<<]+>>-]+>', 'goto target index');
+		$this->gotoTargetIndex($index);
+
+		$this->stream->write('+>', 'goto target cell');
 
 		$callback();
 
@@ -157,10 +183,9 @@ class ArraysProcessor
 		$this->processor->setPointer($this->initCell());
 	}
 
-	protected function gotoIndex(MemoryCell $index, callable $callback) : void
+	protected function gotoIndex(IndexData $index, callable $callback) : void
 	{
-		$this->initIndex($index);
-		$this->stream->write('[[->>+<<]+>>-]', 'goto target index');
+		$this->gotoTargetIndex($index);
 
 		$callback();
 
@@ -168,10 +193,37 @@ class ArraysProcessor
 		$this->processor->setPointer($this->initCell());
 	}
 
-	protected function gotoMove(MemoryCell $index, callable $callback) : void
+	protected function gotoTargetIndex(IndexData $index) : void
 	{
-		$this->initIndex($index);
-		$this->stream->write('[>>[->>+<<]<<[->>+<<]+>>-]+>', 'move value to target index');
+		$leftOffset = $this->initIndex($index);
+		$this->stream->write('[[->>+<<]+>>-]', "goto target index(`$leftOffset` in remainder)");
+
+		// todo можно ходить сразу по 10 ячеек например.
+		while ($leftOffset)
+		{
+			$nowOffset = min($leftOffset, self::MAX_INDEX);
+			$leftOffset -= $nowOffset;
+
+			$this->addConstantToCurrent($nowOffset);
+			$this->stream->write('[[->>+<<]+>>-]', "goto target index(`$leftOffset` in remainder)");
+		}
+	}
+
+	protected function gotoMove(IndexData $index, callable $callback) : void
+	{
+		$leftOffset = $this->initIndex($index);
+		$this->stream->write('[>>[->>+<<]<<[->>+<<]+>>-]', "move carry to target index(`$leftOffset` in remainder)");
+
+		while ($leftOffset)
+		{
+			$nowOffset = min($leftOffset, self::MAX_INDEX);
+			$leftOffset -= $nowOffset;
+
+			$this->addConstantToCurrent($nowOffset);
+			$this->stream->write('[>>[->>+<<]<<[->>+<<]+>>-]', "move carry to target index(`$leftOffset` in remainder)");
+		}
+
+		$this->stream->write('+>', 'goto target value');
 
 		$callback();
 
@@ -179,7 +231,7 @@ class ArraysProcessor
 		$this->processor->setPointer($this->initCell());
 	}
 
-	protected function walk(MemoryCell $index, int $count, callable $callback, string $groupComment = null) : void
+	protected function walk(IndexData $index, int $count, callable $callback, string $groupComment = null) : void
 	{
 		$this->goto($index, function() use ($count, $callback, $groupComment) {
 			if ($groupComment !== null)

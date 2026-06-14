@@ -133,7 +133,7 @@ class OutputStream
 					$code = sprintf('%s[', $indent);
 				}
 
-				array_push($result, $code);
+				$result[] = $code;
 
 				$indentCount += self::INDENT_WIDTH;
 			}

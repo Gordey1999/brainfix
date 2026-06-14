@@ -10,6 +10,7 @@ class ArraysMemory
 	private Stack $stack;
 	protected int $offset;
 	protected const int CELL_SIZE = 2;
+	protected const int MAX_SIZE = 256;
 
 	protected OutputStream $stream;
 	protected int $size;
@@ -29,13 +30,17 @@ class ArraysMemory
 
 	public function allocate(Type\BaseType $type, Token $name, array $sizes) : MemoryCellArray
 	{
-		$address = $this->startPosition() + $this->lastIndex() * self::CELL_SIZE;
-		$startIndex = $this->lastIndex();
+		$address = $this->startPosition() + $this->allocatedSize() * self::CELL_SIZE;
+		$startIndex = $this->allocatedSize();
 
 		$type = $this->buildType($type, $sizes);
 		if ($type->plainSize() === 0)
 		{
 			throw new CompileError('empty array size', $name);
+		}
+		if ($type->plainSize() > self::MAX_SIZE)
+		{
+			throw new CompileError('size of array must not be greater than ' . self::MAX_SIZE, $name);
 		}
 		if ($startIndex + $type->plainSize() > $this->size)
 		{
@@ -92,7 +97,7 @@ class ArraysMemory
 		}
 	}
 
-	protected function lastIndex() : int
+	protected function allocatedSize() : int
 	{
 		$result = 0;
 		foreach ($this->stack->getAll(MemoryCellArray::class) as $item)

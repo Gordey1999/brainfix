@@ -26,7 +26,7 @@ try
 	$parser = new BigBrain\Parser\Parser($tokenStream);
 	$program = $parser->parse();
 
-	$precompileEnv = BigBrain\Environment::makeForPrecompile($uglify, 100, 500, 256);
+	$precompileEnv = BigBrain\Environment::makeForPrecompile($uglify, 100, 500, 5000);
 	$program->compile($precompileEnv);
 
 	$registrySize = $precompileEnv->processor()->computedRegistrySize();
