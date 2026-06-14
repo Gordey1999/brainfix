@@ -145,9 +145,10 @@ class TokenSplitter
 	{
 		$linePos = 0;
 		$columnPos = 0;
+		$chars = mb_str_split($code);
 		for ($i = 0; $i < $index; $i++)
 		{
-			if ($code[$i] === "\n")
+			if ($chars[$i] === "\n")
 			{
 				$linePos++;
 				$columnPos = 0;
