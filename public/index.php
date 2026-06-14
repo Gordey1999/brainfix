@@ -48,18 +48,32 @@
 			</div>
 			<div class="edit-area block"></div>
 		</div>
+
+		<div class="resizer --vertical" id="resizer-main">
+			<div class="resizer-inner"></div>
+		</div>
+
 		<div class="right">
 			<div class="right-top">
-				<div class="console block">
+				<div class="console block --full-width">
 					<div class="console-info">
 						<pre class="console-status"></pre>
 						<pre class="console-commands"></pre>
 					</div>
 					<pre class="console-container" tabindex="1"></pre>
 				</div>
+
+				<div class="resizer --vertical --hidden" id="resizer-console-input">
+					<div class="resizer-inner"></div>
+				</div>
+
 				<div class="console-input block">
 					<pre class="console-input-textarea" contenteditable="plaintext-only" spellcheck="false"></pre>
 				</div>
+			</div>
+
+			<div class="resizer --horizontal" id="resizer-console-tracking">
+				<div class="resizer-inner"></div>
 			</div>
 
 			<div class="tracing block">

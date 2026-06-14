@@ -7,8 +7,7 @@ export class FileInput {
 	}
 
 	onToggle = () => {
-		this._active = !this._active;
-		this._el.classList.toggle('--active', this._active);
+		this.setActive(!this._active);
 	}
 
 	get() {
@@ -38,6 +37,16 @@ export class FileInput {
 
 	setActive(active) {
 		this._active = active;
+
 		this._el.classList.toggle('--active', this._active);
+		const resizer = this._el.previousElementSibling;
+
+		if (this._active) {
+			resizer.classList.remove('--hidden');
+			resizer.previousElementSibling.classList.remove('--full-width');
+		} else {
+			resizer.classList.add('--hidden');
+			resizer.previousElementSibling.classList.add('--full-width');
+		}
 	}
 }

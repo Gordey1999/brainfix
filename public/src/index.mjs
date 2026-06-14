@@ -7,8 +7,9 @@ import {Builder} from "./Builder.mjs";
 import {TabManager} from "./TabManager.mjs";
 import {Storage} from "./lib/Storage.js";
 import {StorageController} from "./StorageController.js";
+import {WindowsController} from "./WindowsController.js";
 
-// node_modules/.bin/rollup public/src/index.mjs -f iife -o public/index.bundle.js -p @rollup/plugin-node-resolve
+// npx rollup -c
 
 const editorEl = document.querySelector('.edit-area');
 const profilerEl = document.querySelector('.tracing-container');
@@ -19,6 +20,8 @@ const input = document.querySelector('.console-input');
 const tabs = document.querySelector('.tabs');
 const saveModal = document.querySelector('.modal-save');
 const loadModal = document.querySelector('.modal-load');
+
+new WindowsController();
 
 const editor = new Editor(editorEl, '');
 const profiler = new Profiler(profilerEl, 500);

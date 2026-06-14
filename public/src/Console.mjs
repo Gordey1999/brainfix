@@ -166,6 +166,7 @@ export class Console {
 
 	clear() {
 		this.stop();
+		this._streamIn = [];
 		this._el.textContent = '';
 		this.setCommandsCount(0);
 		this.setStatus();
