@@ -12,7 +12,7 @@ class MetaParser
 
 		$commentLevel = self::parseCommentLevel($headers['comment_level'] ?? '');
 
-		$selfHeaders = [ 'comment_level' => true ];
+		$selfHeaders = [ 'comment_level' => true, 'version' => true ];
 		$bfHeaders = array_diff_key($headers, $selfHeaders);
 
 		return [$commentLevel, $bfHeaders];

@@ -3,98 +3,34 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_STRICT & ~E_USER_NOTICE & ~E_COMPILE_WARNING & ~E_DEPRECATED);
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/lib/autoload.php';
-
-use Gordy\Brainfuck\BigBrain;
-use Gordy\Brainfuck\BigBrain\Parser\MetaParser;
 
 $request = json_decode(file_get_contents('php://input'), true);
 
-$log = "compiling...\n";
+$code = $request['code'] ?? '';
+$lines = explode("\n", $code);
 
-$debug = false;
+$version = 'current';
 
-try
+foreach ($lines as $line)
 {
-	$uglify = $request['uglify'];
-	$code = $request['code'];
-
-	[ $commentLevel, $bfHeaders ] = MetaParser::parseHeaders($code);
-
-	$tokens = BigBrain\Parser\TokenSplitter::parse($code);
-	$tokenStream = new BigBrain\Parser\TokenStream($tokens);
-	$parser = new BigBrain\Parser\Parser($tokenStream);
-	$program = $parser->parse();
-
-	$precompileEnv = BigBrain\Environment::makeForPrecompile($uglify, 100, 500, 5000);
-	$program->compile($precompileEnv);
-
-	$registrySize = $precompileEnv->processor()->computedRegistrySize();
-	$memorySize = $precompileEnv->memory()->computedMemorySize();
-	$arraysMemorySize = $precompileEnv->arraysMemory()->computedMemorySize();
-
-	$log .= "registry size computed: $registrySize\n";
-	$log .= "stack size computed: $memorySize\n";
-	$log .= "arrays stack size computed: $arraysMemorySize\n";
-
-	$env = BigBrain\Environment::makeForRelease($uglify, $registrySize, $memorySize, $arraysMemorySize);
-
-	$program->compile($env);
-
-	if ($request['min'])
+	if (trim($line) && trim($line)[0] !== '#')
 	{
-		$env->stream()->setHeaders([ 'title' => '.min.bf' ] + $bfHeaders);
-		$result = $env->stream()->buildMin();
-	}
-	else
-	{
-		$env->stream()->setCommentLevel($commentLevel);
-		$env->stream()->setHeaders([ 'title' => '.bf' ] + $bfHeaders);
-		$result = $env->stream()->build();
+		break;
 	}
 
-	$codeLength = $env->stream()->codeLength();
-	$log .= "finished! code length: $codeLength\n";
-
-	$result = [
-		'status' => 'ok',
-		'result' => $result,
-		'log' => $log,
-	];
+	if (preg_match('/^\s*#\s*@version\s*[=:]?\s*(.*)$/', $line, $matches))
+	{
+		$version = $matches[1];
+	}
 }
-catch (BigBrain\Exception\Exception $e)
+
+$rootDir = $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/lib/';
+
+if (file_exists($rootDir . $version . '/compile.php'))
 {
-	$token = $e->getToken();
-
-	$message = $debug ?
-		sprintf(
-			"%s\n\n\n\ndebug info:\n%s(%s)\n\ntrace:\n%s",
-			$e->getMessage(),
-			$e->getFile(),
-			$e->getLine(),
-			$e->getTraceAsString()
-		)
-		: $e->getMessage();
-
-	$result = [
-		'status' => 'error',
-		'message' => $message,
-		'position' => [
-			'start' => $token->index(),
-			'length'  => mb_strlen($token->value()),
-		],
-	];
+	require_once $rootDir . $version . '/compile.php';
 }
-catch (\Throwable $e)
+else
 {
-	echo sprintf(
-		"%s\n%s(%s)\ntrace:\n%s",
-		$e->getMessage(),
-		$e->getFile(),
-		$e->getLine(),
-		$e->getTraceAsString()
-	);
-	die;
+	require_once $rootDir . 'current/compile.php';
 }
-
-echo json_encode($result);
