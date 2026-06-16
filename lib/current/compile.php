@@ -7,7 +7,7 @@ use Gordy\Brainfuck\BigBrain\Parser\MetaParser;
 
 $request = json_decode(file_get_contents('php://input'), true);
 
-$log = "compiling...\n";
+$log = "version: 1.1\n\n";
 
 $debug = false;
 

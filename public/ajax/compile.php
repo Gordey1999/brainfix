@@ -24,13 +24,13 @@ foreach ($lines as $line)
 	}
 }
 
-$rootDir = $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/lib/';
+$versionsDir = $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/lib/previous_versions/';
 
-if (file_exists($rootDir . $version . '/compile.php'))
+if (file_exists($versionsDir . $version . '/compile.php'))
 {
-	require_once $rootDir . $version . '/compile.php';
+	require_once $versionsDir . $version . '/compile.php';
 }
 else
 {
-	require_once $rootDir . 'current/compile.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/lib/current/compile.php';;
 }
