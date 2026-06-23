@@ -5,7 +5,7 @@ export default {
 	input: 'ide/src/index.mjs',
 
 	output: {
-		file: 'ide/public/index.bundle.js',
+		file: 'docs/index.bundle.js',
 		format: 'iife',
 		sourcemap: true
 	},

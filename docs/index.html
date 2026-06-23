@@ -1,44 +1,179 @@
 <!DOCTYPE html>
 <head>
 	<meta charset="UTF-8">
-	<title>Документация Brainfuck проекта</title>
-	<link rel="stylesheet" href="./theme.css">
-	<style>
-		body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; line-height: 1.6; }
-		header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
-		footer { margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; font-size: 0.9em; color: #777; }
-	</style>
+	<title>BrainFix Studio</title>
+	<link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-<header>
-	<h1>📜 Мой супер Brainfuck проект</h1>
-	<nav><a href="./index.html">Главная</a></nav>
-</header>
+<div class="container">
+	<div class="nav">
+		<div class="buttons buttons-bf">
+			<div class="buttons-block">
+				<button class="btn btn-run">run</button>
+				<button class="btn btn-stop">stop</button>
+			</div>
+			<div class="buttons-block">
+				<button class="btn btn-step">step</button>
+				<button class="btn btn-line">line</button>
+				<button class="btn btn-out">out</button>
+			</div>
+			<div class="buttons-block">
+				<button class="btn btn-input">input</button>
+			</div>
+			<div class="buttons-block">
+				<button class="btn btn-save">save</button>
+				<button class="btn btn-load">load</button>
+			</div>
+			<div class="buttons-block">
+				<button class="btn btn-save">home</button>
+				<button class="btn btn-load">docs</button>
+			</div>
+		</div>
+		<div class="buttons buttons-bb">
+			<div class="buttons-block">
+				<button class="btn btn-build">build</button>
+				<button class="btn btn-build-min">min</button>
+				<button class="btn btn-uglify"><span class="btn-toggle">•</span>ugly</button>
+			</div>
+			<div class="buttons-block">
+				<button class="btn btn-input">input</button>
+			</div>
+			<div class="buttons-block">
+				<button class="btn btn-save">save</button>
+				<button class="btn btn-load">load</button>
+			</div>
+			<div class="buttons-block">
+				<button class="btn btn-save">home</button>
+				<button class="btn btn-load">docs</button>
+			</div>
+		</div>
+		<div class="nav-end">BrainFix Studio 3001
+			<div class="nav-end-front">BrainFix Studio 3001</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="left">
+			<div class="tabs">
+				<div class="tab tab-plus">+</div>
+				<div class="tab tab-bf tab-subtab tab-plus-bf">+</div>
+			</div>
+			<div class="edit-area block"></div>
+		</div>
 
-<main>
-	<!-- Сюда скрипт вставит текст из index.md -->
-	<h1>Документация</h1>
-<h1>Мои языки программирования</h1>
-<p>Hello, World!</p>
-<h2>1. Базовый Brainfuck</h2>
-<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-5"># @title Тест Brainfuck</span>
-<span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span>[<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span>[<span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">-</span>[<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span>]]]<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">-</span>]<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span>
-</code></pre>
-<h2>2. Новый BrainFix</h2>
-<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-6"># @title Тест BrainFix</span>
-<span class="cm-doc-brainfix-6"># @version 1.0</span>
-<span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">message</span> = <span class="cm-doc-brainfix-2">"</span><span class="cm-doc-brainfix-2">H</span><span class="cm-doc-brainfix-2">e</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-3">\n</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-2">W</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2">r</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">d</span><span class="cm-doc-brainfix-2">"</span>;
-<span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-3">true</span>) {
-    <span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">message</span>;
-}
-</code></pre>
+		<div class="resizer --vertical" id="resizer-main">
+			<div class="resizer-inner"></div>
+		</div>
 
-</main>
+		<div class="right">
+			<div class="right-top">
+				<div class="console block --full-width">
+					<div class="console-info">
+						<pre class="console-status"></pre>
+						<pre class="console-commands"></pre>
+					</div>
+					<pre class="console-container" tabindex="1"></pre>
+				</div>
 
-<footer>
-	<p>© 2026 Создано для GitHub Pages</p>
-</footer>
+				<div class="resizer --vertical --hidden" id="resizer-console-input">
+					<div class="resizer-inner"></div>
+				</div>
+
+				<div class="console-input block">
+					<pre class="console-input-textarea" contenteditable="plaintext-only" spellcheck="false"></pre>
+				</div>
+			</div>
+
+			<div class="resizer --horizontal" id="resizer-console-tracking">
+				<div class="resizer-inner"></div>
+			</div>
+
+			<div class="tracing block">
+				<div class="tracing-container"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal modal-save">
+	<div class="modal-content">
+		<div class="modal-header">
+			<div class="modal-header-title">
+				SAVE AS
+			</div>
+			<div class="modal-header-close">
+				<span class="link --red">
+					x
+				</span>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="links-row saves-top">
+				<span class="link link-new-slot">new slot</span>
+			</div>
+
+			<div class="saves">
+			</div>
+
+			<template class="saves-row-template">
+				<div class="saves-row">
+					<div class="saves-row__left">
+						<span class="saves-row__title"></span>
+						<span class="saves-row__time"></span>
+					</div>
+					<div class="links-row">
+						<div class="link link-save">save</div>
+						<div class="link link-rename">rn</div>
+						<div class="link --red link-delete">x</div>
+					</div>
+				</div>
+			</template>
+
+			<div class="links-row saves-bottom">
+				<div class="link link-export">export</div>
+				<div class="link link-download">download</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal modal-load">
+	<div class="modal-content">
+		<div class="modal-header">
+			<div class="modal-header-title">
+				LOAD
+			</div>
+			<div class="modal-header-close">
+				<span class="link --red">
+					x
+				</span>
+			</div>
+		</div>
+		<div class="modal-body">
+
+			<div class="saves"></div>
+
+			<template class="saves-row-template">
+				<div class="saves-row">
+					<div class="saves-row__left">
+						<span class="saves-row__title"></span>
+						<span class="saves-row__time"></span>
+					</div>
+					<div class="links-row">
+						<div class="link link-load">load</div>
+						<div class="link link-rename">rn</div>
+						<div class="link --red link-delete">x</div>
+					</div>
+				</div>
+			</template>
+
+			<div class="links-row saves-bottom">
+				<div class="link link-import">import</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="index.bundle.js"></script>
 
 </body>
-</html>
