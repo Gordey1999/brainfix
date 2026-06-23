@@ -25,4 +25,4 @@ https://gordey1999.github.io/brainfix/
 *  **Примеры и игры:** В редактор встроено множество готовых проектов, включая Сапер, игру Ним и различные примеры.
 
 Онлайн-редактор BrainFix Studio:   
-https://avito-work1.t-dir.dev/brainfuck/public/
+Пока недоступен
