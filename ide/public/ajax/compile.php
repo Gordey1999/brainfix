@@ -24,7 +24,7 @@ foreach ($lines as $line)
 	}
 }
 
-$versionsDir = $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/lib/previous_versions/';
+$versionsDir = $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/brainfix/previous_versions/';
 
 if (file_exists($versionsDir . $version . '/compile.php'))
 {
@@ -32,5 +32,5 @@ if (file_exists($versionsDir . $version . '/compile.php'))
 }
 else
 {
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/lib/current/compile.php';;
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/brainfuck/brainfix/current/compile.php';
 }

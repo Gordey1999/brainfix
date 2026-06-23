@@ -2,10 +2,10 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
 export default {
-	input: 'public/src/index.mjs',
+	input: 'ide/src/index.mjs',
 
 	output: {
-		file: 'public/index.bundle.js',
+		file: 'ide/public/index.bundle.js',
 		format: 'iife',
 		sourcemap: true
 	},

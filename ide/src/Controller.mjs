@@ -1,4 +1,4 @@
-import {Editor} from "./Editor";
+import {Editor} from "./Editor.mjs";
 import {Translator} from "./lib/Translator.mjs";
 import {MetaParser} from "./lib/MetaParser.js";
 
