@@ -283,6 +283,7 @@ export class Editor {
 						|| stream.match(/^#\s*@steps_per_frame.*/i)
 						|| stream.match(/^#\s*@buffered_input.*/i)
 						|| stream.match(/^#\s*@comment_level.*/i)
+						|| stream.match(/^#\s*@version.*/i)
 					) {
 						return "meta"
 					}

@@ -25645,6 +25645,7 @@
   						|| stream.match(/^#\s*@steps_per_frame.*/i)
   						|| stream.match(/^#\s*@buffered_input.*/i)
   						|| stream.match(/^#\s*@comment_level.*/i)
+  						|| stream.match(/^#\s*@version.*/i)
   					) {
   						return "meta"
   					}
@@ -26010,7 +26011,7 @@
   		this._useInputBuffer = true;
 
   		this.clear();
-  		this.setStatus('* * * HELLO * * *');
+  		this.setStatus('TERMINAL');
   		this._bind();
   	}
 

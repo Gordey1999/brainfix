@@ -12,7 +12,7 @@ export class Console {
 		this._useInputBuffer = true;
 
 		this.clear();
-		this.setStatus('* * * HELLO * * *');
+		this.setStatus('TERMINAL');
 		this._bind();
 	}
 

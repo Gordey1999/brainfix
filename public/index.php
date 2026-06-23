@@ -36,8 +36,8 @@
 				<button class="btn btn-load">load</button>
 			</div>
 		</div>
-		<div class="nav-end">Brainfucker 3000
-			<div class="nav-end-front">Brainfucker 3000</div>
+		<div class="nav-end">Brainfucker 3001
+			<div class="nav-end-front">Brainfucker 3001</div>
 		</div>
 	</div>
 	<div class="content">
