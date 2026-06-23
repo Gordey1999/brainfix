@@ -1,0 +1,414 @@
+# @title: Исходный код
+# @buffered_input: FALSE
+# @steps_per_frame: 50M
+
+# Это исходный код Сапера, написанный на BrainFix.
+# И его можно редактировать.
+# Чтобы собрать код в Brainfuck, используй кнопки BUILD или MIN.
+
+
+byte seed;
+byte size;
+byte bombs;
+byte intro = 18;
+byte selected = 6;
+
+
+out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+out '------------------------------------------------------';
+out '\n\n\n\n\n\n\n\n';
+out '         Убедись, что обе полосы хорошо видны';
+out '\n\n\n\n\n\n\n\n';
+out '                Нажми любую клавишу\n';
+out '------------------------------------------------------';
+in 'dummy';
+
+out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+out '    Итак... Приступим\n';
+out '    Для начала нам нужен сид для рандомизации поля\n';
+out '    Введи слово или число и нажми Enter\n';
+out '\n\n\n\n\n\n> ';
+in seed;
+
+out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+out '    Отлично! Все готово!\n';
+out '    Теперь нажми любую клавишу...';
+out '\n\n\n\n\n\n> ';
+in 'dummy';
+
+
+while (intro)
+{
+    ############################################
+    ##              Главное меню              ##
+    ############################################
+
+    while (intro)
+    {
+        out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+
+        if (intro == 1 && selected == 6) selected = 0;
+
+        for (byte i = 0; i < 17; i++)
+        {
+            byte slide;
+
+            if (intro > 12)
+            {
+                if (i % 6 >= 18 - intro) slide = 7;
+                else slide = ((49 - intro) - i + selected) % 6;
+            }
+            else slide = ((49 - intro) - i + selected) % 6;
+
+
+            if      (slide == 5) out '\| ';
+            else if (slide == 4) out ' | ';
+            else if (slide == 3) out ' |\';
+            else if (slide == 2) out ' |/';
+            else if (slide == 1) out ' / ';
+            else if (slide == 0) out '/| ';
+            else                 out '   ';
+
+            if      (i == intro - 1) out '      ___    ____  _____  _____  _____  __     ';
+            else if (i == intro + 0) out '     /   \  /    ||     ||   __||     ||  |    ';
+            else if (i == intro + 1) out '    |  |__||  |  ||  |  ||  |_  |  |  ||  |    ';
+            else if (i == intro + 2) out '    |  |__ |     ||  |  ||   _| |   __||__|    ';
+            else if (i == intro + 3) out '    |  |  ||  |  ||  |  ||  |__ |  |    __     ';
+            else if (i == intro + 4) out '     \___/ |__|__||__|__||_____||__|   |__|    ';
+
+            else if (i == intro + 8)
+                if (selected == 0)   out '                  > Просто <                   ';
+                else                 out '                    Просто                     ';
+            else if (i == intro + 9)
+                if (selected == 1)   out '                  > Средне <                   ';
+                else                 out '                    Средне                     ';
+            else if (i == intro + 10)
+                if (selected == 2)   out '                  > Сложно <                   ';
+                else                 out '                    Сложно                     ';
+
+            else if (i == intro + 15)out '        W/S - перемещение, Space - выбор       ';
+            else if (i == intro - 8)
+                if (intro == 18)     out ' И еще одну...                                 ';
+                else                 out ' Продолжай нажимать...                         ';
+
+            else                     out '                                               ';
+
+            if      (slide == 5) out ' |/';
+            else if (slide == 4) out ' /';
+            else if (slide == 3) out '/|';
+            else if (slide == 2) out '\|';
+            else if (slide == 1) out ' |';
+            else if (slide == 0) out ' |\';
+
+            out eol;
+        }
+        out '> ';
+
+        if (intro == 1)
+        {
+            char input;
+            bool again = true;
+
+            while (again)
+            {
+                again = false;
+                in input;
+
+                if      ((input == 'w' || input == 'ц') && selected > 0) selected--;
+                else if ((input == 's' || input == 'ы') && selected < 2) selected++;
+                else if (input == ' ')
+                {
+                    if (selected == 0)
+                    {
+                        size = 8;
+                        bombs = 8;
+                    }
+                    else if (selected == 1)
+                    {
+                        size = 12;
+                        bombs = 16;
+                    }
+                    else if (selected == 2)
+                    {
+                        size = 16;
+                        bombs = 32;
+                    }
+                    intro--;
+                }
+                else again = true;
+            }
+
+            intro++;
+        }
+        else in 'dummy';
+
+        intro--;
+    }
+
+
+    ############################################
+    ##             Генерация поля             ##
+    ############################################
+
+    # Обозначения на карте:
+    # 0-8        - цифры (в тумане)
+    # 'B'        - бомба (в тумане)
+    # '0' - '8'  - цифры (открыто)
+    # 'Ф'        - Флаг с бомбой
+    # 200-208    - Флаг с цифоркой
+    char map[16][16] = 0;
+    byte x = 0, y = 0;
+    bool loop = true, win = false;
+    byte rightFlags = 0, wrongFlags = 0;
+
+    # ***   Закладываем бомбы    *** #
+    for (byte i = 0; i < bombs; i++)
+    {
+        byte n, m;
+
+        do
+        {
+            seed = 137 * seed + 1;
+            n = (seed + (seed / size)) % size;
+            seed = 137 * seed + 1;
+            m = (seed + (seed / size)) % size;
+            seed++;
+
+        } while (map[n][m]);
+
+        map[n][m] = 'B';
+    }
+
+    # ***   Расставляем цифорки    *** #
+    for (byte i = 0; i < size; i++)
+    {
+        for (byte j = 0; j < size; j++)
+        {
+            if (map[i][j] == 'B')
+            {
+                byte fromI = i, toI = i, fromJ = j, toJ = j;
+
+                if (i > 0)        fromI--;
+                if (j > 0)        fromJ--;
+                if (i < size - 1) toI++;
+                if (j < size - 1) toJ++;
+
+                for (byte n = fromI; n <= toI; n++)
+                {
+                    for (byte m = fromJ; m <= toJ; m++)
+                    {
+                        if (map[n][m] != 'B')
+                        {
+                            map[n][m]++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ############################################
+    ##              Игровой цикл              ##
+    ############################################
+    while (loop)
+    {
+        # ***   Отрисовка    *** #
+        out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+
+        for (byte i = 0; i < size; i++)
+        {
+            for (byte j = 0; j < size; j++)
+            {
+                if (i == y && j == x) out '>';
+                else out ' ';
+
+                char cell = map[i][j]; # map[0][index];
+                char cellTmp = cell - 200;
+
+                if      (cell == 'B') out '.';
+                else if (cell == '0') out ' ';
+                else if (cell < 9)    out '.';
+                else if (cellTmp < 9)  out 'Ф';
+                else                  out cell;
+            }
+
+            if      (i == 0)        out '   Бомбы: ', bombs;
+            else if (i == 1)        out '   Флаги: ', rightFlags + wrongFlags;
+            else if (i == size - 3) out '   WASD  - перемещение';
+            else if (i == size - 2) out '   Space - открыть';
+            else if (i == size - 1) out '   F     - флаг';
+
+            out eol;
+        }
+
+        out '\n> ';
+
+
+        # ***   Обработка ввода    *** #
+        char input;
+        bool again = true;
+
+        while (again)
+        {
+            again = false;
+            in input;
+
+            if      ((input == 'w' || input == 'ц') && y > 0)        y--;
+            else if ((input == 's' || input == 'ы') && y < size - 1) y++;
+            else if ((input == 'a' || input == 'ф') && x > 0)        x--;
+            else if ((input == 'd' || input == 'в') && x < size - 1) x++;
+            else if ((input == 'f' || input == 'а'))
+            {
+                char cell = map[y][x];
+
+                if      (cell == 'B') map[y][x] = 'Ф';
+                else if (cell == 'Ф') map[y][x] = 'B';
+                else if (cell < 9)    map[y][x] += 200;
+                else if (cell > 199)  map[y][x] -= 200;
+                else again = true;
+
+
+                # ***   Считаем флаги   *** #
+                rightFlags = 0;
+                wrongFlags = 0;
+                for (byte i = 0; i < size; i++)
+                {
+                    for (byte j = 0; j < size; j++)
+                    {
+                        if      (map[i][j] == 'Ф') rightFlags++;
+                        else if (map[i][j] > 199)  wrongFlags++;
+                    }
+                }
+
+                if (wrongFlags == 0 && rightFlags == bombs)
+                {
+                    win = true;
+                    loop = false;
+                }
+            }
+            else if (input == ' ')
+            {
+                bool emptyFound = false;
+
+                if (map[y][x] == 'B')
+                {
+                    loop = false;
+                }
+                else if (map[y][x] == 0)
+                {
+                    map[y][x] = '0';
+                    emptyFound = true;
+                }
+                else if (map[y][x] < 9)
+                {
+                    map[y][x] += '0';
+                }
+                else again = true;
+
+                # ***   Открытие ячеек   *** #
+                while (emptyFound)
+                {
+                    emptyFound = false;
+                    for (byte i = 0; i < size; i++)
+                    {
+                        for (byte j = 0; j < size; j++)
+                        {
+                            if (map[i][j] == '0')
+                            {
+                                byte fromI = i, toI = i, fromJ = j, toJ = j;
+
+                                if (i > 0)        fromI--;
+                                if (j > 0)        fromJ--;
+                                if (i < size - 1) toI++;
+                                if (j < size - 1) toJ++;
+
+                                for (byte n = fromI; n <= toI; n++)
+                                {
+                                    for (byte m = fromJ; m <= toJ; m++)
+                                    {
+                                        char cell = map[n][m];
+
+                                        if      (cell < 9)   map[n][m] += '0';
+                                        else if (cell > 199) map[n][m] -= 152;
+
+                                        if (cell == 0 || cell == 200) emptyFound = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else again = true;
+
+
+        }
+    }
+
+    ############################################
+    ##               Конец игры               ##
+    ############################################
+    out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+
+    for (byte i = 0; i < size; i++)
+    {
+        for (byte j = 0; j < size; j++)
+        {
+            if (i == y && j == x) out '>';
+            else out ' ';
+
+            char cell = map[i][j];
+
+            if (cell == 'B' || cell == 'Ф')
+            {
+                if (win) out 'Ф';
+                else     out '*';
+            }
+            else         out ' ';
+        }
+
+        if (win)
+        {
+            if (i == 0)
+                out '   ПОБЕДА!';
+            else if (i == 1)
+            {
+                if (selected == 0)
+                    out '   Новичкам везет...';
+                else if (selected == 1)
+                    out '   Неплохо';
+                else
+                    out '   Л Е Г Е Н Д А';
+            }
+
+        }
+        else
+        {
+            if (i == 0)
+                out '   БА-БАХ!!!';
+            else if (i == 1)
+            {
+                if (rightFlags == 0 && wrongFlags == 0)
+                    out '   Это было... Быстро';
+                else if (rightFlags + 4 > bombs)
+                    out '   Почти, но нет)';
+                else if (selected == 0)
+                    out '   Может выберешь уровень попроще?)';
+                else
+                    out '   Ты проиграл';
+            }
+        }
+
+        if (i == size - 1)
+        {
+            out     '   Нажми любую кнопку';
+        }
+
+        out eol;
+    }
+
+    out '\n> ';
+    in 'dummy';
+
+    intro++;
+}
