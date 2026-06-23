@@ -7,10 +7,19 @@
         "@codemirror/lang-javascript": "^6.2.4",
         "codemirror": "^6.0.2",
         "localforage": "^1.10.0",
-        "rollup": "^4.53.3"
+        "markdown-it": "^14.2.0",
+        "rehype-stringify": "^10.0.1",
+        "remark-parse": "^11.0.0",
+        "remark-rehype": "^11.1.2",
+        "rollup": "^4.53.3",
+        "unified": "^11.0.5",
+        "unist-util-visit": "^5.1.0"
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^29.0.3",
         "@rollup/plugin-node-resolve": "^16.0.3"
+    },
+    "scripts": {
+        "build:docs": "node scripts/build-docs.js"
     }
 }

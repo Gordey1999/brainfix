@@ -25367,6 +25367,167 @@
       ])
   ])();
 
+  const bfLanguage = StreamLanguage.define({
+  	name: "brainfuck",
+  	startState() {
+  		return { inComment: false };
+  	},
+  	token(stream, state) {
+  		if (stream.sol()) {
+  			state.inComment = false;
+  		}
+
+  		if (stream.match(/^###.*/)) {
+  			return "string"
+  		}
+
+  		if (!state.inComment) {
+  			if (
+  				stream.match(/^#\s*@title.*/i)
+  				|| stream.match(/^#\s*@memory.*/i)
+  				|| stream.match(/^#\s*@steps_per_frame.*/i)
+  				|| stream.match(/^#\s*@buffered_input.*/i)
+  			) {
+  				return "meta"
+  			}
+
+  			if (stream.eat('#')) {
+  				state.inComment = true;
+  				return "comment"
+  			}
+  		}
+
+  		if (state.inComment) {
+  			if (stream.match(/^`-?\d+`/)) {
+  				return "number"
+  			}
+  			if (stream.match(/^R\d+/)) {
+  				return "variableName"
+  			}
+  			if (stream.match(/^[$_a-zA-Z][$_a-zA-Z0-9]*\(\d+\)/)) {
+  				return "variableName"
+  			}
+
+  			stream.next();
+  			return "comment"
+  		}
+
+  		if (stream.match(/^#.*/)) {
+  			return "comment"
+  		}
+
+  		if (stream.match(/[><+\-.,]/)) {
+  			return "keyword"
+  		}
+
+  		if (stream.match(/[\[\]]/)) {
+  			return "bracket"
+  		}
+
+  		stream.next();
+  		return null
+  	}
+  });
+
+  const bfHighlight = HighlightStyle.define([
+  	{ tag: tags.comment, color: "#367d20", fontStyle: "italic" },
+  	{ tag: tags.keyword, color: "#952222", fontWeight: "bold" },
+  	{ tag: tags.string, color: "#0062c7", fontStyle: "italic" },
+  	{ tag: tags.number, color: "#0062c7", fontStyle: "italic" },
+  	{ tag: tags.variableName, color: "#bd8b29", fontStyle: "italic" },
+  	{ tag: tags.meta, color: "#007a80", fontStyle: "italic" },
+  ]);
+
+  const bfExt = [ bfLanguage, syntaxHighlighting(bfHighlight) ];
+
+  const bfxLanguage = StreamLanguage.define({
+  	name: "BrainFix",
+  	startState() {
+  		return { inString: false, inComment: false };
+  	},
+
+  	token(stream, state) {
+  		if (state.inString && stream.eat(state.inString)) {
+  			state.inString = false;
+  			return "string"
+  		}
+  		if (stream.sol()) {
+  			state.inComment = false;
+  		}
+
+  		if (!state.inString && !state.inComment) {
+  			if (stream.eat('"')) {
+  				state.inString = '"';
+  				return "string"
+  			}
+  			if (stream.eat("'")) {
+  				state.inString = "'";
+  				return "string"
+  			}
+  			if (
+  				stream.match(/^#\s*@title.*/i)
+  				|| stream.match(/^#\s*@steps_per_frame.*/i)
+  				|| stream.match(/^#\s*@buffered_input.*/i)
+  				|| stream.match(/^#\s*@comment_level.*/i)
+  				|| stream.match(/^#\s*@version.*/i)
+  			) {
+  				return "meta"
+  			}
+  			if (stream.eat('#')) {
+  				state.inComment = true;
+  				return "comment"
+  			}
+  		}
+
+  		if (state.inComment) {
+  			stream.next();
+  			return "comment"
+  		}
+  		if (state.inString) {
+  			if (stream.match(/^\\n/)) {
+  				return "number"
+  			}
+
+  			stream.next();
+  			return "string"
+  		}
+
+  		if (stream.match(/^@[$_a-zA-Z][$_a-zA-Z0-9]*/)) {
+  			return 'modifier'
+  		}
+
+  		if (stream.match(/^(?:char|byte|bool|if|else|do|while|for|in|out|sizeof)\b/)) {
+  			return "keyword"
+  		}
+
+  		if (stream.match(/^(?:true|false|eol)\b/)) {
+  			return "number"
+  		}
+
+  		if (stream.match(/^\d+/)) {
+  			return "number"
+  		}
+  		if (stream.match(/^[$_a-zA-Z][$_a-zA-Z0-9]*/)) {
+  			return "variableName"
+  		}
+
+  		stream.next();
+  		return null
+  	}
+  });
+
+  const bfxHighlight = HighlightStyle.define([
+  	{ tag: tags.comment, color: "#777", fontStyle: "italic" },
+  	{ tag: tags.keyword, color: "#224395", fontWeight: "600" },
+  	{ tag: tags.string, color: "#367d20" },
+  	{ tag: tags.number, color: "#0062c7" },
+  	{ tag: tags.variableName, color: "#a22222" },
+  	{ tag: tags.modifier, color: "#1395bd", fontWeight: "bold" },
+  	{ tag: tags.meta, color: "#007a80", fontStyle: "italic" },
+  ]);
+
+  const bfxExt = [ bfxLanguage, syntaxHighlighting(bfxHighlight), indentUnit.of('    ') ];
+
   const setActivePosition = StateEffect.define();
   const activeLineDeco = Decoration.line({
   	class: "cm-active-debug-line"
@@ -25461,7 +25622,7 @@
 
   	constructor(parent, code = '') {
   		this._defineBf();
-  		this._defineBb();
+  		this._defineBfx();
 
   		this._defaultExt = [
   			basicSetup,
@@ -25541,168 +25702,11 @@
   	}
 
   	_defineBf() {
-  		const bfLanguage = StreamLanguage.define({
-  			name: "brainfuck",
-  			startState() {
-  				return { inComment: false };
-  			},
-  			token(stream, state) {
-  				if (stream.sol()) {
-  					state.inComment = false;
-  				}
-
-  				if (stream.match(/^###.*/)) {
-  					return "string"
-  				}
-
-  				if (!state.inComment) {
-  					if (
-  						stream.match(/^#\s*@title.*/i)
-  						|| stream.match(/^#\s*@memory.*/i)
-  						|| stream.match(/^#\s*@steps_per_frame.*/i)
-  						|| stream.match(/^#\s*@buffered_input.*/i)
-  					) {
-  						return "meta"
-  					}
-
-  					if (stream.eat('#')) {
-  						state.inComment = true;
-  						return "comment"
-  					}
-  				}
-
-  				if (state.inComment) {
-  					if (stream.match(/^`-?\d+`/)) {
-  						return "number"
-  					}
-  					if (stream.match(/^R\d+/)) {
-  						return "variableName"
-  					}
-  					if (stream.match(/^[$_a-zA-Z][$_a-zA-Z0-9]*\(\d+\)/)) {
-  						return "variableName"
-  					}
-
-  					stream.next();
-  					return "comment"
-  				}
-
-  				if (stream.match(/^#.*/)) {
-  					return "comment"
-  				}
-
-  				if (stream.match(/[><+\-.,]/)) {
-  					return "keyword"
-  				}
-
-  				if (stream.match(/[\[\]]/)) {
-  					return "bracket"
-  				}
-
-  				stream.next();
-  				return null
-  			}
-  		});
-
-  		const bfHighlight = HighlightStyle.define([
-  			{ tag: tags.comment, color: "#367d20", fontStyle: "italic" },
-  			{ tag: tags.keyword, color: "#952222", fontWeight: "bold" },
-  			{ tag: tags.string, color: "#0062c7", fontStyle: "italic" },
-  			{ tag: tags.number, color: "#0062c7", fontStyle: "italic" },
-  			{ tag: tags.variableName, color: "#bd8b29", fontStyle: "italic" },
-  			{ tag: tags.meta, color: "#007a80", fontStyle: "italic" },
-  		]);
-
-  		this._bfExt = [ bfLanguage, syntaxHighlighting(bfHighlight) ];
+  		this._bfExt = bfExt;
   	}
 
-  	_defineBb() {
-  		const bbLanguage = StreamLanguage.define({
-  			name: "bigBrain",
-  			startState() {
-  				return { inString: false, inComment: false };
-  			},
-
-  			token(stream, state) {
-  				if (state.inString && stream.eat(state.inString)) {
-  					state.inString = false;
-  					return "string"
-  				}
-  				if (stream.sol()) {
-  					state.inComment = false;
-  				}
-
-  				if (!state.inString && !state.inComment) {
-  					if (stream.eat('"')) {
-  						state.inString = '"';
-  						return "string"
-  					}
-  					if (stream.eat("'")) {
-  						state.inString = "'";
-  						return "string"
-  					}
-  					if (
-  						stream.match(/^#\s*@title.*/i)
-  						|| stream.match(/^#\s*@steps_per_frame.*/i)
-  						|| stream.match(/^#\s*@buffered_input.*/i)
-  						|| stream.match(/^#\s*@comment_level.*/i)
-  						|| stream.match(/^#\s*@version.*/i)
-  					) {
-  						return "meta"
-  					}
-  					if (stream.eat('#')) {
-  						state.inComment = true;
-  						return "comment"
-  					}
-  				}
-
-  				if (state.inComment) {
-  					stream.next();
-  					return "comment"
-  				}
-  				if (state.inString) {
-  					if (stream.match(/^\\n/)) {
-  						return "number"
-  					}
-
-  					stream.next();
-  					return "string"
-  				}
-
-  				if (stream.match(/^@[$_a-zA-Z][$_a-zA-Z0-9]*/)) {
-  					return 'modifier'
-  				}
-
-  				if (stream.match(/^(?:char|byte|bool|if|else|do|while|for|in|out|sizeof)\b/)) {
-  					return "keyword"
-  				}
-
-  				if (stream.match(/^(?:true|false|eol)\b/)) {
-  					return "number"
-  				}
-
-  				if (stream.match(/^\d+/)) {
-  					return "number"
-  				}
-  				if (stream.match(/^[$_a-zA-Z][$_a-zA-Z0-9]*/)) {
-  					return "variableName"
-  				}
-
-  				stream.next();
-  				return null
-  			}
-  		});
-
-  		const bbHighlight = HighlightStyle.define([
-  			{ tag: tags.comment, color: "#777", fontStyle: "italic" },
-  			{ tag: tags.keyword, color: "#224395", fontWeight: "600" },
-  			{ tag: tags.string, color: "#367d20" },
-  			{ tag: tags.number, color: "#0062c7" },
-  			{ tag: tags.variableName, color: "#a22222" },
-  			{ tag: tags.modifier, color: "#1395bd", fontWeight: "bold" },
-  			{ tag: tags.meta, color: "#007a80", fontStyle: "italic" },
-  		]);
-
-  		this._bbExt = [ bbLanguage, syntaxHighlighting(bbHighlight), indentUnit.of('    ') ];
+  	_defineBfx() {
+  		this._bbExt = bfxExt;
   	}
 
   	highlightPosition(position) {
@@ -27105,8 +27109,8 @@
   function requireLocalforage () {
   	if (hasRequiredLocalforage) return localforage$1.exports;
   	hasRequiredLocalforage = 1;
-  	(function (module, exports$1) {
-  		(function(f){{module.exports=f();}})(function(){return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof commonjsRequire=="function"&&commonjsRequire;if(!u&&a)return a(o,true);if(i)return i(o,true);var f=new Error("Cannot find module '"+o+"'");throw (f.code="MODULE_NOT_FOUND", f)}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r);}return n[o].exports}var i=typeof commonjsRequire=="function"&&commonjsRequire;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports$1){
+  	(function (module, exports) {
+  		(function(f){{module.exports=f();}})(function(){return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof commonjsRequire=="function"&&commonjsRequire;if(!u&&a)return a(o,true);if(i)return i(o,true);var f=new Error("Cannot find module '"+o+"'");throw (f.code="MODULE_NOT_FOUND", f)}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r);}return n[o].exports}var i=typeof commonjsRequire=="function"&&commonjsRequire;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
   		(function (global){
   		var Mutation = global.MutationObserver || global.WebKitMutationObserver;
 
@@ -27178,7 +27182,7 @@
   		}
 
   		}).call(this,typeof commonjsGlobal !== "undefined" ? commonjsGlobal : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
-  		},{}],2:[function(_dereq_,module,exports$1){
+  		},{}],2:[function(_dereq_,module,exports){
   		var immediate = _dereq_(1);
 
   		/* istanbul ignore next */
@@ -27432,14 +27436,14 @@
   		  }
   		}
 
-  		},{"1":1}],3:[function(_dereq_,module,exports$1){
+  		},{"1":1}],3:[function(_dereq_,module,exports){
   		(function (global){
   		if (typeof global.Promise !== 'function') {
   		  global.Promise = _dereq_(2);
   		}
 
   		}).call(this,typeof commonjsGlobal !== "undefined" ? commonjsGlobal : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
-  		},{"2":2}],4:[function(_dereq_,module,exports$1){
+  		},{"2":2}],4:[function(_dereq_,module,exports){
 
   		var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
