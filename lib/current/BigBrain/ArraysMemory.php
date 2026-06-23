@@ -38,9 +38,9 @@ class ArraysMemory
 		{
 			throw new CompileError('empty array size', $name);
 		}
-		if ($type->plainSize() > self::MAX_SIZE)
+		if (max($sizes) > self::MAX_SIZE)
 		{
-			throw new CompileError('size of array must not be greater than ' . self::MAX_SIZE, $name);
+			throw new CompileError('array dimension size must not be greater than ' . self::MAX_SIZE, $name);
 		}
 		if ($startIndex + $type->plainSize() > $this->size)
 		{

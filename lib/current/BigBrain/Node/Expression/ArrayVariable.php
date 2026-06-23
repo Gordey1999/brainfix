@@ -3,7 +3,6 @@
 namespace Gordy\Brainfuck\BigBrain\Node\Expression;
 
 use Gordy\Brainfuck\BigBrain;
-use Gordy\Brainfuck\BigBrain\Data\IndexData;
 use Gordy\Brainfuck\BigBrain\Environment;
 use Gordy\Brainfuck\BigBrain\Exception\CompileError;
 use Gordy\Brainfuck\BigBrain\MemoryCell;
@@ -60,7 +59,8 @@ class ArrayVariable implements Expression, Assignable
 	public function fillArray(Environment $env, MemoryCellArray $pointer, Expression $value) : void
 	{
 		$plainArray = $this->prepareArrayValues($env, $pointer->type(), $value);
-		$env->arraysProcessor()->fill(new IndexData($pointer), $plainArray);
+		$env->arraysProcessor()->computeIndex($pointer->startIndex());
+		$env->arraysProcessor()->fill($plainArray);
 	}
 
 	public function prepareArrayValues(Environment $env, Type\Pointer $pointer, Expression $value) : array

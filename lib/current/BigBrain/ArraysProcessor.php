@@ -2,7 +2,6 @@
 
 namespace Gordy\Brainfuck\BigBrain;
 
-use Gordy\Brainfuck\BigBrain\Data\IndexData;
 use Gordy\Brainfuck\BigBrain\Utils\Encoder;
 
 class ArraysProcessor
@@ -10,14 +9,21 @@ class ArraysProcessor
 	public const int CELL_SIZE = 2;
 	public const int MAX_INDEX = 255;
 
+	public const string POINTER_STATUS_FREE = 'free'; // за пределами массива
+	public const string POINTER_STATUS_INDEX = 'index'; // на ячейке с индексом
+
 	protected Processor $processor;
+	protected MemoryPointer $pointer;
 	protected OutputStream $stream;
 	protected int $offset;
 	protected bool $uglify;
 
-	public function __construct(Processor $processor, OutputStream $stream, int $offset, bool $uglify)
+	protected string $pointerStatus = self::POINTER_STATUS_FREE;
+
+	public function __construct(Processor $processor, MemoryPointer $pointer, OutputStream $stream, int $offset, bool $uglify)
 	{
 		$this->processor = $processor;
+		$this->pointer = $pointer;
 		$this->stream = $stream;
 		$this->offset = $offset;
 		$this->uglify = $uglify;
@@ -40,223 +46,260 @@ class ArraysProcessor
 
 	public function carryCell() : MemoryCell
 	{
-		return new MemoryCell($this->offset + 2 * self::CELL_SIZE, 'i1');
+		return new MemoryCell($this->offset + 1, 'adr_d');
 	}
 
-	public function initIndex(IndexData $index) : int
+	public function calculateIndex(int $multiplier) : void
 	{
-		$leftOffset = 0;
+		$this->gotoStart();
 
-		$staticOffset = $index->startOffset() + $index->computedOffset();
+		$incr = '+>>';
+		$this->stream->write(sprintf(
+			'[[-%s+%s]%s-]',
+			Encoder::moveForward($multiplier * 2),
+			Encoder::moveBack($multiplier * 2),
+			str_repeat($incr, $multiplier)
+		), "calculate target index(x$multiplier)");
 
-		if ($staticOffset + $index->maxDynamicOffset() <= self::MAX_INDEX)
+		$this->pointerStatus = self::POINTER_STATUS_INDEX;
+		$this->pointer->setLostState($this->freePointer(...));
+	}
+
+	public function calculateAddedIndex(int $multiplier) : void
+	{
+		$this->moveCarryToNextIndex();
+		$this->moveNextIndexToIndex();
+
+		$incr = '+>>';
+		$this->stream->write(sprintf(
+			'[[-%s+%s]%s-]',
+			Encoder::moveForward($multiplier * 2),
+			Encoder::moveBack($multiplier * 2),
+			str_repeat($incr, $multiplier)
+		), "calculate target index(x$multiplier)");
+
+		$this->pointerStatus = self::POINTER_STATUS_INDEX;
+		$this->pointer->setLostState($this->freePointer(...));
+	}
+
+	public function computeIndex(int $offset, bool $firstIndex = true) : void
+	{
+		if ($offset === 0) { return; }
+
+		if ($firstIndex)
 		{
-			$this->stream->startGroup("init static offset with `$staticOffset`");
-			$this->processor->addConstant($this->startCell(), $staticOffset);
-			$this->stream->endGroup();
+			$this->gotoStart();
 		}
 		else
 		{
-			if ($staticOffset <= self::MAX_INDEX)
-			{
-				$leftOffset = $staticOffset;
-			}
-			else if ($staticOffset % self::MAX_INDEX + $index->maxDynamicOffset() <= self::MAX_INDEX)
-			{
-				$nowOffset = $staticOffset % self::MAX_INDEX;
-				$leftOffset = $staticOffset - $nowOffset;
-
-				$this->stream->startGroup("init static offset with `$nowOffset`(`$leftOffset` in remainder)");
-				$this->processor->addConstant($this->startCell(), $nowOffset);
-				$this->stream->endGroup();
-			}
-			else
-			{
-				$leftOffset = $staticOffset;
-			}
+			$this->gotoIndex();
 		}
-		$this->processor->goto($this->startCell());
 
-		return $leftOffset;
+		$this->stream->write(str_repeat('+>>', $offset), "calculate target index(+$offset)");
+
+		$this->pointerStatus = self::POINTER_STATUS_INDEX;
+		$this->pointer->setLostState($this->freePointer(...));
 	}
 
-	public function get(IndexData $index) : MemoryCell
+	public function moveCarryToValue() : void
 	{
-		$this->gotoTargetIndex($index);
-
-		$this->stream->write('>', 'goto target cell');
-
-		$this->stream->write('[-<+>>+<]<[->+<]+', 'copy carry');
-		$this->stream->write('[->>[-<<+>>]<<<<]', 'move carry');
-
-		// todo чуть быстрее для больших массивов 570 эл (805k => 687k)
-		// >>[-[<<]>+>[>>]<<]
-		// >-<<<[-<<]
-		$this->processor->setPointer($this->initCell());
-
-		return $this->startCell();
+		$this->gotoCarry();
+		$this->stream->write('[->[>>]>+<<<[<<]>]', 'add carry to value');
 	}
 
-	public function setConstant(IndexData $index, int $value) : void
+	public function subCarryFromValue() : void
 	{
-		$this->goto($index, function() use ($value) {
-			$this->setCurrentByConstant($value);
-		});
+		$this->gotoCarry();
+		$this->stream->write('[->[>>]>-<<<[<<]>]', 'sub carry from value');
 	}
 
-	public function addConstant(IndexData $index, int $value) : void
+	public function getValue() : MemoryCell
 	{
-		$this->goto($index, function() use ($value) {
+		$this->gotoIndex();
+
+		$this->stream->write('>[->+<]>', 'copy carry');
+		$this->stream->write('[-<+<<<[<<]>+>[>>]>>]', 'move carry');
+		$this->stream->write('<<', 'goto target index');
+
+		return $this->carryCell();
+	}
+
+	public function takeValue() : MemoryCell
+	{
+		$this->gotoIndex();
+
+		$this->stream->write('>[-<<<[<<]>+>[>>]>]', 'move value to start');
+		$this->stream->write('<', 'goto target index');
+
+		return $this->carryCell();
+	}
+
+	public function setConstant(int $value) : void
+	{
+		$this->goto(function() use ($value) {
+			$this->stream->startGroup("set target value with `$value`");
+			$this->stream->write('[-]', 'unset value');
 			$this->addConstantToCurrent($value);
+			$this->stream->endGroup();
 		});
 	}
 
-	public function print(IndexData $index) : void
+	public function addConstant(int $value) : void
 	{
-		$this->goto($index, function() {
+		$this->goto(function() use ($value) {
+			$this->stream->startGroup("set target value with `$value`");
+			$this->addConstantToCurrent($value);
+			$this->stream->endGroup();
+		});
+	}
+
+	public function print() : void
+	{
+		$this->goto(function() {
 			$this->stream->write('.', 'print value');
 		});
 	}
 
-	public function input(IndexData $index) : void
+	public function input() : void
 	{
-		$this->goto($index, function() {
-			$this->stream->write(',', 'input value');
+		$this->goto(function() {
+			$this->stream->write(',', 'print value');
 		});
 	}
 
-	public function printString(IndexData $index, int $size) : void
+	public function printString(int $size) : void
 	{
-		$this->walk($index, $size, function() use (&$values) {
+		$this->walk($size, function() use (&$values) {
 			$this->stream->write('.');
 		}, 'print array');
 	}
 
-	public function inputString(IndexData $index) : void
+	public function inputString() : void
 	{
-		$this->gotoIndex($index, function() {
-			$this->stream->write(
-				'+[>>>>,----------[++++++++++<<<[-]>>>[-<<<+>>>]<<+>>]<<]<<',
-				'input until enter'
-			);
-		});
+		$this->gotoIndex();
+		$this->stream->write(
+			'+[>>>>,----------[++++++++++<<<[-]>>>[-<<<+>>>]<<+>>]<<]<<',
+			'input until enter'
+		);
+		$this->clearIndex();
 	}
 
-	public function fill(IndexData $index, array $values) : void
+	public function fill(array $values) : void
 	{
-		$this->walk($index, count($values), function() use (&$values) {
+		$this->walk(count($values), function() use (&$values) {
 			$value = array_shift($values);
-			$this->setCurrentByConstant($value);
+			$this->stream->write('[-]', 'unset value');
+			$this->addConstantToCurrent($value);
 		});
 	}
 
-	public function set(IndexData $index) : void
+	public function unsetValue() : void
 	{
-		$this->gotoMove($index, function() {
-			$this->stream->write('[-]>[-<+>]<', 'set value');
-		});
+		$this->gotoIndex();
+		$this->stream->write('>[-]<', 'unset value');
 	}
 
-	public function add(IndexData $index) : void
+	public function add() : void
 	{
-		$this->gotoMove($index, function() {
-			$this->stream->write('>[-<+>]<', 'add to value');
-		});
+		$this->moveCarryToValue();
+		$this->clearIndex();
 	}
 
-	public function sub(IndexData $index) : void
+	public function sub() : void
 	{
-		$this->gotoMove($index, function() {
-			$this->stream->write('>[-<->]<', 'sub from value');
-		});
+		$this->subCarryFromValue();
+		$this->clearIndex();
 	}
 
-	protected function goto(IndexData $index, callable $callback) : void
+	protected function gotoStart() : void
 	{
-		$this->gotoTargetIndex($index);
+		$this->processor->goto($this->startCell());
+	}
+
+	protected function gotoCarry() : void
+	{
+		$this->processor->goto($this->carryCell());
+	}
+
+	protected function gotoIndex() : void
+	{
+		if ($this->pointerStatus === self::POINTER_STATUS_INDEX) { return; }
+
+		$this->gotoStart();
+
+		$this->stream->write('[>>]', "goto target index");
+
+		$this->pointerStatus = self::POINTER_STATUS_INDEX;
+		$this->pointer->setLostState($this->freePointer(...));
+	}
+
+	protected function freePointer() : int
+	{
+		if ($this->pointerStatus === self::POINTER_STATUS_INDEX)
+		{
+			$this->stream->write('<<[<<]', 'return to start');
+			$this->pointerStatus = self::POINTER_STATUS_FREE;
+		}
+
+		return $this->initCell()->address();
+	}
+
+	public function clearIndex() : void
+	{
+		$this->gotoIndex();
+		$this->stream->write('<<[-<<]', 'clear index');
+		$this->pointerStatus = self::POINTER_STATUS_FREE;
+	}
+
+	protected function moveCarryToNextIndex() : void
+	{
+		$this->gotoCarry();
+		$this->stream->write('[->[>>]>>+<<<<[<<]>]', 'carry value');
+	}
+
+	protected function moveNextIndexToIndex() : void
+	{
+		$this->gotoIndex();
+		$this->stream->write('>>[-<<+>>]<<', 'copy carry to index');
+	}
+
+	protected function goto(callable $callback) : void
+	{
+		$this->gotoIndex();
+		$this->stream->write('>', 'goto target cell');
+
+		$callback();
+
+		$this->stream->write('<', 'goto target index');
+		$this->clearIndex();
+	}
+
+	protected function walk(int $count, callable $callback, string $groupComment = null) : void
+	{
+		if ($count === 0) { return; }
+		$this->gotoIndex();
 
 		$this->stream->write('+>', 'goto target cell');
 
-		$callback();
-
-		$this->stream->write('<[-<<]', 'return to start');
-		$this->processor->setPointer($this->initCell());
-	}
-
-	protected function gotoIndex(IndexData $index, callable $callback) : void
-	{
-		$this->gotoTargetIndex($index);
-
-		$callback();
-
-		$this->stream->write('[-<<]', 'return to start');
-		$this->processor->setPointer($this->initCell());
-	}
-
-	protected function gotoTargetIndex(IndexData $index) : void
-	{
-		$leftOffset = $this->initIndex($index);
-		$this->stream->write('[[->>+<<]+>>-]', "goto target index(`$leftOffset` in remainder)");
-
-		// todo можно ходить сразу по 10 ячеек например.
-		while ($leftOffset)
+		if ($groupComment !== null)
 		{
-			$nowOffset = min($leftOffset, self::MAX_INDEX);
-			$leftOffset -= $nowOffset;
-
-			$this->addConstantToCurrent($nowOffset);
-			$this->stream->write('[[->>+<<]+>>-]', "goto target index(`$leftOffset` in remainder)");
+			$this->stream->startGroup($groupComment);
 		}
-	}
-
-	protected function gotoMove(IndexData $index, callable $callback) : void
-	{
-		$leftOffset = $this->initIndex($index);
-		$this->stream->write('[>>[->>+<<]<<[->>+<<]+>>-]', "move carry to target index(`$leftOffset` in remainder)");
-
-		while ($leftOffset)
+		for ($i = 0; $i < $count; $i++)
 		{
-			$nowOffset = min($leftOffset, self::MAX_INDEX);
-			$leftOffset -= $nowOffset;
-
-			$this->addConstantToCurrent($nowOffset);
-			$this->stream->write('[>>[->>+<<]<<[->>+<<]+>>-]', "move carry to target index(`$leftOffset` in remainder)");
+			$callback();
+			if ($i < $count - 1)
+			{
+				$this->stream->write('>+>', 'goto next');
+			}
+		}
+		if ($groupComment !== null)
+		{
+			$this->stream->endGroup();
 		}
 
-		$this->stream->write('+>', 'goto target value');
-
-		$callback();
-
-		$this->stream->write('<[-<<]', 'return to start');
-		$this->processor->setPointer($this->initCell());
-	}
-
-	protected function walk(IndexData $index, int $count, callable $callback, string $groupComment = null) : void
-	{
-		$this->goto($index, function() use ($count, $callback, $groupComment) {
-			if ($groupComment !== null)
-			{
-				$this->stream->startGroup($groupComment);
-			}
-			for ($i = 0; $i < $count; $i++)
-			{
-				$callback();
-				if ($i < $count - 1)
-				{
-					$this->stream->write('>+>', 'goto next');
-				}
-			}
-			if ($groupComment !== null)
-			{
-				$this->stream->endGroup();
-			}
-		});
-	}
-
-	protected function setCurrentByConstant(int $value) : void
-	{
-		$this->stream->write('[-]', 'unset value');
-		$this->addConstantToCurrent($value);
+		$this->stream->write('>', 'goto target index');
+		$this->clearIndex();
 	}
 
 	protected function addConstantToCurrent(int $value) : void
@@ -271,7 +314,7 @@ class ArraysProcessor
 			$code = sprintf('>%s[-<%s>]<%s',
 				Encoder::plus($a),
 				$shortValue > 0 ? Encoder::plus($b) : Encoder::minus($b),
-			    $c > 0 ? Encoder::plus($c) : Encoder::minus(-$c)
+				$c > 0 ? Encoder::plus($c) : Encoder::minus(-$c)
 			);
 		}
 		else

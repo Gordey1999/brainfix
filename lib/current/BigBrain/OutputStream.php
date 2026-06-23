@@ -9,6 +9,8 @@ class OutputStream
 	public const int COMMENT_LEVEL_MEMORY = 1;
 	public const int COMMENT_LEVEL_NONE = 0;
 
+	public const int MAX_LINE_LENGTH = 100;
+
 	protected const int CODE_WIDTH = 30;
 	protected const int INDENT_WIDTH = 2;
 
@@ -76,7 +78,7 @@ class OutputStream
 
 	public function memoryComment(int $address, string $name) : void
 	{
-		$maxLength = 100;
+		$maxLength = self::MAX_LINE_LENGTH;
 		$part = " $address:$name";
 
 		$last = $this->getLastComment();
@@ -151,6 +153,7 @@ class OutputStream
 				$indent = str_repeat(' ', $indentCount);
 
 				$lines = $this->combineLines($block['code'], $indent);
+				$lines = $this->splitLines($lines, $indent);
 
 				if ($this->commentLevel === self::COMMENT_LEVEL_FULL)
 				{
@@ -176,7 +179,7 @@ class OutputStream
 	public function buildMin() : string
 	{
 		$code = $this->getMin();
-		$lines = mb_str_split($code, 100);
+		$lines = mb_str_split($code, self::MAX_LINE_LENGTH);
 
 		return $this->buildHeaders() . implode("\n", $lines);
 	}
@@ -300,6 +303,11 @@ class OutputStream
 
 		$result[] = implode('', $currentLine);
 		return $result;
+	}
+
+	protected function splitLines(array $lines, string $indent) : array
+	{
+		return $lines;
 	}
 
 	protected function getLastComment() : string

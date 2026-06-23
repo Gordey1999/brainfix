@@ -5,14 +5,15 @@ use Gordy\Brainfuck\BigBrain\Utils\Encoder;
 
 class Processor
 {
-	protected int $pointer = 0;
+	protected MemoryPointer $pointer;
 	protected array $registry;
 	protected bool $uglify;
 
 	protected OutputStream $stream;
 
-	public function __construct(OutputStream $stream, int $registrySize, bool $uglify)
+	public function __construct(MemoryPointer $pointer, OutputStream $stream, int $registrySize, bool $uglify)
 	{
+		$this->pointer = $pointer;
 		$this->stream = $stream;
 		$this->registry = array_fill(0, $registrySize, false);
 		$this->uglify = $uglify;
@@ -28,7 +29,7 @@ class Processor
 		if (empty($near))
 		{
 			$near = [
-				new MemoryCell($this->pointer, 'dummy'),
+				new MemoryCell($this->pointer->get(), 'dummy'),
 			];
 		}
 
@@ -61,10 +62,9 @@ class Processor
 		return new MemoryCell($nearest, "R$nearest");
 	}
 
-	/** @internal */
-	public function setPointer(MemoryCell $pointer) : void
+	protected function setPointer(MemoryCell $pointer) : void
 	{
-		$this->pointer = $pointer->address();
+		$this->pointer->set($pointer->address());
 	}
 
 	public function reserveSeveral(int $count, MemoryCell ...$near) : array
@@ -353,17 +353,8 @@ class Processor
 
 	public function goto(MemoryCell $to) : void
 	{
-		$this->stream->write(Encoder::goto($this->pointer, $to->address()), "goto $to");
+		$this->stream->write(Encoder::goto($this->pointer->get(), $to->address()), "goto $to");
 		$this->setPointer($to);
-	}
-
-	public function unsetSeveral(MemoryCell ...$to) : void
-	{
-		sort($to);
-		foreach ($to as $address)
-		{
-			$this->unset($address);
-		}
 	}
 
 	public function unset(MemoryCell $to) : void

@@ -3,7 +3,6 @@
 namespace Gordy\Brainfuck\BigBrain\Node\Command;
 
 use Gordy\Brainfuck\BigBrain;
-use Gordy\Brainfuck\BigBrain\Data\IndexData;
 use Gordy\Brainfuck\BigBrain\Environment;
 use Gordy\Brainfuck\BigBrain\Exception\CompileError;
 use Gordy\Brainfuck\BigBrain\Node\Expression\Operator\ArrayAccess;
@@ -108,9 +107,8 @@ class Input implements Node\Command
 
 	protected function inputArrayIndex(Environment $env, ArrayAccess $expr) : void
 	{
-		$cell = $env->arraysProcessor()->startCell();
-		$indexData = $expr->calculateIndex($env, $cell);
-		$env->arraysProcessor()->input($indexData);
+		$expr->calculateIndex($env);
+		$env->arraysProcessor()->input();
 	}
 
 	public function inputNumber(Environment $env, Expression\ScalarVariable $var) : void
@@ -146,14 +144,13 @@ class Input implements Node\Command
 	{
 		if ($part instanceof Expression\ArrayVariable)
 		{
-			$indexData = new IndexData($part->memoryCell($env));
-			$env->arraysProcessor()->inputString($indexData);
+			$env->arraysProcessor()->computeIndex($part->memoryCell($env)->startIndex());
+			$env->arraysProcessor()->inputString();
 		}
 		else if ($part instanceof ArrayAccess)
 		{
-			$indexCell = $env->arraysProcessor()->startCell();
-			$indexData = $part->calculateIndex($env, $indexCell);
-			$env->arraysProcessor()->inputString($indexData);
+			$part->calculateIndex($env);
+			$env->arraysProcessor()->inputString();
 		}
 		else
 		{

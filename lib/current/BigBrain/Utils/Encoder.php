@@ -27,12 +27,12 @@ class Encoder
 		return self::prettyNumber('-', $length);
 	}
 
-	protected static function moveForward(int $length) : string
+	public static function moveForward(int $length) : string
 	{
 		return str_repeat('>', $length);
 	}
 
-	protected static function moveBack(int $length) : string
+	public static function moveBack(int $length) : string
 	{
 		return str_repeat('<', $length);
 	}
