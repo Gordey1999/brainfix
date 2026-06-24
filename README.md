@@ -10,7 +10,7 @@
 
 Писать код на Brainfuck еще никогда не было так легко!
 
-![Интерфейс Brainfix Studio](docs/wiki/assets/img/brainfix-preview.png)
+![Пример кода на Brainfix](docs/wiki/assets/img/brainfix-preview.png)
 
 **Главные фишки Brainfix**
 * **Си-синтаксис:** Забудьте про хаос из `><+-`. Используйте привычные переменные, многомерные массивы, циклы (`for`, `while`, `do-while`) и условия (`if-else`).
@@ -18,7 +18,7 @@
 * **Экстремальная оптимизация:** Умный компилятор анализирует ваш код и генерирует максимально короткие и быстрые цепочки команд для Brainfuck.
 * **Защита вашего разума:** Название говорит само за себя. Проект создан для того, чтобы писать сложные программы на Brainfuck и сохранять рассудок.
 
-<a href="https://gordey1999.github.io/brainfix/wiki/" target="_blank" style="display: inline-block; background: #28a745; color: white; padding: 8px 16px; text-decoration: none; border-radius: 5px; font-weight: bold;">Читать документацию по языку</a>
+[![Читать документацию](docs/wiki/assets/img/btn-docs.svg)](https://gordey1999.github.io/brainfix/wiki/)
 
 ## Экосистема и Веб-IDE (Brainfix Studio)
 
@@ -33,8 +33,7 @@
 *  **Встроенный интерпретатор:** Запускайте готовые `.bf` программы любой сложности и взаимодействуйте с ними через удобный терминал.
 *  **Визуальная отладка:** Следите за каждым шагом программы и значениями в ячейках памяти для быстрого поиска и исправления ошибок.
 
-
-<a href="https://gordey1999.github.io/brainfix/" target="_blank" style="display: inline-block; background: #28a745; color: white; padding: 8px 16px; text-decoration: none; border-radius: 5px; font-weight: bold;">Запустить онлайн-редактор</a>
+[![Запустить онлайн-редактор](docs/wiki/assets/img/btn-ide.svg)](https://gordey1999.github.io/brainfix/)
 
 ## Проекты, созданные на Brainfix
 
@@ -43,9 +42,15 @@
 * **Игра «Сапер»** — классическая головоломка с генерацией поля, флагами и открытием ячеек.
 * **Игра «Ним»** — математическая игра против искусственного интеллекта.
 
-<div style="display: flex; gap: 10px; justify-content: center;">
-    <img src="docs/wiki/assets/img/saper.gif" style="width: 50%; max-width: 400px;" alt="Демо 1" />
-    <img src="docs/wiki/assets/img/nim.gif" style="width: 50%; max-width: 400px;" alt="Демо 2" />
-</div>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <img src="docs/wiki/assets/img/saper.gif" alt="Демо игры Сапер" />
+    </td>
+    <td width="50%" align="center">
+      <img src="docs/wiki/assets/img/nim.gif" alt="Демо игры Ним" />
+    </td>
+  </tr>
+</table>
 
 Эти и другие программы уже встроены в меню примеров внутри **Brainfix Studio**. Вы можете открыть их в один клик и использовать как готовые шаблоны для изучения синтаксиса языка.
