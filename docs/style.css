@@ -91,7 +91,7 @@ pre {
 }
 
 .btn:active::after {
-	top: -4px;
+	top: -5px;
 	bottom: -8px;
 }
 
