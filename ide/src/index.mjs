@@ -11,6 +11,8 @@ import {WindowsController} from "./WindowsController.js";
 
 // npx rollup -c
 
+const buildUrl = 'https://avito-work1.t-dir.dev/brainfuck/brainfix/ajax/compile.php';
+
 const editorEl = document.querySelector('.edit-area');
 const profilerEl = document.querySelector('.tracing-container');
 const consoleEl = document.querySelector('.console-container');
@@ -29,7 +31,7 @@ const console = new Console(consoleEl, statusEl, counterEl);
 const fileInput = new FileInput(input);
 
 const controller = new Controller(editor, profiler, console, fileInput);
-const builder = new Builder(editor, console);
+const builder = new Builder(editor, console, buildUrl);
 
 const tabManager = new TabManager(tabs, controller, builder, editor, fileInput);
 
@@ -61,6 +63,12 @@ nav.querySelectorAll('.btn-save').forEach((el) => {
 });
 nav.querySelectorAll('.btn-load').forEach((el) => {
 	el.addEventListener('click', storageController.onLoad)
+});
+
+nav.querySelectorAll('.btn-help').forEach((el) => {
+	el.addEventListener('click', () => {
+		window.open('https://gordey1999.github.io/brainfix/docs/', '_blank');
+	});
 });
 
 

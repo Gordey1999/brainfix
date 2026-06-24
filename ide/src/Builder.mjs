@@ -1,12 +1,12 @@
 
 export class Builder {
-	_ajaxUrl = 'ajax/compile.php';
+	_ajaxUrl = '';
 	_uglify = false;
 
-	constructor(editor, console) {
+	constructor(editor, console, ajaxUrl) {
 		this._editor = editor;
 		this._console = console;
-		this._running = false;
+		this._ajaxUrl = ajaxUrl;
 	}
 
 	setTabManager(tabManager) {
@@ -40,7 +40,8 @@ export class Builder {
 			const response = await this._query(code, title, min, this._uglify);
 
 			if (!response.ok) {
-				this._console.showError('ajax error');
+				this._showError('Brainfix compile error:\nSTATUS ' + response.status);
+				return;
 			}
 
 			const textData = await response.text();
@@ -54,12 +55,11 @@ export class Builder {
 					this._showError(jsonData.message, jsonData.position);
 				}
 			} catch (e) {
-				this._render(textData);
 				this._showError('cant parse json');
 			}
 
 		} catch (error) {
-			this._showError("Fetch request failed:", error);
+			this._showError("Brainfix compile server is temporary unavailable.\nTry later");
 		}
 	}
 
@@ -87,6 +87,8 @@ export class Builder {
 
 	_showError(message, position) {
 		this._console.showError(message);
-		this._editor.highlightError(position.start, position.length);
+		if (position) {
+			this._editor.highlightError(position.start, position.length);
+		}
 	}
 }

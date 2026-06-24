@@ -1,4 +1,4 @@
-# @TITLE: САПЕР
+# @TITLE: САПЕР!
 # @BUFFERED_INPUT: FALSE
 # @STEPS_PER_FRAME: 50M
 
