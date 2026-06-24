@@ -1,46 +1,36 @@
 
 const files = [
 	{
-		url: 'sample/saper_compiled.txt',
-		input: '',
-		lang: 'bf',
+		name: 'Сапер (Minesweeper)',
+		url: 'sample/saper.bfp',
 	},
 	{
-		url: 'sample/saper.txt',
-		input: '',
-		lang: 'bb',
-	},
+		name: 'Home Page',
+		url: 'sample/home.bfp',
+	}
 ];
 
-/** @deprecated */
 export class SampleStorage {
 
-	static async load() {
-		const result = [];
-		for (const file of files) {
-			result.push({
-				code: await this.loadFile(file.url),
-				input: file.input,
-				lang: file.lang,
-			})
-		}
-
-		return result;
+	static list() {
+		return files.map(file => file.name);
 	}
 
-	static async loadFile(url) {
-		try {
-			const response = await fetch(url);
+	static async load(id) {
+		return await this._loadFile(files[id].url);
+	}
 
-			if (!response.ok) {
-				throw new Error(`download error: ${response.statusText}`);
-			}
+	static async loadHomePage() {
+		return this.load(files.length - 1);
+	}
 
-			return await response.text();
+	static async _loadFile(url) {
+		const response = await fetch(url);
 
-		} catch (error) {
-			console.error("cant download file:", error);
-			alert("cant read file");
+		if (!response.ok) {
+			throw new Error(`download error: ${response.statusText}`);
 		}
+
+		return await response.json();
 	}
 }

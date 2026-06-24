@@ -1,4 +1,4 @@
-
+import {SampleStorage} from "./lib/SampleStorage.mjs";
 
 export class StorageController {
 	constructor(saveModal, loadModal, storage, tabManager) {
@@ -31,6 +31,8 @@ export class StorageController {
 
 		if (lastSession) {
 			this._tabManager.setFullState(lastSession);
+		} else {
+			this._tabManager.setStateFromSave(await SampleStorage.loadHomePage());
 		}
 	}
 
@@ -42,6 +44,7 @@ export class StorageController {
 	onLoad = () => {
 		this._loadModal.classList.add('--active');
 		this._renderLoadSlots();
+		this._renderExamples();
 	}
 
 	onClose = () => {
@@ -77,12 +80,11 @@ export class StorageController {
 	}
 
 	onSlotLoad = async (slotId) => {
-		const isConfirmed = confirm('Are you sure you want to close this project?');
+		const isConfirmed = confirm('Are you sure you want to close current project?');
 
 		if (isConfirmed) {
 			const data = await this._storage.load(slotId);
 			this._tabManager.setStateFromSave(data);
-			await this._renderSaveSlots();
 			this.onClose();
 		}
 	}
@@ -104,6 +106,16 @@ export class StorageController {
 			await this._storage.deleteSlot(slotId);
 			await this._renderSaveSlots();
 			await this._renderLoadSlots();
+		}
+	}
+
+	onSampleLoad = async (id) => {
+		const isConfirmed = confirm('Are you sure you want to close current project?');
+
+		if (isConfirmed) {
+			const data = await SampleStorage.load(id);
+			this._tabManager.setStateFromSave(data);
+			this.onClose();
 		}
 	}
 
@@ -276,6 +288,13 @@ export class StorageController {
 		const slotsEl = this._loadModal.querySelector('.saves');
 		slotsEl.innerHTML = '';
 
+		if (slots.length === 0)
+		{
+			const emptyTemplate = this._loadModal.querySelector('.saves-row-empty-template');
+			const row = emptyTemplate.content.cloneNode(true);
+			slotsEl.appendChild(row);
+		}
+
 		const template = this._loadModal.querySelector('.saves-row-template');
 
 		for (let slot of slots) {
@@ -289,6 +308,25 @@ export class StorageController {
 			row.querySelector('.link-delete').addEventListener('click', this.onSlotDelete.bind(this, slot.id));
 
 			slotsEl.appendChild(row);
+		}
+	}
+
+	async _renderExamples() {
+		let samples = SampleStorage.list();
+
+		const listEl = this._loadModal.querySelector('.examples');
+		listEl.innerHTML = '';
+
+		const template = this._loadModal.querySelector('.examples-row-template');
+
+		for (let id in samples) {
+			const row = template.content.cloneNode(true);
+
+			row.querySelector('.saves-row__title').textContent = samples[id];
+
+			row.querySelector('.link-load').addEventListener('click', this.onSampleLoad.bind(this, id));
+
+			listEl.appendChild(row);
 		}
 	}
 }

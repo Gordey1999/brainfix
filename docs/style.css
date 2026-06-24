@@ -131,7 +131,7 @@ pre {
 	text-transform: uppercase;
 	font-family: monospace;
 	font-size: 24px;
-	color: #7f8a8e;
+	color: #798386;
 	margin-right: 2px;
 	position: relative;
 	font-weight: bold;
@@ -494,8 +494,13 @@ pre {
 	padding: 15px calc(20px - 0.5em);
 }
 
-.saves {
+.saves-title {
+	margin-bottom: 8px;
+	text-transform: uppercase;
+}
 
+.saves {
+	margin-bottom: 24px;
 }
 
 .saves-row {
@@ -515,6 +520,10 @@ pre {
 }
 
 .saves-row__time {
+	color: grey;
+}
+
+.saves-row-empty {
 	color: grey;
 }
 

@@ -55,6 +55,7 @@ export class Builder {
 					this._showError(jsonData.message, jsonData.position);
 				}
 			} catch (e) {
+				this._render(textData);
 				this._showError('cant parse json');
 			}
 

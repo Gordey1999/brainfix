@@ -67,7 +67,7 @@ nav.querySelectorAll('.btn-load').forEach((el) => {
 
 nav.querySelectorAll('.btn-help').forEach((el) => {
 	el.addEventListener('click', () => {
-		window.open('https://gordey1999.github.io/brainfix/docs/', '_blank');
+		window.open('https://gordey1999.github.io/brainfix/wiki/', '_blank');
 	});
 });
 
