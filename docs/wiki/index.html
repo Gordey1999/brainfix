@@ -2,7 +2,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Документация Brainfuck проекта</title>
-	<link rel="stylesheet" href="theme.css">
+	<link rel="stylesheet" href="./theme.css">
 	<style>
 		body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; line-height: 1.6; }
 		header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
@@ -18,7 +18,43 @@
 
 <main>
 	<!-- Сюда скрипт вставит текст из index.md -->
-	<h1>Документация</h1>
+	<h1>Документация Brainfix</h1>
+<p>Здесь присутствует вся доступная информация о языке Brainfix
+(или нет)</p>
+<h2>Переменные и типы данных</h2>
+<p>Названия переменных в Brainfix регистрозависимы. Они могут состоять из латинских букв, цифр, символов <code>_</code> и <code>$</code>, но не могут начинаться с цифры.</p>
+<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">П</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">ь</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">ы</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">м</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">:</span>
+<span class="cm-doc-brainfix-4">a</span>, <span class="cm-doc-brainfix-4">b</span>, <span class="cm-doc-brainfix-4">char1</span>, <span class="cm-doc-brainfix-4">firstNumber</span>, <span class="cm-doc-brainfix-4">$a</span>, <span class="cm-doc-brainfix-4">_B</span>, <span class="cm-doc-brainfix-4">count</span>, <span class="cm-doc-brainfix-4">COUNT</span>
+</code></pre>
+<p>Brainfix — строго типизированный язык. Тип данных должен быть явно указан для каждой переменной.</p>
+<p>В языке всего 3 базовых(скалярных) типа данных:</p>
+<ul>
+<li><code>char</code> - Символ в кодировке <code>windows-1251</code>.</li>
+<li><code>byte</code> - Целое число от 0 до 255. От <code>char</code> отличается только форматом ввода/вывода.</li>
+<li><code>bool</code> - Булев тип (<code>true</code>/<code>false</code>).</li>
+</ul>
+<h3>Объявление и инициализация</h3>
+<p>Переменные можно объявлять с одновременным присвоением значения (одиночным или цепочкой):</p>
+<p>Переменные в Brainfix объявляются следующим образом</p>
+<pre class="cm-editor"><code class="cm-scroller">    <span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">О</span><span class="cm-doc-brainfix-0">б</span><span class="cm-doc-brainfix-0">ъ</span><span class="cm-doc-brainfix-0">я</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">ц</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">з</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">ц</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">я</span>
+    <span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">char_1</span> = <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">a</span><span class="cm-doc-brainfix-2">'</span>;
+    <span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">count</span> = <span class="cm-doc-brainfix-3">0</span>, <span class="cm-doc-brainfix-4">newCount</span> = <span class="cm-doc-brainfix-3">30</span>;
+    <span class="cm-doc-brainfix-1">bool</span> <span class="cm-doc-brainfix-4">b</span> = <span class="cm-doc-brainfix-3">false</span>;
+    
+    <span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">М</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">ж</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">с</span><span class="cm-doc-brainfix-0">т</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">п</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">с</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">е</span>
+    <span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">first</span> = <span class="cm-doc-brainfix-4">second</span> = <span class="cm-doc-brainfix-4">third</span> = <span class="cm-doc-brainfix-3">1</span>;
+</code></pre>
+<h3>Объявление без инициализации</h3>
+<p>Если переменная объявляется без начального значения, память под неё выделяется, но не очищается.
+Переменная может содержать случайные данные (&quot;мусор&quot;), оставшиеся в этой ячейке.</p>
+<pre class="cm-editor"><code class="cm-scroller">    <span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">n</span>;       <span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">З</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">ч</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">п</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">м</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">й</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">г</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">т</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">ы</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">у</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">ю</span>
+    <span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">ch1</span>, <span class="cm-doc-brainfix-4">ch2</span>;
+    <span class="cm-doc-brainfix-1">bool</span> <span class="cm-doc-brainfix-4">isFull</span>;
+</code></pre>
+<h2>Литералы</h2>
+<p>можно задать значение 300 переменной</p>
+<h2>Области видимости переменных</h2>
+<h2>Ввод/Вывод</h2>
 <h1>Мои языки программирования</h1>
 <p>Hello, World!</p>
 <h2>1. Базовый Brainfuck</h2>
