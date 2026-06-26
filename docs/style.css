@@ -38,11 +38,15 @@ pre {
 
 .buttons.--active {
 	display: flex;
+	gap: 21px;
+
 }
 
 .buttons-block {
 	position: relative;
-	margin-right: 21px;
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
 }
 
 .buttons-block:not(:last-child):after {
@@ -51,7 +55,7 @@ pre {
 	width: 2px;
 	height: 24px;
 	top: 2px;
-	right: -10px;
+	right: -11px;
 	background: #00000014;
 	box-shadow: 1px 1px 0 0 #d7ecf3;
 }
@@ -65,7 +69,6 @@ pre {
 	border-right: 3px solid #00000054;
 	border-bottom: 9px solid #00000030;
 	cursor: pointer;
-	margin-right: 3px;
 	color: #0000009e;
 	font-family: monospace;
 	border-radius: 2px;
@@ -74,6 +77,8 @@ pre {
 	text-shadow: 1px 1px 0px #ffffff;
 	position: relative;
 	transform-style: preserve-3d;
+	text-decoration: none;
+	text-align: center;
 }
 
 .btn::after {
@@ -97,17 +102,15 @@ pre {
 
 .btn:active {
 	transform: translateY(2px);
+	margin: 0 1px;
 	border-bottom: 6px solid #00000030;
 	border-right: 2px solid #00000054;
 	border-left: 2px solid #00000012;
-	margin-left: 1px;
-	margin-right: 4px;
 }
 
 .btn-toggle {
 	position: relative;
 	display: inline-block;
-	margin-right: 3px;
 	color: #00000052;
 }
 

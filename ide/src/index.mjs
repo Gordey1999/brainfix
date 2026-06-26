@@ -65,12 +65,6 @@ nav.querySelectorAll('.btn-load').forEach((el) => {
 	el.addEventListener('click', storageController.onLoad)
 });
 
-nav.querySelectorAll('.btn-help').forEach((el) => {
-	el.addEventListener('click', () => {
-		window.open('https://gordey1999.github.io/brainfix/wiki/', '_blank');
-	});
-});
-
 
 window.MyEditor = editor;
 
