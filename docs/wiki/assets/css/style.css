@@ -33,12 +33,16 @@ body {
 	text-transform: uppercase;
 	font-family: monospace;
 	font-size: 24px;
-	color: #798386;
 	margin-right: 2px;
 	position: relative;
 	font-weight: bold;
 	line-height: 33px;
 	text-shadow: 2px 2px 0 #d7ecf3;
+}
+
+.nav-title a, .nav-title a:active, .nav-title a:visited {
+	color: #798386;
+	text-decoration: none;
 }
 
 .nav-buttons {
@@ -156,11 +160,19 @@ body {
 }
 
 .doc-submenu {
-	list-style: none;
-	padding-left: 8px;
+	list-style-type: none;
+	padding-left: 25px;
+	padding-right: 3px;
 	margin: 0;
 	padding-bottom: 12px;
 	display: none;
+}
+
+.doc-submenu li::marker {
+	content: "›";
+	color: #676f71;
+	font-family: monospace;
+	font-size: 14px;
 }
 
 .doc-menu-item.--active .doc-submenu {
@@ -177,10 +189,6 @@ body {
 	position: relative;
 }
 
-.doc-submenu-link:before {
-	content: "› ";
-	color: #676f71;
-}
 
 .doc-submenu-link:hover {
 	text-decoration: underline;
@@ -262,16 +270,14 @@ body {
 	flex: 1;
 	background: #ffffff;
 	box-sizing: border-box;
-	border: 1px solid #0000004f;
-	border-radius: 10px;
-	box-shadow: 1px 1px 0 #e1eef2;
+	box-shadow: 1px 1px 4px #0000003d;
 }
 
 .doc-article {
 	padding: 30px 40px;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	line-height: 1.6;
-	color: #2c3e50;
+	color: #4a5558;
 }
 
 .doc-article h1, .doc-article h2, .doc-article h3 {
@@ -295,37 +301,36 @@ body {
 	padding-bottom: 4px;
 }
 
-/* Инлайновый код в тексте */
 .doc-article :not(pre) > code {
 	background: #f1eee48a;
 	color: rgb(77 0 0);
 	padding: 1px 5px;
 	border-radius: 3px;
 	font-family: monospace;
-	font-size: 0.9em;
 	border: 1px solid #0000001a;
 }
 
-/* Всплывающие подсказки / Уведомления */
-.doc-callout {
+blockquote {
 	font-family: monospace;
 	margin: 20px 0;
-	padding: 12px 18px;
-	background: #fff6e1;
-	color: #4a5558;
-	border-left: 4px solid var(--text-color-blue);
-	border-radius: 4px;
-	border-top: 1px solid #00000008;
-	border-right: 1px solid #00000008;
-	border-bottom: 1px solid #0000001a;
-}
-
-.doc-callout.--warning {
+	padding: 18px 18px;
 	background: #fff0f0;
+	color: #4a5558;
+	border: 1px solid #00000029;
 	border-left: 4px solid var(--text-color-red);
+	border-radius: 6px;
+	box-shadow: inset 1px 1px 2px rgba(0,0,0,0.05), 1px 1px 0 #ffffff;
 }
 
-/* Светлый блок кода (Old-school IDE style) */
+blockquote p {
+	margin: 0;
+}
+
+blockquote p::before {
+	content: "[ВАЖНО] ";
+	color: var(--text-color-red);
+}
+
 .doc-code-block {
 	background: #fdfbf7;
 	border: 1px solid #0000002e;
@@ -335,7 +340,6 @@ body {
 	box-shadow: inset 1px 1px 3px rgba(0,0,0,0.03);
 }
 
-/* Плашка с именем файла над кодом */
 .doc-code-header {
 	background: #eae2ce;
 	padding: 4px 15px;
@@ -344,6 +348,23 @@ body {
 	color: #798386;
 	border-bottom: 1px solid #0000002e;
 	font-weight: bold;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.doc-code-header__copy {
+	background: none;
+	border: none;
+	color: #798386;
+	font-family: monospace;
+	font-size: 12px;
+	cursor: pointer;
+	padding: 0;
+}
+
+.doc-code-header__copy:active {
+	color: #4a5558;
 }
 
 .doc-code-block pre {
@@ -355,21 +376,14 @@ body {
 .doc-code-block code {
 	font-family: monospace;
 	font-size: 14px;
-	color: #24292e; /* Основной цвет текста кода */
+	color: #24292e;
+	text-wrap: auto;
 }
 
-.cm-editor {
-	background: #fdfbf7;
-	border: 1px solid #0000002e;
-	border-radius: 6px;
-	margin: 20px 0;
-	overflow: hidden;
-	box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.03);
+.doc-article li::marker {
+	content: "›  ";
+	font-weight: bold;
 }
-.cm-scroller {
-	font-family: monospace; font-size: 13px; white-space: pre; line-height: 1.5;
-}
-
 
 
 

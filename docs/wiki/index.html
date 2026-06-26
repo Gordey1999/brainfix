@@ -1,153 +1,74 @@
 <!DOCTYPE html>
+<html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<title>Документация Brainfuck проекта</title>
-	<link rel="stylesheet" href="./theme.css">
-	<style>
-		body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; line-height: 1.6; }
-		header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
-		footer { margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; font-size: 0.9em; color: #777; }
-	</style>
+	<title>
+		Главная страница — BrainFix Docs 3001
+	</title>
+	<link rel="stylesheet" href="assets/css/code-theme.css">
+	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<header>
-	<h1>📜 Мой супер Brainfuck проект</h1>
-	<nav><a href="./index.html">Главная</a></nav>
-</header>
+<div class="container">
+	<div class="nav">
+		<div class="nav-title"><a href="./">BrainFix Docs</a></div>
+		<div class="nav-buttons">
+			<a class="btn" target="_blank" href="https://gordey1999.github.io/brainfix/">Brainfix Studio</a>
+			<a class="btn" target="_blank" href="https://github.com/Gordey1999/brainfix">Github</a>
+		</div>
+	</div>
 
-<main>
-	<!-- Сюда скрипт вставит текст из index.md -->
-	<h1>Документация Brainfix</h1>
-<p>Здесь присутствует вся доступная информация о языке Brainfix
-(или нет)</p>
-<h2>Переменные и типы данных</h2>
-<p>Названия переменных в Brainfix регистрозависимы. Они могут состоять из латинских букв, цифр, символов <code>_</code> и <code>$</code>, но не могут начинаться с цифры.</p>
-<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">П</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">ь</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">ы</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">м</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">:</span>
-<span class="cm-doc-brainfix-4">a</span>, <span class="cm-doc-brainfix-4">b</span>, <span class="cm-doc-brainfix-4">char1</span>, <span class="cm-doc-brainfix-4">firstNumber</span>, <span class="cm-doc-brainfix-4">$a</span>, <span class="cm-doc-brainfix-4">_B</span>, <span class="cm-doc-brainfix-4">count</span>, <span class="cm-doc-brainfix-4">COUNT</span>
-</code></pre>
-<p>Brainfix — строго типизированный язык. Тип данных должен быть явно указан для каждой переменной.</p>
-<p>В языке всего 3 базовых(скалярных) типа данных:</p>
-<ul>
-<li><code>char</code> - Символ в кодировке <code>windows-1251</code>.</li>
-<li><code>byte</code> - Целое число от 0 до 255. От <code>char</code> отличается только форматом ввода/вывода.</li>
-<li><code>bool</code> - Булев тип (<code>true</code>/<code>false</code>).</li>
+	<div class="content doc-layout">
+
+		<aside class="doc-sidebar">
+			<div class="block-back">
+				<div class="doc-sidebar-top block">
+					<div class="doc-menu-title-back">
+						<div class="doc-menu-title">
+							Статьи по Brainfix
+						</div>
+					</div>
+
+					<ul class="doc-menu">
+	<li class="doc-menu-item ">
+		<div class="doc-menu-item__inner">
+			<a href="language.html" class="doc-menu-link">Документация по языку</a>
+		</div>
+	</li>
+<div class="doc-menu-divider"></div>
+	<li class="doc-menu-item ">
+		<div class="doc-menu-item__inner">
+			<a href="studio.html" class="doc-menu-link">Документация Brainfix Studio</a>
+		</div>
+	</li>
 </ul>
-<h3>Объявление и инициализация</h3>
-<p>Переменные можно объявлять с одновременным присвоением значения (одиночным или цепочкой):</p>
-<p>Переменные в Brainfix объявляются следующим образом</p>
-<pre class="cm-editor"><code class="cm-scroller">    <span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">О</span><span class="cm-doc-brainfix-0">б</span><span class="cm-doc-brainfix-0">ъ</span><span class="cm-doc-brainfix-0">я</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">ц</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">з</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">ц</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">я</span>
-    <span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">char_1</span> = <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">a</span><span class="cm-doc-brainfix-2">'</span>;
-    <span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">count</span> = <span class="cm-doc-brainfix-3">0</span>, <span class="cm-doc-brainfix-4">newCount</span> = <span class="cm-doc-brainfix-3">30</span>;
-    <span class="cm-doc-brainfix-1">bool</span> <span class="cm-doc-brainfix-4">b</span> = <span class="cm-doc-brainfix-3">false</span>;
-    
-    <span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">М</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">ж</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">с</span><span class="cm-doc-brainfix-0">т</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">п</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">с</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">е</span>
-    <span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">first</span> = <span class="cm-doc-brainfix-4">second</span> = <span class="cm-doc-brainfix-4">third</span> = <span class="cm-doc-brainfix-3">1</span>;
-</code></pre>
-<h3>Объявление без инициализации</h3>
-<p>Если переменная объявляется без начального значения, память под неё выделяется, но не очищается.
-Переменная может содержать случайные данные (&quot;мусор&quot;), оставшиеся в этой ячейке.</p>
-<pre class="cm-editor"><code class="cm-scroller">    <span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">n</span>;       <span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">З</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">ч</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">п</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">м</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">й</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">г</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">т</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">ы</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">у</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">ю</span>
-    <span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">ch1</span>, <span class="cm-doc-brainfix-4">ch2</span>;
-    <span class="cm-doc-brainfix-1">bool</span> <span class="cm-doc-brainfix-4">isFull</span>;
-</code></pre>
-<h2>Литералы</h2>
-<p>можно задать значение 300 переменной</p>
-<h2>Области видимости переменных</h2>
-<h2>Ввод/Вывод</h2>
-<h1>Мои языки программирования</h1>
-<p>Hello, World!</p>
-<h2>1. Базовый Brainfuck</h2>
-<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-5"># @title Тест Brainfuck</span>
-<span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span>[<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span>[<span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">-</span>[<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span>]]]<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">-</span>]<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span>
-</code></pre>
-<h2>2. Новый BrainFix</h2>
-<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-6"># @title Тест BrainFix</span>
-<span class="cm-doc-brainfix-6"># @version 1.0</span>
-<span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">message</span> = <span class="cm-doc-brainfix-2">"</span><span class="cm-doc-brainfix-2">H</span><span class="cm-doc-brainfix-2">e</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-3">\n</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-2">W</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2">r</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">d</span><span class="cm-doc-brainfix-2">"</span>;
-<span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-3">true</span>) {
-    <span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">message</span>;
-}
-</code></pre>
 
-</main>
+				</div>
+			</div>
+		</aside>
+
+		<main class="doc-main">
+			<article class="doc-article">
+
+				<h1>Документация Brainfix Studio</h1>
+<h2 id="%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%BE%D0%B5" tabindex="-1">Основное</h2>
+<p>Здесь присутствует вся доступная информация о Brainfix Studio
+(или нет)</p>
+
+
+			</article>
+		</main>
+
+	</div>
+</div>
 
 <footer>
 	<p>© 2026 Создано для GitHub Pages</p>
 </footer>
 
-<script>
-	document.querySelectorAll('.cm-editor').forEach((wrapper) => {
-		// Находим тег с текстом кода
-		const codeBlock = wrapper.querySelector('code');
-		if (!codeBlock) return;
+<script src="assets/js/script.js"></script>
 
-		// Создаем кнопку
-		const button = document.createElement('button');
-		button.className = 'copy-code-btn';
-		button.innerText = 'Скопировать';
-
-		// Настраиваем клик по кнопке
-		button.addEventListener('click', async () => {
-			try {
-				// Копируем чистый текст кода
-				await navigator.clipboard.writeText(codeBlock.innerText);
-
-				// Меняем текст кнопки для обратной связи
-				button.innerText = 'Скопировано!';
-				button.classList.add('copied');
-
-				// Возвращаем текст назад через 1.5 секунды
-				setTimeout(() => {
-					button.innerText = 'Скопировать';
-					button.classList.remove('copied');
-				}, 1500);
-			} catch (err) {
-				console.error('Не удалось скопировать код: ', err);
-			}
-		});
-
-		// Делаем обертку относительной, чтобы кнопка позиционировалась внутри неё
-		wrapper.style.position = 'relative';
-		// Добавляем кнопку внутрь блока
-		wrapper.appendChild(button);
-	});
-</script>
-
-<!-- Стили для кнопки копирования -->
-<style>
-	/* Стили для самой кнопки */
-	.copy-code-btn {
-		position: absolute;
-		top: 8px;
-		right: 8px;
-		background: rgba(255, 255, 255, 0.8);
-		border: 1px solid #ddd;
-		border-radius: 4px;
-		padding: 4px 8px;
-		font-size: 12px;
-		cursor: pointer;
-		opacity: 0; /* Изначально кнопка скрыта */
-		transition: opacity 0.2s ease, background 0.2s ease;
-	}
-
-	/* Показываем кнопку только при наведении мыши на блок кода */
-	.cm-editor:hover .copy-code-btn {
-		opacity: 1;
-	}
-
-	/* Изменение стиля при наведении на саму кнопку */
-	.copy-code-btn:hover {
-		background: #fff;
-		border-color: #bbb;
-	}
-
-	/* Стиль кнопки после успешного копирования */
-	.copy-code-btn.copied {
-		background: #e6ffed;
-		border-color: #34d058;
-		color: #22863a;
-	}
-</style>
 </body>
+
 </html>

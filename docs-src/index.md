@@ -1,21 +1,6 @@
-# Документация
+# Документация Brainfix Studio
 
-# Мои языки программирования
+## Основное
 
-Hello, World!
-
-## 1. Базовый Brainfuck
-```brainfuck
-# @title Тест Brainfuck
-+[-[<<[+[--->]-[<<<]]]>>>-]>-.
-```
-
-## 2. Новый BrainFix
-```brainfix
-# @title Тест BrainFix
-# @version 1.0
-char message = "Hello \n World";
-if (true) {
-    out message;
-}
-```
+Здесь присутствует вся доступная информация о Brainfix Studio
+(или нет)
