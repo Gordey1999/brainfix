@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>
+		Руководство Brainfix Studio — BrainFix Docs 3001
+	</title>
+	<link rel="stylesheet" href="assets/css/code-theme.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="container">
+	<div class="nav">
+		<div class="nav-title"><a href="./">BrainFix Docs</a></div>
+		<div class="nav-buttons">
+			<a class="btn" target="_blank" href="https://gordey1999.github.io/brainfix/">Brainfix Studio</a>
+			<a class="btn" target="_blank" href="https://github.com/Gordey1999/brainfix">Github</a>
+		</div>
+	</div>
+
+	<div class="content doc-layout">
+
+		<aside class="doc-sidebar">
+			<div class="block-back">
+				<div class="doc-sidebar-top block">
+					<div class="doc-menu-title-back">
+						<div class="doc-menu-title">
+							Статьи по Brainfix
+						</div>
+					</div>
+
+					<ul class="doc-menu">
+	<li class="doc-menu-item ">
+		<div class="doc-menu-item__inner">
+			<a href="language.html" class="doc-menu-link">Документация по языку</a>
+		</div>
+	</li>
+	<li class="doc-menu-item ">
+		<div class="doc-menu-item__inner">
+			<a href="examples.html" class="doc-menu-link">Примеры программ</a>
+		</div>
+	</li>
+<div class="doc-menu-divider"></div>
+	<li class="doc-menu-item --active">
+		<div class="doc-menu-item__inner">
+			<a href="studio.html" class="doc-menu-link">Руководство Brainfix Studio</a>
+			<ul class="doc-submenu">
+				<li><a href="#%D0%BE%D0%B1%D1%89%D0%B8%D0%B9-%D0%BE%D0%B1%D0%B7%D0%BE%D1%80-%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%D0%B0" class="doc-submenu-link">Общий обзор интерфейса</a></li>
+				<li><a href="#%D1%80%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%BE%D1%80-%D0%BA%D0%BE%D0%B4%D0%B0" class="doc-submenu-link">Редактор кода</a></li>
+				<li><a href="#%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B5%D0%B6%D0%B8%D0%BC-brainfuck" class="doc-submenu-link">Панель управления (Режим Brainfuck)</a></li>
+				<li><a href="#%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B5%D0%B6%D0%B8%D0%BC-brainfix" class="doc-submenu-link">Панель управления (Режим Brainfix)</a></li>
+				<li><a href="#%D1%82%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D0%B0%D0%BB" class="doc-submenu-link">Терминал</a></li>
+				<li><a href="#%D0%B4%D0%B0%D0%BC%D0%BF-%D0%BF%D0%B0%D0%BC%D1%8F%D1%82%D0%B8-%D0%B8-%D0%B4%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%B8%D0%B2%D1%8B-%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%82%D0%BA%D0%B8" class="doc-submenu-link">Дамп памяти и директивы разметки</a></li>
+				<li><a href="#%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%D0%BC%D0%B8" class="doc-submenu-link">Работа с проектами</a></li>
+				<li><a href="#%D0%BC%D0%B5%D0%BD%D1%8E-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8-%D0%B8-%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B" class="doc-submenu-link">Меню загрузки и встроенные примеры</a></li>
+				<li><a href="#%D0%BC%D0%B5%D1%82%D0%B0%D0%B7%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D1%8B" class="doc-submenu-link">Метазаголовки (Конфигурация программы)</a></li>
+			</ul>
+		</div>
+	</li>
+</ul>
+
+				</div>
+			</div>
+		</aside>
+
+		<main class="doc-main">
+			<article class="doc-article">
+
+				<h1>Руководство по Brainfix Studio</h1>
+<p><strong>Brainfix Studio</strong> — это полноценная веб-среда разработки (Web-IDE), предназначенная для написания, компиляции, отладки и запуска программ на языках Brainfix и Brainfuck. Она предоставляет весь необходимый инструментарий для комфортного программирования прямо в браузере и доступна по ссылке:</p>
+<p><a href="https://avito-work1.t-dir.dev/brainfuck/docs/">Открыть Brainfix Studio</a></p>
+<h2 id="%D0%BE%D0%B1%D1%89%D0%B8%D0%B9-%D0%BE%D0%B1%D0%B7%D0%BE%D1%80-%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%D0%B0" tabindex="-1">Общий обзор интерфейса</h2>
+<p>Интерфейс Brainfix Studio спроектирован как модульное рабочее пространство, разделённое на несколько функциональных зон. <strong>Все блоки можно масштабировать</strong>, просто потянув мышкой за их границы.</p>
+<p><img src="./assets/img/studio-interface.png" alt="Интерфейс програмы"></p>
+<p>На экране выделяются следующие ключевые области:</p>
+<ul>
+<li>
+<p><strong>Панель управления (Блок с кнопками):</strong> Расположена в верхней части экрана. Набор доступных инструментов на ней динамически <strong>меняется в зависимости от выбранного языка</strong>.</p>
+</li>
+<li>
+<p><strong>Редактор кода:</strong> Основная рабочая область в левой части экрана. Поддерживает работу с вкладками, раздельную подсветку синтаксиса и позволяет быстро переключаться между высокоуровневыми исходниками и низкоуровневым кодом.</p>
+</li>
+<li>
+<p><strong>Терминал:</strong> Консольное окно в правом верхнем углу, куда выводится информация о процессе компиляции <code>.bfx</code>, а также результат работы <code>.bf</code> программы. Сюда также вводятся данные для потока ввода программы.</p>
+</li>
+<li>
+<p><strong>Дамп памяти (Визуализация ленты):</strong> Окно в правом нижнем углу, которое показывает текущее состояние ячеек памяти виртуальной машины Brainfuck. В процессе выполнения или пошаговой отладки программы вы можете вживую видеть, как сдвигается указатель и какие значения записываются в ячейки.</p>
+</li>
+<li>
+<p><strong>Файл ввода:</strong> Специальный блок, в который можно заранее прописать входные данные для <code>.bf</code> программы, чтобы не вводить их заново при каждом запуске программы.</p>
+</li>
+</ul>
+<h2 id="%D1%80%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%BE%D1%80-%D0%BA%D0%BE%D0%B4%D0%B0" tabindex="-1">Редактор кода</h2>
+<p>Центральной частью Brainfix Studio является редактор с поддержкой вкладок, который позволяет одновременно работать с несколькими файлами и даже с разными языками программирования.</p>
+<h3>Две среды в одном интерфейсе</h3>
+<p>Редактор спроектирован так, чтобы вы могли писать код как на высокоуровневом Brainfix, так и на низкоуровневом Brainfuck. Вкладки визуально разделены по цветам, чтобы вы всегда понимали, с каким языком работаете:</p>
+<ul>
+<li><strong>Белые вкладки</strong> — файлы с исходным кодом на языке <strong>Brainfix</strong>.</li>
+<li><strong>Жёлтые вкладки</strong> — файлы с кодом на чистом <strong>Brainfuck</strong>.</li>
+</ul>
+<p>Для создания нового файла достаточно нажать кнопку <strong><code>+</code></strong> (плюс) соответствующего цвета.</p>
+<h3>Удобная подсветка синтаксиса</h3>
+<p>Редактор Brainfix Studio оснащён умной контурной подсветкой синтаксиса. Она автоматически адаптируется под выбранный тип вкладки (белая или жёлтая) и выполняет следующие задачи:</p>
+<ul>
+<li><strong>Для Brainfix</strong>: Цветом выделяются ключевые слова (команды <code>in</code>, <code>out</code>), типы данных (<code>byte</code>, <code>char</code>, <code>bool</code>), управляющие конструкции (<code>if</code>, <code>while</code>, <code>for</code>), переменные, комментарии и заголовки.</li>
+<li><strong>Для Brainfuck</strong>: Редактор подсвечивает различными цветами разные типы комментариев и содержимое некоторых комментариев.</li>
+</ul>
+<h2 id="%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B5%D0%B6%D0%B8%D0%BC-brainfuck" tabindex="-1">Панель управления (Режим Brainfuck)</h2>
+<p>Когда вы переключаетесь на <strong>жёлтую вкладку</strong> с кодом <code>.bf</code>, верхняя панель управления превращается в полноценный пульт управления виртуальной машиной и отладчиком.</p>
+<p><img src="./assets/img/studio-buttons-bf.png" alt="Панель управления для BF"></p>
+<h3>Базовое управление</h3>
+<ul>
+<li><strong>RUN</strong> — запускает программу в обычном режиме. Выполнение идёт на максимальной скорости до первой инструкции запроса ввода <code>,</code> или до конца файла.</li>
+<li><strong>STOP</strong> — мгновенно прекращает выполнение запущенной или находящейся на отладке программы и сбрасывает состояние виртуальной машины.</li>
+</ul>
+<h3>Режим пошаговой отладки</h3>
+<p>Для того чтобы запустить отладку программы, достаточно нажать кнопку <strong>STEP</strong> или <strong>LINE</strong>. Во время отладки в редакторе включается живая индикация: среда наглядно подсвечивает активную строку кода и конкретный символ инструкции, на котором в данный момент остановился интерпретатор.</p>
+<p>Для управления шагами доступны три команды:</p>
+<ul>
+<li><strong>STEP</strong> — выполняет ровно одну низкоуровневую инструкцию Brainfuck (например, один <code>+</code> или <code>&gt;</code>) и приостанавливает работу, ожидая дальнейших действий.</li>
+<li><strong>LINE</strong> — выполняет текущую строку кода целиком и переводит указатель на начало следующей строки.</li>
+<li><strong>OUT</strong> — выполняет код на высокой скорости до тех пор, пока программа полностью не выйдет из текущего цикла <code>[]</code>, внутри которого сейчас находится указатель.</li>
+</ul>
+<h3>Автоматизация тестирования (INPUT)</h3>
+<ul>
+<li><strong>INPUT</strong> — переключатель режима файла ввода.</li>
+</ul>
+<p>Если эта кнопка активна, в правой части интерфейса открывается дополнительное окно «Файл ввода». Вы можете заранее вписать туда любые текстовые данные, которые ваша программа должна прочитать через команды ввода. Это избавляет от необходимости вручную вбивать одни и те же строки в консоль при каждом тестовом перезапуске.</p>
+<blockquote>
+<p>Если данные в подготовленном «файле ввода» закончатся, а программа выполнит очередную инструкцию <code>,</code> (запрос ввода), виртуальная машина автоматически переключится на ожидание ввода от пользователя в реальном времени через Терминал.</p>
+</blockquote>
+<h2 id="%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B5%D0%B6%D0%B8%D0%BC-brainfix" tabindex="-1">Панель управления (Режим Brainfix)</h2>
+<p>Когда вы переключаетесь на <strong>белую вкладку</strong> с исходным кодом <code>.bfx</code>, панель инструментов полностью перестраивается под задачи компиляции, генерации кода и управления метаданными.</p>
+<p><img src="./assets/img/studio-buttons-bfx.png" alt="Панель управления для BFX"></p>
+<h3>Режимы компиляции</h3>
+<ul>
+<li>
+<p><strong>BUILD</strong> — классическая компиляция исходного кода в читаемый Brainfuck.
+Результат сборки всегда открывается в <strong>отдельной новой жёлтой вкладке</strong>. Сгенерированный <code>.bf</code> файл содержит подробные текстовые комментарии, которые детально описывают, из каких именно фрагментов вашего высокоуровневого кода получились те или иные низкоуровневые блоки инструкций.</p>
+<blockquote>
+<p>Вместе с кодом компилятор запекает в комментарии специальную служебную разметку. Благодаря ей окно «Дамп памяти» в Brainfix Studio автоматически подхватывает имена ваших переменных из <code>.bfx</code> и подписывает соответствующие ячейки на ленте в процессе отладки.</p>
+</blockquote>
+</li>
+<li>
+<p><strong>MIN</strong> — компиляция кода в оптимизированный формат <code>.min.bf</code>.
+Из итогового файла полностью вырезаются все служебные комментарии и пробелы (сохраняются только мета-заголовки программы). Весь сгенерированный Brainfuck-код упаковывается в одну сплошную компактную строку. Это идеальный режим для получения финального скрипта, готового к переносу на другие платформы.</p>
+</li>
+</ul>
+<h3>Модификаторы и автоматизация</h3>
+<ul>
+<li>
+<p><strong>UGLY</strong> — переключатель режима агрессивной оптимизации.
+Если эта кнопка активна, то при нажатии <strong>BUILD</strong> или <strong>MIN</strong> компилятор задействует математические алгоритмы сжатия: все длинные последовательности прибавления или вычитания (например, цепочки из тридцати <code>+</code>) заменяются на генерацию коротких циклов умножения двух чисел.</p>
+<p>Это делает итоговый <code>.bf</code> файл <strong>в разы короче по размеру</strong>, но код становится хуже читаемым для человека и выполняется на виртуальной машине чуть дольше из-за накладных расходов на циклы умножения.</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfuck</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">П</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">г</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">'</span><span class="cm-doc-brainfuck-0">H</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">,</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">W</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">d</span><span class="cm-doc-brainfuck-0">!</span><span class="cm-doc-brainfuck-0">'</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">с</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">в</span><span class="cm-doc-brainfuck-0">ы</span><span class="cm-doc-brainfuck-0">к</span><span class="cm-doc-brainfuck-0">л</span><span class="cm-doc-brainfuck-0">ю</span><span class="cm-doc-brainfuck-0">ч</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">н</span><span class="cm-doc-brainfuck-0">н</span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">й</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">п</span><span class="cm-doc-brainfuck-0">ц</span><span class="cm-doc-brainfuck-0">и</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">й</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">U</span><span class="cm-doc-brainfuck-0">G</span><span class="cm-doc-brainfuck-0">L</span><span class="cm-doc-brainfuck-0">Y</span>
+<span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span>[<span class="cm-doc-brainfuck-1">-</span>]
+
+<span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">Т</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">ж</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">п</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">г</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">с</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">в</span><span class="cm-doc-brainfuck-0">к</span><span class="cm-doc-brainfuck-0">л</span><span class="cm-doc-brainfuck-0">ю</span><span class="cm-doc-brainfuck-0">ч</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">н</span><span class="cm-doc-brainfuck-0">н</span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">й</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">п</span><span class="cm-doc-brainfuck-0">ц</span><span class="cm-doc-brainfuck-0">и</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">й</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">U</span><span class="cm-doc-brainfuck-0">G</span><span class="cm-doc-brainfuck-0">L</span><span class="cm-doc-brainfuck-0">Y</span>
+<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span>[<span class="cm-doc-brainfuck-1">-</span>]
+</code></pre>
+		</div>
+</li>
+<li>
+<p><strong>INPUT</strong> — переключатель файла ввода.
+Работает аналогично режиму Brainfuck. Если вы заранее заполнили поле файла ввода на вкладке <code>.bfx</code>, то при нажатии кнопок компиляции все эти тестовые данные автоматически сдублируются и перенесутся в открывшуюся жёлтую вкладку <code>.bf</code>. Вам не придётся заполнять их заново.</p>
+</li>
+</ul>
+<h2 id="%D1%82%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D0%B0%D0%BB" tabindex="-1">Терминал</h2>
+<p>Терминал в Brainfix Studio объединяет функции системной консоли, потоков ввода/вывода (<code>in</code> / <code>out</code>) и панели мониторинга производительности виртуальной машины.</p>
+<h3>Панель мониторинга и статусы</h3>
+<p><img src="./assets/img/studio-terminal-status.png" alt="Статус выполнения программы"></p>
+<p>В верхней части окна терминала расположена служебная строка с важной информацией:</p>
+<ul>
+<li><strong>Статус выполнения (Левый верхний угол):</strong> Показывает текущее состояние системы в реальном времени. Здесь отображаются системные уведомления о процессе компиляции файла <code>.bfx</code>, успешном завершении сборки, активном выполнении кода <code>.bf</code> или его остановке.</li>
+<li><strong>Счётчик инструкций (Правый верхний угол):</strong> Динамический счётчик, который в реальном времени фиксирует точное количество выполненных низкоуровневых инструкций Brainfuck с момента старта программы. Счетчик автоматически сбрасывается на ноль при каждом новом запуске, позволяя вам точно оценивать эффективность алгоритмов и степень их оптимизации компилятором.</li>
+</ul>
+<h3>Потоки ввода и вывода</h3>
+<p>Основное пространство терминала отведено под классическое консольное окно:</p>
+<ul>
+<li><strong>Вывод данных:</strong> Сюда мгновенно транслируются все символы, числа и строки, отправленные программой через команду <code>out</code>.</li>
+<li><strong>Ввод данных:</strong> Когда программа доходит до инструкции чтения <code>in</code>, вы можете вводить данные прямо в консоль. Также есть возможность вставки(<strong>Ctrl + V</strong>).</li>
+</ul>
+<h3>Режимы буферизации ввода</h3>
+<p>По умолчанию в терминале включена <strong>строковая буферизация</strong>. Это означает, что все вводимые вами символы сначала накапливаются в строке ввода и отправляются в поток программы только после нажатия клавиши <strong>Enter</strong>. До тех пор, пока Enter не нажат, вы можете свободно редактировать, стирать или дописывать вводимый текст.</p>
+<blockquote>
+<p>При необходимости буферизацию можно полностью отключить (чтобы программа реагировала на каждое нажатие клавиши мгновенно), а также изменить цвет текста и фона самого терминала. Однако эти параметры задаются не кнопками в интерфейсе, а прямо в исходном коде программы — об этом подробно рассказано в разделе <strong>«Метазаголовки»</strong>.</p>
+</blockquote>
+<h3>Лог компиляции в терминале</h3>
+<p>Когда вы находитесь на белой вкладке (<code>.bfx</code>) и нажимаете кнопку <strong>BUILD</strong> или <strong>MIN</strong>, в консоль терминала выводится подробный технический отчёт о процессе сборки программы. Этот лог позволяет оценить, как именно компилятор распределил память на ленте Brainfuck.</p>
+<p><img src="./assets/img/studio-build-info.png" alt="Лог компиляции"></p>
+<h4>Расшифровка параметров лога:</h4>
+<ul>
+<li><strong>version</strong> — текущая версия языка и компилятора Brainfix.</li>
+<li><strong>registry size computed</strong> — количество служебных ячеек памяти, которые компилятор автоматически выделил для выполнения промежуточных вычислений, математических операций, организации условий и временного копирования данных.</li>
+<li><strong>stack size computed</strong> — объём памяти (в ячейках), выделенный под хранение всех объявленных в программе одиночных скалярных переменных (<code>byte</code>, <code>char</code>, <code>bool</code>).</li>
+<li><strong>arrays stack size computed</strong> — суммарный объём памяти, выделенный на ленте под хранение всех массивов и строк.</li>
+<li><strong>finished! code length</strong> — уведомление об успешном завершении компиляции с указанием точной длины получившегося файла <code>.bf</code> (общее количество сгенерированных низкоуровневых инструкций Brainfuck).</li>
+</ul>
+<h2 id="%D0%B4%D0%B0%D0%BC%D0%BF-%D0%BF%D0%B0%D0%BC%D1%8F%D1%82%D0%B8-%D0%B8-%D0%B4%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%B8%D0%B2%D1%8B-%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%82%D0%BA%D0%B8" tabindex="-1">Дамп памяти и директивы разметки</h2>
+<p>Окно <strong>Дамп памяти</strong> расположено в правом нижнем углу интерфейса Brainfix Studio. Оно представляет собой визуальную карту, в которой ячейки памяти виртуальной машины Brainfuck перечислены последовательно слева направо и сверху вниз.</p>
+<p><img src="./assets/img/studio-memory-dump.png" alt="Окно дампа памяти"></p>
+<p>Эта область позволяет в реальном времени следить за состоянием памяти исполняемой программы. Каждая ячейка отображает три параметра:</p>
+<ol>
+<li><strong>Индекс</strong> ячейки на ленте (выводится в левой части).</li>
+<li>Текстовое значение ячейки в виде <strong>символа кодировки Windows-1251</strong>.</li>
+<li>Числовое значение ячейки (от 0 до 255).</li>
+</ol>
+<p>Помимо значений самих ячеек, в окне дампа визуализируется <strong>активный указатель памяти</strong>. Ячейка, на которой в данный момент физически находится каретка интерпретатора Brainfuck, выделяется цветом. При выполнении команд сдвига <code>&gt;</code> и <code>&lt;</code> вы сможете наглядно видеть, как этот указатель перемещается по ленте памяти.</p>
+<h3>Особенности обновления и анимации</h3>
+<ul>
+<li><strong>Частота обновления</strong>: Дамп памяти рендерится не на каждом шаге указателя, а циклически — по умолчанию каждые <strong>10 миллионов выполненных инструкций</strong>, либо в моменты, когда программа останавливается и ожидает ввода новых данных от пользователя.</li>
+<li><strong>Индикация изменений</strong>: Ячейки, числовое значение которых изменилось с момента предыдущего цикла рендера, автоматически <strong>подсвечиваются синим цветом</strong>.</li>
+</ul>
+<h3>Директивы разметки (<code>@memory</code>)</h3>
+<p>Чтобы отладка низкоуровневого кода Brainfuck не превращалась в угадывание индексов, в Brainfix Studio встроена поддержка <strong>директив разметки памяти</strong>. Они записываются в коде как специальные комментарии следующего формата:</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfuck</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-5"># @memory ADDRESS:LABEL ADDRESS:LABEL ...</span>
+</code></pre>
+		</div>
+<p>Для стандартного интерпретатора Brainfuck эти строки остаются обычными комментариями и полностью игнорируются. Однако внутренний модуль Дампа памяти в Brainfix Studio сканирует код программы: при выполнении интерпретатор считывает все директивы разметки, расположенные выше текущей позиции указателя команд, и заменяет стандартные цифровые индексы ячеек на понятные текстовые псевдонимы (<strong>LABEL</strong>).</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfuck</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">П</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0">и</span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">и</span><span class="cm-doc-brainfuck-0">с</span><span class="cm-doc-brainfuck-0">п</span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">л</span><span class="cm-doc-brainfuck-0">ь</span><span class="cm-doc-brainfuck-0">з</span><span class="cm-doc-brainfuck-0">в</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0">н</span><span class="cm-doc-brainfuck-0">и</span><span class="cm-doc-brainfuck-0">я</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0">з</span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">т</span><span class="cm-doc-brainfuck-0">к</span><span class="cm-doc-brainfuck-0">и</span>
+<span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">П</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">я</span><span class="cm-doc-brainfuck-0">т</span><span class="cm-doc-brainfuck-0">ь</span><span class="cm-doc-brainfuck-0">:</span>
+<span class="cm-doc-brainfuck-5"># @memory 0:делимое</span>
+<span class="cm-doc-brainfuck-5"># @memory 1:делитель</span>
+<span class="cm-doc-brainfuck-5"># @memory 2:частное</span>
+<span class="cm-doc-brainfuck-5"># @memory 3:остаток</span>
+<span class="cm-doc-brainfuck-5"># @memory 4:tmp</span>
+<span class="cm-doc-brainfuck-5"># @memory 5:tmp</span>
+<span class="cm-doc-brainfuck-5"># @memory 6:tmp</span>
+</code></pre>
+		</div>
+<h3>Автоматическая разметка при компиляции</h3>
+<p>Когда вы компилируете высокоуровневый код <code>.bfx</code> в формат <code>.bf</code> с помощью кнопки <strong>BUILD</strong>, компилятор автоматически генерирует и прописывает все директивы разметки. Он преобразует абстрактные переменные в чёткую структуру на ленте памяти:</p>
+<ol>
+<li><strong>Регистры общего назначения (<code>R0</code>, <code>R1</code>, <code>R2</code>...)</strong> — занимают самые первые ячейки ленты. Сюда компилятор складывает промежуточные результаты математических вычислений и логических проверок.</li>
+<li><strong>Стек переменных</strong> — располагается сразу за регистрами. Ячейки этой области автоматически получают те же имена, которые вы дали одиночным переменным (<code>byte</code>, <code>char</code>, <code>bool</code>) в исходном коде <code>.bfx</code>.</li>
+<li><strong>Служебные ячейки управления массивами (<code>adr_s</code>, <code>adr_d</code>)</strong> — идут следом за стеком переменных. Эти две ячейки критически важны для компилятора: они используются для вычисления адресов и организации «прыжков» по элементам структур данных.</li>
+<li><strong>Блок массивов</strong> — финальная часть разметки. Под каждый элемент любого объявленного массива компилятор выделяет ровно <strong>две физические ячейки</strong>:
+<ul>
+<li><em>Индексная ячейка (<code>i0</code>, <code>i1</code>, <code>i2</code>...)</em> — служебный маркер, необходимый алгоритмам компилятора для корректного обхода структуры.</li>
+<li><em>Ячейка значения</em> — хранит непосредственные данные элемента. Она подписывается названием массива из <code>.bfx</code> с указанием индекса, например <code>arr[0]</code>, <code>arr[1]</code>, <code>arr[2]</code>.</li>
+</ul>
+</li>
+</ol>
+<p>Благодаря такой автоматической разметке, запустив пошаговую отладку скомпилированного кода, вы увидите в окне дампа не безликий массив чисел, а наглядную картину: где лежат ваши переменные, как меняются элементы массива <code>matrix</code> и в каких регистрах прямо сейчас происходят вычисления.</p>
+<h2 id="%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%D0%BC%D0%B8" tabindex="-1">Работа с проектами</h2>
+<p>В Brainfix Studio встроена полноценная система управления проектами, которая позволяет сохранять результаты вашей работы, экспортировать файлы на компьютер и делиться кодом.</p>
+<h3>Хранение данных и безопасность</h3>
+<p>Все проекты, история файлов и настройки интерфейса сохраняются <strong>исключительно в локальном хранилище вашего браузера (IndexedDB)</strong>. Студия работает локально с вашими файлами: исходные коды ваших проектов хранятся только у вас и не сохраняются на сторонних серверах.</p>
+<blockquote>
+<p><strong>Особенность компиляции:</strong> Среда разработки работает в гибридном режиме. В то время как хранение данных и исполнение кода происходят полностью локально на вашем компьютере, сам процесс трансляции высокоуровневого кода из <code>.bfx</code> в низкоуровневый <code>.bf</code> выполняется на сервере.</p>
+</blockquote>
+<h3>Меню сохранения</h3>
+<p>Для фиксации результатов вашей работы используется меню сохранения. Его кнопка <strong>SAVE</strong> расположена на верхней панели управления.</p>
+<p><img src="./assets/img/studio-save.png" alt="Меню сохранения"></p>
+<p>Механизм управления проектами внутри этого меню аналогичен системе слотов в компьютерных играх. В меню вы сможете:</p>
+<ul>
+<li>Создать новый слот для текущего проекта.</li>
+<li>Перезаписать существующий слот.</li>
+<li>Переименовать имя проекта в списке слотов.</li>
+<li>Удалить ненужный слот из локальной базы данных.</li>
+</ul>
+<p>Для резервного копирования и переноса проектов на другие устройства используются файлы с расширением <code>.bfp</code> (Brainfix Project):</p>
+<ul>
+<li><strong>export</strong> — позволяет выгрузить проект и вручную указать конкретную директорию и название файла на вашем компьютере для его сохранения.</li>
+<li><strong>download</strong> — осуществляет быстрое скачивание файла проекта <code>.bfp</code> напрямую в системную папку «Загрузки» вашего браузера.</li>
+</ul>
+<h3>Автосохранение состояния и важные ограничения</h3>
+<p>IDE периодически <strong>автоматически сохраняет полное состояние рабочего пространства</strong>. В кэш записываются не только тексты программ, но и история изменений файлов (<strong>Ctrl + Z</strong> / <strong>Ctrl + Shift + Z</strong>), а также текущие размеры и пропорции всех масштабируемых окон на экране. Если вы случайно закроете вкладку браузера или перезагрузите страницу, Студия восстановит интерфейс ровно в том виде, в котором он был до закрытия.</p>
+<blockquote>
+<p>Из-за встроенного механизма автосохранения <strong>не рекомендуется открывать Brainfix Studio в нескольких вкладках или окнах браузера одновременно</strong>. Это может привести к конфликту синхронизации. Работайте всегда в одной активной вкладке.</p>
+</blockquote>
+<h2 id="%D0%BC%D0%B5%D0%BD%D1%8E-%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8-%D0%B8-%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B" tabindex="-1">Меню загрузки и встроенные примеры</h2>
+<p>Для открытия ранее сохранённых проектов или запуска демонстрационных программ используется меню загрузки. Оно вызывается нажатием кнопки <strong>LOAD</strong>, которая расположена на верхней панели управления.</p>
+<p>Интерфейс этого меню разделён на несколько блоков и предоставляет следующие возможности:</p>
+<h3>Управление локальными сохранениями</h3>
+<p>В меню отображается полный список ваших личных слотов, созданных ранее через меню сохранения. Прямо отсюда вы можете:</p>
+<ul>
+<li><strong>Загрузить</strong> выбранный проект в редактор для продолжения работы.</li>
+<li><strong>Переименовать</strong> слот в списке.</li>
+<li><strong>Удалить</strong> старое или ненужное локальное сохранение.</li>
+</ul>
+<h3>Готовые демонстрационные программы</h3>
+<p>В отдельном блоке меню загрузки представлены предустановленные демонстрационные программы (включая сложные проекты вроде интерактивного «Сапёра»). Каждая демо-программа поставляется в виде скомпилированного низкоуровневого файла <code>.bf</code> вместе с её оригинальным высокоуровневым исходным кодом на <code>.bfx</code>.</p>
+<p>Вы можете свободно загрузить любой демонстрационный проект, изучить его архитектуру, отредактировать код под свои нужды и сохранить получившиеся изменения как свой собственный локальный проект.</p>
+<h3>Импорт внешних проектов</h3>
+<p>В самом низу меню загрузки расположена кнопка <strong>import</strong>. Она предназначена для открытия файлов проектов формата <code>.bfp</code>, сохранённых на вашем компьютере. При выборе файла через это меню он импортируется в IDE и разворачивается во вкладках редактора точно так же, как если бы вы загрузили его из обычного локального слота.</p>
+<h2 id="%D0%BC%D0%B5%D1%82%D0%B0%D0%B7%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D1%8B" tabindex="-1">Метазаголовки (Конфигурация программы)</h2>
+<p><strong>Метазаголовки</strong> — это специальные служебные комментарии, которые используются компилятором и средой разработки Brainfix Studio для настройки параметров сборки, интерфейса и выполнения кода.</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfuck</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">П</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0">и</span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">м</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">т</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0">з</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0">г</span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">л</span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">в</span><span class="cm-doc-brainfuck-0">к</span><span class="cm-doc-brainfuck-0">о</span><span class="cm-doc-brainfuck-0">в</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">д</span><span class="cm-doc-brainfuck-0">л</span><span class="cm-doc-brainfuck-0">я</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">С</span><span class="cm-doc-brainfuck-0">а</span><span class="cm-doc-brainfuck-0">п</span><span class="cm-doc-brainfuck-0">е</span><span class="cm-doc-brainfuck-0">р</span><span class="cm-doc-brainfuck-0">а</span>
+<span class="cm-doc-brainfuck-5"># @TITLE: САПЕР!</span>
+<span class="cm-doc-brainfuck-5"># @BUFFERED_INPUT: FALSE</span>
+<span class="cm-doc-brainfuck-5"># @STEPS_PER_FRAME: 50M</span>
+
+<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span>[<span class="cm-doc-brainfuck-1">-</span>]<span class="cm-doc-brainfuck-1">&lt;</span>  <span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>  <span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span>]<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span>[<span class="cm-doc-brainfuck-1">-</span>]<span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>  <span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>
+<span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">.</span>
+</code></pre>
+		</div>
+<p>Главное преимущество такого подхода заключается в том, что конфигурация IDE и компилятора меняется индивидуально для каждого файла, а не для всей среды разработки в целом.</p>
+<h3>Правила размещения и синтаксис</h3>
+<ul>
+<li><strong>Расположение</strong>: Метазаголовки должны находиться <strong>строго в самом начале файла</strong> до первой исполняемой инструкции программы (как в <code>.bf</code>, так и в <code>.bfx</code>). Если перед метазаголовком встретится хотя бы одна команда языка, он будет проигнорирован и воспринят как обычный комментарий.</li>
+<li><strong>Регистр</strong>: Имена метазаголовков не чувствительны к регистру (<code>@TITLE</code> и <code>@title</code> работают одинаково).</li>
+<li><strong>Формат записи</strong>: Допускается три варианта разделения ключа и значения — через пробел, двоеточие или знак равенства.</li>
+</ul>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfix</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">П</span><span class="cm-doc-brainfix-0">Р</span><span class="cm-doc-brainfix-0">А</span><span class="cm-doc-brainfix-0">В</span><span class="cm-doc-brainfix-0">И</span><span class="cm-doc-brainfix-0">Л</span><span class="cm-doc-brainfix-0">Ь</span><span class="cm-doc-brainfix-0">Н</span><span class="cm-doc-brainfix-0">О</span><span class="cm-doc-brainfix-0">:</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">з</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">г</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">к</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">б</span><span class="cm-doc-brainfix-0">ъ</span><span class="cm-doc-brainfix-0">я</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">ы</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">д</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">к</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">д</span><span class="cm-doc-brainfix-0">а</span>
+<span class="cm-doc-brainfix-6"># @title: Моя программа</span>
+<span class="cm-doc-brainfix-6"># @console_color = #00ff00</span>
+<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">x</span> = <span class="cm-doc-brainfix-3">10</span>;
+<span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">x</span>;
+
+<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">x</span> = <span class="cm-doc-brainfix-3">10</span>;
+<span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">Н</span><span class="cm-doc-brainfix-0">Е</span><span class="cm-doc-brainfix-0">П</span><span class="cm-doc-brainfix-0">Р</span><span class="cm-doc-brainfix-0">А</span><span class="cm-doc-brainfix-0">В</span><span class="cm-doc-brainfix-0">И</span><span class="cm-doc-brainfix-0">Л</span><span class="cm-doc-brainfix-0">Ь</span><span class="cm-doc-brainfix-0">Н</span><span class="cm-doc-brainfix-0">О</span><span class="cm-doc-brainfix-0">:</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">з</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">г</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">к</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">б</span><span class="cm-doc-brainfix-0">ъ</span><span class="cm-doc-brainfix-0">я</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">ы</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">п</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">с</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">с</span><span class="cm-doc-brainfix-0">п</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">л</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">я</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">м</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">й</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">с</span><span class="cm-doc-brainfix-0">т</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">у</span><span class="cm-doc-brainfix-0">к</span><span class="cm-doc-brainfix-0">ц</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">и</span>
+<span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">@</span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">i</span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">l</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">:</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">М</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">я</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">п</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">г</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">м</span><span class="cm-doc-brainfix-0">м</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">(</span><span class="cm-doc-brainfix-0">Б</span><span class="cm-doc-brainfix-0">у</span><span class="cm-doc-brainfix-0">д</span><span class="cm-doc-brainfix-0">е</span><span class="cm-doc-brainfix-0">т</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">п</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">г</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">и</span><span class="cm-doc-brainfix-0">р</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">в</span><span class="cm-doc-brainfix-0">а</span><span class="cm-doc-brainfix-0">н</span><span class="cm-doc-brainfix-0">о</span><span class="cm-doc-brainfix-0">!</span><span class="cm-doc-brainfix-0">)</span>
+<span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">x</span>;
+</code></pre>
+		</div>
+<h3>Общие заголовки (для <code>.bf</code> и <code>.bfx</code>)</h3>
+<ul>
+<li>
+<p><strong><code># @title</code></strong><br>
+Задает имя программы, которое отображается в названии текущей вкладки редактора Студии.</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfix</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-6"># @title: Hello, World!</span>
+<span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">H</span><span class="cm-doc-brainfix-2">e</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2">,</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-2">W</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2">r</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">d</span><span class="cm-doc-brainfix-2">!</span><span class="cm-doc-brainfix-2">'</span>);
+</code></pre>
+		</div>
+</li>
+</ul>
+<h3>Заголовки времени выполнения (для <code>.bf</code>)</h3>
+<p>Эти заголовки управляют поведением виртуальной машины во время работы скрипта. Важно помнить, что все настройки действуют только в процессе выполнения программы и автоматически сбрасываются на значения по умолчанию сразу после её завершения.</p>
+<ul>
+<li>
+<p><strong><code># @console_color</code></strong><br>
+Задаёт цвет текста в окне Терминала. Значение принимает любой валидный CSS-формат цвета: строковое имя, HEX-код или RGB.<br>
+<em>Примеры:</em> <code># @console_color red</code> или <code># @console_color #ff0000</code></p>
+</li>
+<li>
+<p><strong><code># @buffered_input</code></strong><br>
+Включает или отключает строковую буферизацию ввода в Терминале. Когда буферизация включена, введенные пользователем данные отправляются в поток программы только после нажатия клавиши Enter. Когда буферизация выключена, программа мгновенно считывает каждый символ в момент нажатия клавиши.</p>
+<ul>
+<li><em>Включено (по умолчанию):</em> <code>true</code>, <code>yes</code>, <code>on</code>, <code>y</code>, <code>1</code></li>
+<li><em>Выключено:</em> <code>false</code>, <code>no</code>, <code>off</code>, <code>n</code>, <code>0</code></li>
+<li><em>Пример:</em> <code># @buffered_input false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code># @steps_per_frame</code></strong><br>
+Задаёт количество низкоуровневых инструкций Brainfuck, которое виртуальная машина должна выполнить перед каждым обновлением (рендером) интерфейса. Отрисовка текста в Терминале, анимация Дампа памяти и подсветка текущей строки в редакторе происходят циклически после прохождения указанного лимита шагов (или когда программа засыпает в ожидании ввода).</p>
+<ul>
+<li>По умолчанию рендер происходит каждые <strong>10M</strong> (10 миллионов) инструкций.</li>
+<li>Допустимые суффиксы: <strong>K</strong> (тысячи), <strong>M</strong> (миллионы) или чистые числа.</li>
+<li><em>Применение:</em> Маленькие значения (например, <code>100</code>) идеальны для визуального наблюдения за замедленным пошаговым выполнением алгоритма. Большие значения (например, <code>100M</code>) помогают избавиться от фризов и подтормаживаний интерфейса, если программа циклически перерисовывает много контента при каждом пользовательском вводе.</li>
+<li><em>Пример:</em> <code># @steps_per_frame 100K</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Заголовки для <code>.bf</code> можно и нужно прописывать в заголовках кода <code>.bfx</code>. При сборке компилятор автоматически скопирует их в начало сгенерированного файла, избавив вас от необходимости настраивать их вручную после каждой компиляции.</p>
+</blockquote>
+<h3>Заголовки компилятора (только для <code>.bfx</code>)</h3>
+<p>Эти директивы влияют на логику работы транслятора при сборке высокоуровневого кода.</p>
+<ul>
+<li>
+<p><strong><code># @comment_level</code></strong><br>
+Устанавливает уровень документирования сгенерированного кода <code>.bf</code>. Всего компилятор умеет создавать три типа комментариев:</p>
+<ol>
+<li><em>Разметка памяти (<code># @memory ...</code>)</em> — служебные данные для именования ячеек в окне дампа.</li>
+<li><em>Исходный код (<code>### byte a = 10;</code>)</em> — синие комментарии, показывающие, из какой строки <code>.bfx</code> получился следующий кусок Brainfuck-кода.</li>
+<li><em>Пояснения операций (<code># add 72 to R0</code>)</em> — зеленые комментарии, описывающие самые низкоуровневые действия компилятора.</li>
+</ol>
+<p>Доступные значения конфигурации:</p>
+<ul>
+<li><code>full</code> (по умолчанию) — сохраняются все комментарии.</li>
+<li><code>source</code> — остаются только директивы <code>memory</code> и синие комментарии исходного кода.</li>
+<li><code>memory</code> — в коде остаются исключительно директивы разметки памяти.</li>
+<li><code>none</code> — сборка без комментариев. На выходе получается чистый структурированный Brainfuck-код, содержащий только метазаголовки.</li>
+<li><em>Пример:</em> <code># @comment_level source</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code># @version</code></strong><br>
+Определяет версию языка и компилятора.</p>
+<ul>
+<li><code>1.0</code> — первая версия компилятора и синтаксиса.</li>
+<li><code>1.1</code> (по умолчанию) — актуальная версия. Включает в себя глобальные улучшения, кардинально оптимизирующие и ускоряющие работу с многомерными массивами.</li>
+<li><em>Пример:</em> <code># @version 1.0</code></li>
+</ul>
+</li>
+</ul>
+
+
+			</article>
+		</main>
+
+	</div>
+
+	<footer>
+		<p>
+			Разработано для проекта <b>Brainfix</b> • 2026<br>
+			Проект распространяется под лицензией <a href="https://opensource.org">MIT</a>
+		</p>
+	</footer>
+</div>
+
+<script src="assets/js/script.js"></script>
+
+</body>
+
+</html>

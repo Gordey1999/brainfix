@@ -11,7 +11,8 @@ import {bfxLanguage, bfxHighlight} from '../ide/src/lib/bfx-lang.mjs';
 const docFiles = [
 	{ filename: 'index.md', title: 'Главная страница', hideOnMenu: true },
 	{ filename: 'language.md', title: 'Документация по языку' },
-	{ filename: 'studio.md', title: 'Документация Brainfix Studio' }
+	{ filename: 'examples.md', title: 'Примеры программ', divider: true },
+	{ filename: 'studio.md', title: 'Руководство Brainfix Studio' }
 ];
 
 const highlighter = new DocHighlighter();
@@ -102,6 +103,7 @@ function build() {
 			title: fileInfo.title,
 			anchors: anchors,
 			hideOnMenu: fileInfo.hideOnMenu ?? false,
+			divider: fileInfo.divider ?? false,
 		});
 	});
 
@@ -136,7 +138,7 @@ function build() {
 function generateSidebarHTML(siteMap, activeHtmlFilename) {
 	let html = `<ul class="doc-menu">\n`;
 
-	siteMap.forEach((page, index) => {
+	siteMap.forEach((page) => {
 		const isCurrentPage = page.htmlFilename === activeHtmlFilename;
 		const activeClass = isCurrentPage ? '--active' : '';
 
@@ -156,7 +158,7 @@ function generateSidebarHTML(siteMap, activeHtmlFilename) {
 		html += `		</div>\n`;
 		html += `	</li>\n`;
 
-		if (index < siteMap.length - 1) {
+		if (page.divider) {
 			html += '<div class="doc-menu-divider"></div>\n';
 		}
 	});

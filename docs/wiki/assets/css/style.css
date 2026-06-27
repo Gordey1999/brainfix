@@ -377,7 +377,31 @@ blockquote p::before {
 	font-family: monospace;
 	font-size: 14px;
 	color: #24292e;
-	text-wrap: auto;
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.doc-article img {
+	max-width: 100%;
+	zoom: 0.5;
+}
+
+footer {
+	display: flex;
+	justify-content: flex-end;
+	text-align: end;
+}
+
+footer p {
+	width: fit-content;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	color: #798386;
+	font-family: monospace;
+}
+
+footer a {
+	color: #798386;
 }
 
 

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>
+		Примеры программ — BrainFix Docs 3001
+	</title>
+	<link rel="stylesheet" href="assets/css/code-theme.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="container">
+	<div class="nav">
+		<div class="nav-title"><a href="./">BrainFix Docs</a></div>
+		<div class="nav-buttons">
+			<a class="btn" target="_blank" href="https://gordey1999.github.io/brainfix/">Brainfix Studio</a>
+			<a class="btn" target="_blank" href="https://github.com/Gordey1999/brainfix">Github</a>
+		</div>
+	</div>
+
+	<div class="content doc-layout">
+
+		<aside class="doc-sidebar">
+			<div class="block-back">
+				<div class="doc-sidebar-top block">
+					<div class="doc-menu-title-back">
+						<div class="doc-menu-title">
+							Статьи по Brainfix
+						</div>
+					</div>
+
+					<ul class="doc-menu">
+	<li class="doc-menu-item ">
+		<div class="doc-menu-item__inner">
+			<a href="language.html" class="doc-menu-link">Документация по языку</a>
+		</div>
+	</li>
+	<li class="doc-menu-item --active">
+		<div class="doc-menu-item__inner">
+			<a href="examples.html" class="doc-menu-link">Примеры программ</a>
+			<ul class="doc-submenu">
+				<li><a href="#%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D1%83%D0%BC%D0%BD%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F" class="doc-submenu-link">Таблица умножения</a></li>
+				<li><a href="#%D1%82%D1%80%D0%B0%D0%BD%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B8" class="doc-submenu-link">Транслитерация строки</a></li>
+				<li><a href="#%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BF%D1%80%D0%B5%D1%82%D0%B0%D1%82%D0%BE%D1%80-brainfuck-%D0%BD%D0%B0-brainfix" class="doc-submenu-link">Интерпретатор Brainfuck на Brainfix</a></li>
+				<li><a href="#%D0%B3%D0%B4%D0%B5-%D0%BD%D0%B0%D0%B9%D1%82%D0%B8-%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D0%BE%D0%B2" class="doc-submenu-link">Где найти больше примеров?</a></li>
+			</ul>
+		</div>
+	</li>
+<div class="doc-menu-divider"></div>
+	<li class="doc-menu-item ">
+		<div class="doc-menu-item__inner">
+			<a href="studio.html" class="doc-menu-link">Руководство Brainfix Studio</a>
+		</div>
+	</li>
+</ul>
+
+				</div>
+			</div>
+		</aside>
+
+		<main class="doc-main">
+			<article class="doc-article">
+
+				<h1>Примеры программ на Brainfix</h1>
+<p>В данном разделе собраны готовые практические примеры программ, написанных на языке Brainfix. Они наглядно демонстрируют, как использовать синтаксис языка для решения реальных задач, как работают особенности ввода/вывода, массивов и оптимизации, а также как обходить архитектурные ограничения целевой платформы Brainfuck.</p>
+<p>Каждый пример снабжён подробным разбором логики и комментариями к коду, чтобы вы могли детальнее разобраться в тонкостях написания эффективных программ.</p>
+<h2 id="%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D1%83%D0%BC%D0%BD%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F" tabindex="-1">Таблица умножения</h2>
+<p>Этот пример демонстрирует работу с вложенными циклами (<code>while</code> и <code>for</code>), использование префиксного инкремента в условии, а также вывод сложных составных выражений на экран. Программа выводит классическую таблицу умножения чисел от 2 до 9.</p>
+<h3>Исходный код</h3>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfix</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-6"># @title: Умножение</span>
+
+<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">i</span> = <span class="cm-doc-brainfix-3">1</span>;
+
+<span class="cm-doc-brainfix-1">while</span> (++<span class="cm-doc-brainfix-4">i</span> &lt; <span class="cm-doc-brainfix-3">10</span>) {
+    <span class="cm-doc-brainfix-1">for</span> (<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">j</span> = <span class="cm-doc-brainfix-3">2</span>; <span class="cm-doc-brainfix-4">j</span> &lt; <span class="cm-doc-brainfix-3">10</span>; <span class="cm-doc-brainfix-4">j</span>++)
+        <span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">i</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-2">*</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-4">j</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-2">=</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-4">i</span> * <span class="cm-doc-brainfix-4">j</span>, <span class="cm-doc-brainfix-3">eol</span>;
+
+    <span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-3">eol</span>;
+}
+</code></pre>
+		</div>
+<h3>Разбор логики работы</h3>
+<ol>
+<li><strong>Инициализация счётчика строк (<code>byte i = 1;</code>)</strong>: Создаётся переменная внешнего цикла. Мы начинаем с единицы, так как инкремент происходит прямо в условии до начала первой итерации.</li>
+<li><strong>Внешний цикл (<code>while (++i &lt; 10)</code>)</strong>: Здесь используется префиксный инкремент <code>++i</code>. Это означает, что при первом входе в цикл значение <code>i</code> сначала увеличится до <code>2</code>, а затем проверится условие <code>2 &lt; 10</code>. Цикл будет выполняться до тех пор, пока <code>i</code> не станет равным <code>10</code>.</li>
+<li><strong>Внутренний цикл (<code>for (byte j = 2; j &lt; 10; j++)</code>)</strong>: Для каждой строки <code>i</code> запускается цикл по переменной <code>j</code> от 2 до 9. Обратите внимание, что фигурные скобки <code>{}</code> здесь опущены, так как внутри выполняется ровно одна команда <code>out</code>.</li>
+<li><strong>Комбинированный вывод (<code>out ...</code>)</strong>: Команда <code>out</code> за один вызов принимает цепочку из переменных, символьных литералов и математического выражения <code>i * j</code>. В конце строки используется ключевое слово <code>eol</code> для перевода каретки.</li>
+<li><strong>Разделение блоков (<code>out eol;</code>)</strong>: После того как внутренний цикл выведет целый столбец для текущего числа <code>i</code>, внешний цикл печатает пустую строку <code>eol</code> для визуального разделения таблицы.</li>
+</ol>
+<h2 id="%D1%82%D1%80%D0%B0%D0%BD%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B8" tabindex="-1">Транслитерация строки</h2>
+<p>Этот комплексный пример демонстрирует работу с двумерными массивами строк, ввод строк, арифметику над кодами символов (ASCII/Windows-1251) и перевод букв в верхний регистр. Программа заменяет русские буквы на их латинские аналоги.</p>
+<h3>Исходный код</h3>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfix</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-6"># @title: Транслит</span>
+
+
+<span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">map</span>[][] = [
+  <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">a</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">b</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">v</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">g</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">d</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">e</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">z</span><span class="cm-doc-brainfix-2">h</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">z</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">i</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">y</span><span class="cm-doc-brainfix-2">'</span>,
+  <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">k</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">m</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">n</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">p</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">r</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">s</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">t</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">u</span><span class="cm-doc-brainfix-2">'</span>,
+  <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">f</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">h</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">c</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">c</span><span class="cm-doc-brainfix-2">h</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">s</span><span class="cm-doc-brainfix-2">h</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">s</span><span class="cm-doc-brainfix-2">h</span><span class="cm-doc-brainfix-2">c</span><span class="cm-doc-brainfix-2">h</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">y</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">e</span><span class="cm-doc-brainfix-2">'</span>,
+  <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">y</span><span class="cm-doc-brainfix-2">u</span><span class="cm-doc-brainfix-2">'</span>, <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">y</span><span class="cm-doc-brainfix-2">a</span><span class="cm-doc-brainfix-2">'</span>
+];
+
+<span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">letter</span>;
+
+<span class="cm-doc-brainfix-1">do</span>
+{
+    <span class="cm-doc-brainfix-1">in</span> <span class="cm-doc-brainfix-4">letter</span>;
+
+    <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">letter</span> &gt;= <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">а</span><span class="cm-doc-brainfix-2">'</span> &amp;&amp; <span class="cm-doc-brainfix-4">letter</span> &lt;= <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">я</span><span class="cm-doc-brainfix-2">'</span>)
+    {
+        <span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">map</span>[<span class="cm-doc-brainfix-4">letter</span> - <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">а</span><span class="cm-doc-brainfix-2">'</span>];
+    }
+    <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">letter</span> &gt;= <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">А</span><span class="cm-doc-brainfix-2">'</span> &amp;&amp; <span class="cm-doc-brainfix-4">letter</span> &lt;= <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">Я</span><span class="cm-doc-brainfix-2">'</span>)
+    {
+        <span class="cm-doc-brainfix-1">for</span> (<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">i</span> = <span class="cm-doc-brainfix-3">0</span>; <span class="cm-doc-brainfix-4">i</span> &lt; <span class="cm-doc-brainfix-1">sizeof</span> <span class="cm-doc-brainfix-4">map</span>[<span class="cm-doc-brainfix-3">0</span>]; <span class="cm-doc-brainfix-4">i</span>++)
+        {
+            <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">map</span>[<span class="cm-doc-brainfix-4">letter</span> - <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">А</span><span class="cm-doc-brainfix-2">'</span>][<span class="cm-doc-brainfix-4">i</span>])
+            {
+                <span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">ch</span> = <span class="cm-doc-brainfix-4">map</span>[<span class="cm-doc-brainfix-4">letter</span> - <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">А</span><span class="cm-doc-brainfix-2">'</span>][<span class="cm-doc-brainfix-4">i</span>] - (<span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">a</span><span class="cm-doc-brainfix-2">'</span> - <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">A</span><span class="cm-doc-brainfix-2">'</span>);
+                <span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">ch</span>;
+            }
+        }
+    }
+    <span class="cm-doc-brainfix-1">else</span>
+    {
+        <span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">letter</span>;
+    }
+}
+<span class="cm-doc-brainfix-1">while</span> (<span class="cm-doc-brainfix-4">letter</span> != <span class="cm-doc-brainfix-3">eol</span>);
+
+</code></pre>
+		</div>
+<h3>Разбор логики работы</h3>
+<ol>
+<li><strong>Создание таблицы замен (<code>char map[][]</code>)</strong>: Объявляется двумерный массив строк. Компилятор автоматически определит его размер как <code>32x4</code> (32 буквы русского алфавита, исключая «ё», а максимальная длина латинского эквивалента — 4 символа для <code>'shch'</code>). Пустые кавычки <code>''</code> заменяют знаки «ъ» и «ь», которые при транслитерации опускаются.</li>
+<li><strong>Потоковое чтение (<code>do { in letter; ... } while (letter != eol);</code>)</strong>: Цикл <code>do/while</code> гарантирует, что программа считает и обработает как минимум один символ. Чтение происходит посимвольно до тех пор, пока не встретится символ переноса строки (<code>eol</code>).</li>
+<li><strong>Обработка строчных букв (<code>letter &gt;= 'а' &amp;&amp; letter &lt;= 'я'</code>)</strong>:
+<ul>
+<li>Вычисляется индекс буквы в массиве путём вычитания кода первой буквы алфавита: <code>letter - 'а'</code>.</li>
+<li>С помощью <code>out map[...]</code> вся строка транслита для этой буквы выводится на экран. Благодаря оптимизации многомерных массивов, этот переход по динамическому индексу выполняется быстрее, чем в плоском массиве.</li>
+</ul>
+</li>
+<li><strong>Обработка прописных (заглавных) букв (<code>letter &gt;= 'А' &amp;&amp; letter &lt;= 'Я'</code>)</strong>:
+<ul>
+<li>Так как в массиве <code>map</code> все строки хранятся в нижнем регистре, заглавные буквы нужно переводить вручную.</li>
+<li>Цикл <code>for</code> обходит элементы строки транслита. Длина строки ограничена размером второй размерности массива (<code>sizeof map[0]</code>, то есть 4 итерации).</li>
+<li>Проверка <code>if (map[...][i])</code> отсекает пустые ячейки (нули, которыми компилятор автоматически заполнил короткие строки вроде <code>'a'</code>).</li>
+<li>Математическое выражение <code>map[...][i] - ('a' - 'A')</code> вычитает разницу между строчными и прописными буквами в таблице кодировки, переводя текущий символ в верхний регистр. Поскольку явного приведения типов нет, результат операции сначала сохраняется в промежуточную переменную <code>char ch</code>, которая затем выводится.</li>
+</ul>
+</li>
+<li><strong>Сторонние символы (<code>else { out letter; }</code>)</strong>: Знаки препинания, пробелы, цифры и латинские буквы выводятся обратно в поток без изменений.</li>
+</ol>
+<h2 id="%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BF%D1%80%D0%B5%D1%82%D0%B0%D1%82%D0%BE%D1%80-brainfuck-%D0%BD%D0%B0-brainfix" tabindex="-1">Интерпретатор Brainfuck на Brainfix</h2>
+<p>Этот пример демонстрирует создание полноценного интерпретатора языка Brainfuck. Программа парсит строку с исходным кодом, эмулирует классическую ленту памяти, управляет её указателем и обрабатывает вложенные циклы <code>[</code> и <code>]</code>, перемещая внутренний индекс по массиву инструкций.</p>
+<h3>Исходный код</h3>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfix</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-6"># @title: Транслятор</span>
+
+<span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">code</span>[<span class="cm-doc-brainfix-3">256</span>];
+<span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">memory</span>[<span class="cm-doc-brainfix-3">100</span>];
+<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">pointer</span>, <span class="cm-doc-brainfix-4">level</span>;
+
+<span class="cm-doc-brainfix-1">in</span> <span class="cm-doc-brainfix-4">code</span>;
+
+<span class="cm-doc-brainfix-1">for</span> (<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">i</span> = <span class="cm-doc-brainfix-3">0</span>; <span class="cm-doc-brainfix-4">i</span> &lt; <span class="cm-doc-brainfix-1">sizeof</span> <span class="cm-doc-brainfix-4">code</span>; <span class="cm-doc-brainfix-4">i</span>++)
+{
+    <span class="cm-doc-brainfix-1">char</span> <span class="cm-doc-brainfix-4">command</span> = <span class="cm-doc-brainfix-4">code</span>[<span class="cm-doc-brainfix-4">i</span>];
+
+    <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">command</span> == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">&gt;</span><span class="cm-doc-brainfix-2">'</span>)
+    {
+        <span class="cm-doc-brainfix-4">pointer</span>++;
+    }
+    <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">command</span> == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">&lt;</span><span class="cm-doc-brainfix-2">'</span>)
+    {
+        <span class="cm-doc-brainfix-4">pointer</span>--;
+    }
+    <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">command</span> == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">+</span><span class="cm-doc-brainfix-2">'</span>)
+    {
+        <span class="cm-doc-brainfix-4">memory</span>[<span class="cm-doc-brainfix-4">pointer</span>]++;
+    }
+    <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">command</span> == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">-</span><span class="cm-doc-brainfix-2">'</span>)
+    {
+        <span class="cm-doc-brainfix-4">memory</span>[<span class="cm-doc-brainfix-4">pointer</span>]--;
+    }
+    <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">command</span> == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">.</span><span class="cm-doc-brainfix-2">'</span>)
+    {
+        <span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">memory</span>[<span class="cm-doc-brainfix-4">pointer</span>];
+    }
+    <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">command</span> == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">,</span><span class="cm-doc-brainfix-2">'</span>)
+    {
+        <span class="cm-doc-brainfix-1">in</span> <span class="cm-doc-brainfix-4">memory</span>[<span class="cm-doc-brainfix-4">pointer</span>];
+    }
+    <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">command</span> == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">[</span><span class="cm-doc-brainfix-2">'</span> &amp;&amp; !<span class="cm-doc-brainfix-4">memory</span>[<span class="cm-doc-brainfix-4">pointer</span>])
+    {
+        <span class="cm-doc-brainfix-4">level</span>++;
+        <span class="cm-doc-brainfix-1">while</span> (<span class="cm-doc-brainfix-4">level</span>)
+        {
+            <span class="cm-doc-brainfix-4">i</span>++;
+            <span class="cm-doc-brainfix-1">if</span>      (<span class="cm-doc-brainfix-4">code</span>[<span class="cm-doc-brainfix-4">i</span>] == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">[</span><span class="cm-doc-brainfix-2">'</span>) <span class="cm-doc-brainfix-4">level</span>++;
+            <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">code</span>[<span class="cm-doc-brainfix-4">i</span>] == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">]</span><span class="cm-doc-brainfix-2">'</span>) <span class="cm-doc-brainfix-4">level</span>--;
+        }
+    }
+    <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">command</span> == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">]</span><span class="cm-doc-brainfix-2">'</span> &amp;&amp; <span class="cm-doc-brainfix-4">memory</span>[<span class="cm-doc-brainfix-4">pointer</span>])
+    {
+        <span class="cm-doc-brainfix-4">level</span>++;
+        <span class="cm-doc-brainfix-1">while</span> (<span class="cm-doc-brainfix-4">level</span>)
+        {
+            <span class="cm-doc-brainfix-4">i</span>--;
+            <span class="cm-doc-brainfix-1">if</span>      (<span class="cm-doc-brainfix-4">code</span>[<span class="cm-doc-brainfix-4">i</span>] == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">[</span><span class="cm-doc-brainfix-2">'</span>) <span class="cm-doc-brainfix-4">level</span>--;
+            <span class="cm-doc-brainfix-1">else</span> <span class="cm-doc-brainfix-1">if</span> (<span class="cm-doc-brainfix-4">code</span>[<span class="cm-doc-brainfix-4">i</span>] == <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">]</span><span class="cm-doc-brainfix-2">'</span>) <span class="cm-doc-brainfix-4">level</span>++;
+        }
+        <span class="cm-doc-brainfix-4">i</span>--;
+    }
+}
+</code></pre>
+		</div>
+<h3>Разбор логики работы</h3>
+<ol>
+<li><strong>Выделение памяти под виртуальную машину</strong>:
+<ul>
+<li><code>char code[256]</code> — буфер для хранения считываемого кода Brainfuck.</li>
+<li><code>char memory[100]</code> — эмулируемая лента памяти для исполняемой Brainfuck-программы. Изначально вся лента заполнена нулями.</li>
+<li><code>byte pointer</code> — указатель на текущую ячейку эмулируемой памяти <code>memory</code>.</li>
+<li><code>byte level</code> — счётчик уровня вложенности скобок для корректной обработки циклов.</li>
+</ul>
+</li>
+<li><strong>Чтение исходного кода (<code>in code;</code>)</strong>: Команда считывает всю введённую пользователем строку с Brainfuck-кодом в массив <code>code</code>.</li>
+<li><strong>Главный цикл интерпретатора (<code>for ... sizeof code</code>)</strong>: Программа последовательно шагает по массиву <code>code</code> индекс за индексом, извлекая текущую команду в переменную <code>command</code>.</li>
+<li><strong>Обработка простых команд (<code>&gt;</code>, <code>&lt;</code>, <code>+</code>, <code>-</code>, <code>.</code>, <code>,</code>)</strong>:
+<ul>
+<li>Сдвиги <code>&gt;</code> и <code>&lt;</code> инкрементируют и декрементируют виртуальный <code>pointer</code>.</li>
+<li>Изменения <code>+</code> и <code>-</code> модифицируют значение в ячейке <code>memory[pointer]</code>.</li>
+<li>Операции ввода/вывода <code>.</code> и <code>,</code> напрямую передают данные из виртуальной ленты в реальный поток исполнения.</li>
+</ul>
+</li>
+<li><strong>Эмуляция начала цикла (<code>[</code> и текущая ячейка равна 0)</strong>:
+<ul>
+<li>Если текущая ячейка памяти равна нулю, цикл выполнять не нужно, и интерпретатор должен прыгнуть вперёд к парной закрывающей скобке <code>]</code>.</li>
+<li>Переменная <code>level</code> увеличивается до 1. В цикле <code>while (level)</code> индекс <code>i</code> двигается вперёд по коду. Если по пути встречаются вложенные <code>[</code>, <code>level</code> растёт, если <code>]</code>, то уменьшается. Как только <code>level</code> падает до 0, это означает, что парная скобка найдена, и выполнение продолжится со следующей за ней команды.</li>
+</ul>
+</li>
+<li><strong>Эмуляция конца цикла (<code>]</code> и текущая ячейка НЕ равна 0)</strong>:
+<ul>
+<li>Если текущая ячейка памяти не равна нулю, программу нужно вернуть назад к началу цикла (к парной открывающей скобке <code>[</code>).</li>
+<li>Логика поиска аналогична: <code>level</code> увеличивается, индекс <code>i</code> двигается назад (<code>i--</code>), пока счётчик вложенности снова не обнулится.</li>
+<li>После выхода из <code>while (level)</code> указатель <code>i</code> будет стоять ровно на символе <code>[</code>. Чтобы на следующей итерации главного цикла <code>for</code> шаг <code>i++</code> не перескочил первую команду внутри цикла, мы принудительно делаем дополнительный откат <code>i--</code>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="%D0%B3%D0%B4%D0%B5-%D0%BD%D0%B0%D0%B9%D1%82%D0%B8-%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D0%BE%D0%B2" tabindex="-1">Где найти больше примеров?</h2>
+<p>Более сложные, интерактивные и интересные программы (включая полноценные игры «Сапёр» и «Ним») можно посмотреть, детально изучить и запустить вживую в веб-среде разработки <strong>Brainfix Studio</strong>. Там же вы сможете написать и скомпилировать собственный код.</p>
+<ul>
+<li><strong>Официальная онлайн-среда разработки:</strong> <a href="https://avito-work1.t-dir.dev/brainfuck/docs/">Brainfix Studio</a></li>
+</ul>
+
+
+			</article>
+		</main>
+
+	</div>
+
+	<footer>
+		<p>
+			Разработано для проекта <b>Brainfix</b> • 2026<br>
+			Проект распространяется под лицензией <a href="https://opensource.org">MIT</a>
+		</p>
+	</footer>
+</div>
+
+<script src="assets/js/script.js"></script>
+
+</body>
+
+</html>
