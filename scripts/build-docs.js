@@ -123,7 +123,7 @@ function build() {
 		const sidebarHtml = generateSidebarHTML(addToMenu, currentPage.htmlFilename);
 
 		let finalHtml = template
-			.replace('<!-- TITLE -->', `${currentPage.title} — BrainFix Docs 3001`)
+			.replace('<!-- TITLE -->', `${currentPage.title} — BrainFix Docs`)
 			.replace('<!-- CONTENT -->', mainContentHtml)
 			.replace('<!-- SIDEBAR -->', sidebarHtml);
 

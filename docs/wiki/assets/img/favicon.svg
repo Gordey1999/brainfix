@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
+	<rect width="256" height="256" rx="48" fill="#bdd2d9"/>
+	<text x="128" y="128"
+	      font-family="monospace" font-weight="900" font-size="120"
+	      fill="#4a5355" text-anchor="middle" letter-spacing="-2">
+		<tspan dy="" fill="#ffffff" dx="37">BFX</tspan>
+		<tspan x="124" dy="-5">BFX</tspan>
+	</text>
+	<rect x="25" y="135" width="206" height="85" rx="14" fill="#a22222"/>
+	<text x="128" y="208"
+	      font-family="monospace" font-weight="900" font-size="96"
+	      fill="#ffffff" text-anchor="middle" letter-spacing="2">&gt;+-</text>
+</svg>

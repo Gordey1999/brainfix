@@ -386,6 +386,10 @@ blockquote p::before {
 	zoom: 0.5;
 }
 
+.doc-article a {
+	color: #4a5558;
+}
+
 footer {
 	display: flex;
 	justify-content: flex-end;
