@@ -4,7 +4,7 @@ import {tags} from "@lezer/highlight"
 const bfxLanguage = StreamLanguage.define({
 	name: "BrainFix",
 	startState() {
-		return { inString: false, inComment: false };
+		return { inString: false, inComment: false, headersArea: true };
 	},
 
 	token(stream, state) {
@@ -18,21 +18,26 @@ const bfxLanguage = StreamLanguage.define({
 
 		if (!state.inString && !state.inComment) {
 			if (stream.eat('"')) {
+				state.headersArea = false;
 				state.inString = '"'
 				return "string"
 			}
 			if (stream.eat("'")) {
+				state.headersArea = false;
 				state.inString = "'"
 				return "string"
 			}
-			if (
-				stream.match(/^#\s*@title.*/i)
-				|| stream.match(/^#\s*@steps_per_frame.*/i)
-				|| stream.match(/^#\s*@buffered_input.*/i)
-				|| stream.match(/^#\s*@comment_level.*/i)
-				|| stream.match(/^#\s*@version.*/i)
-			) {
-				return "meta"
+			if (state.headersArea) {
+				if (
+					stream.match(/^#\s*@title.*/i)
+					|| stream.match(/^#\s*@steps_per_frame.*/i)
+					|| stream.match(/^#\s*@buffered_input.*/i)
+					|| stream.match(/^#\s*@comment_level.*/i)
+					|| stream.match(/^#\s*@version.*/i)
+					|| stream.match(/^#\s*@console_color.*/i)
+				) {
+					return "meta"
+				}
 			}
 			if (stream.eat('#')) {
 				state.inComment = true
@@ -45,6 +50,8 @@ const bfxLanguage = StreamLanguage.define({
 			return "comment"
 		}
 		if (state.inString) {
+			state.headersArea = false;
+
 			if (stream.match(/^\\n/)) {
 				return "number"
 			}
@@ -54,21 +61,26 @@ const bfxLanguage = StreamLanguage.define({
 		}
 
 		if (stream.match(/^@[$_a-zA-Z][$_a-zA-Z0-9]*/)) {
+			state.headersArea = false;
 			return 'modifier'
 		}
 
 		if (stream.match(/^(?:char|byte|bool|if|else|do|while|for|in|out|sizeof)\b/)) {
+			state.headersArea = false;
 			return "keyword"
 		}
 
 		if (stream.match(/^(?:true|false|eol)\b/)) {
+			state.headersArea = false;
 			return "number"
 		}
 
 		if (stream.match(/^\d+/)) {
+			state.headersArea = false;
 			return "number"
 		}
 		if (stream.match(/^[$_a-zA-Z][$_a-zA-Z0-9]*/)) {
+			state.headersArea = false;
 			return "variableName"
 		}
 

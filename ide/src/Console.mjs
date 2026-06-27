@@ -183,4 +183,13 @@ export class Console {
 	setUseInputBuffer(value = true) {
 		this._useInputBuffer = value;
 	}
+
+	setColor(color = null) {
+		if (color) {
+			document.body.style.setProperty('--console-color', color);
+		}
+		else {
+			document.body.style.removeProperty('--console-color');
+		}
+	}
 }

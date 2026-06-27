@@ -258,7 +258,6 @@ export class Translator {
 	}
 
 	setStepsPerFrame(value) {
-		console.log(value);
 		if (value > 0) {
 			this._stepsPerFrame = value;
 		} else {

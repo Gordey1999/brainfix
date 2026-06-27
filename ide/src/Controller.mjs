@@ -21,6 +21,7 @@ export class Controller {
 
 	onStop = () => {
 		if (this._stopped) { return; }
+		this._dropHeaders();
 		this._stopped = true;
 		this._console.stop();
 		this._console.setStatus('stopped');
@@ -124,8 +125,16 @@ export class Controller {
 
 		const bufferedInput = headers['buffered_input'] ?? 'on';
 		const stepsPerFrame = headers['steps_per_frame'] ?? '';
+		const consoleColor = headers['console_color'] ?? '';
 
+		this._console.setColor(consoleColor);
 		this._console.setUseInputBuffer(MetaParser.parseBool(bufferedInput, true));
 		this._translator.setStepsPerFrame(MetaParser.parseInt(stepsPerFrame, null));
+	}
+
+	_dropHeaders() {
+		this._console.setColor();
+		this._console.setUseInputBuffer();
+		this._translator.setStepsPerFrame();
 	}
 }

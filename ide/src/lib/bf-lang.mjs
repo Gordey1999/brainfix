@@ -4,7 +4,7 @@ import {tags} from "@lezer/highlight"
 const bfLanguage = StreamLanguage.define({
 	name: "brainfuck",
 	startState() {
-		return { inComment: false };
+		return { inComment: false, headersArea: true };
 	},
 	token(stream, state) {
 		if (stream.sol()) {
@@ -16,12 +16,18 @@ const bfLanguage = StreamLanguage.define({
 		}
 
 		if (!state.inComment) {
-			if (
-				stream.match(/^#\s*@title.*/i)
-				|| stream.match(/^#\s*@memory.*/i)
-				|| stream.match(/^#\s*@steps_per_frame.*/i)
-				|| stream.match(/^#\s*@buffered_input.*/i)
-			) {
+			if (state.headersArea) {
+				if (
+					stream.match(/^#\s*@title.*/i)
+					|| stream.match(/^#\s*@steps_per_frame.*/i)
+					|| stream.match(/^#\s*@buffered_input.*/i)
+					|| stream.match(/^#\s*@console_color.*/i)
+				) {
+					return "meta"
+				}
+			}
+
+			if (stream.match(/^#\s*@memory.*/i)) {
 				return "meta"
 			}
 
@@ -51,10 +57,12 @@ const bfLanguage = StreamLanguage.define({
 		}
 
 		if (stream.match(/[><+\-.,]/)) {
+			state.headersArea = false;
 			return "keyword"
 		}
 
 		if (stream.match(/[\[\]]/)) {
+			state.headersArea = false;
 			return "bracket"
 		}
 
