@@ -69,6 +69,7 @@ export class Console {
 		this._buffer = [];
 		this._render('\n');
 		this._resolveInput();
+		this._scrollToEnd();
 	}
 
 	_render(text) {
@@ -150,14 +151,7 @@ export class Console {
 
 	echo(text) {
 		this._render(text);
-
-		if (!this._scrollPending) {
-			this._scrollPending = true;
-			requestAnimationFrame(() => {
-				this._el.scrollTop = this._el.scrollHeight;
-				this._scrollPending = false;
-			});
-		}
+		this._scrollToEnd();
 	}
 
 	stop() {
@@ -190,6 +184,20 @@ export class Console {
 		}
 		else {
 			document.body.style.removeProperty('--console-color');
+		}
+	}
+
+	captureFocus() {
+		this._el.focus();
+	}
+
+	_scrollToEnd() {
+		if (!this._scrollPending) {
+			this._scrollPending = true;
+			requestAnimationFrame(() => {
+				this._el.scrollTop = this._el.scrollHeight;
+				this._scrollPending = false;
+			});
 		}
 	}
 }

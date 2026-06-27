@@ -6,6 +6,7 @@ body {
 
 	--text-color-red: rgb(150 1 1);
 	--text-color-blue: blue;
+	--console-color: #5fe85f;
 }
 
 .--hidden {
@@ -264,7 +265,7 @@ pre {
 	padding: 15px 20px;
 	box-sizing: border-box;
 	background: black;
-	color: #5fe85f;
+	color: var(--console-color);
 	font-weight: bold;
 	font-size: 1.05rem;
 	display: flex;
@@ -346,7 +347,7 @@ pre {
 }
 
 .console::selection {
-	background-color: #5fe85f;
+	background-color: var(--console-color);
 	color: black;
 }
 

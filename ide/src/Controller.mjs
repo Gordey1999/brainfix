@@ -103,6 +103,7 @@ export class Controller {
 					this._translator.pushInput(input);
 					this._run(debug, runParams);
 				})
+				this._console.captureFocus();
 			} else {
 				this._console.showError(e.message);
 				console.warn(e);
