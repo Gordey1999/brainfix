@@ -19,7 +19,8 @@
     "devDependencies": {
         "@rollup/plugin-commonjs": "^29.0.3",
         "@rollup/plugin-node-resolve": "^16.0.3",
-        "@rollup/plugin-terser": "^1.0.0"
+        "@rollup/plugin-terser": "^1.0.0",
+        "rollup-plugin-license": "^3.7.1"
     },
     "scripts": {
         "build:docs": "node scripts/build-docs.js"

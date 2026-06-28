@@ -1,6 +1,7 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import terser from "@rollup/plugin-terser";
+import license from 'rollup-plugin-license';
 
 export default {
 	input: 'ide/src/index.mjs',
@@ -16,6 +17,13 @@ export default {
 		// Превращает CommonJS код (как у localforage) в понятный для Rollup формат
 		commonjs(),
 		// Активирует минимизацию JS
-		terser()
+		terser(),
+		// Лицензии
+		license({
+			thirdParty: {
+				output: 'docs/vendor-licenses.txt',
+				includePrivate: false,
+			},
+		}),
 	]
 };
