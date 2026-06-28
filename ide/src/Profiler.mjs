@@ -1,7 +1,6 @@
 import {numberToCharPretty} from "./lib/CharConverter.mjs";
 
 export class Profiler {
-	_rowSize = 20;
 	_pointer = 0;
 	_pointedCell = null;
 	_storage = null;

@@ -86,7 +86,6 @@ export class Translator {
 	}
 
 	_run(debug = false, debugParams = {}) {
-		console.log('translator run');
 		const length = this._code.length;
 
 		let i = 0;

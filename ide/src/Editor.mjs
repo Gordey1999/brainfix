@@ -192,7 +192,7 @@ export class Editor {
 		this._editor.dispatch({effects: setActivePosition.of(position)});
 
 		if (position !== null) {
-			const line = this._editor.state.doc.line(position[0]);
+			const line = this._editor.state.doc.line(position[0] + 1);
 			this._editor.dispatch({
 				effects: EditorView.scrollIntoView(
 					line.from,
