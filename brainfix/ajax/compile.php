@@ -1,5 +1,16 @@
 <?php
 
+header("Access-Control-Allow-Origin: https://gordey1999.github.io");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+
+// Когда JavaScript отправляет POST запрос с типом данных JSON,
+//браузер сначала автоматически шлёт скрытый проверочный запрос методом OPTIONS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+	http_response_code(200);
+	exit(0);
+}
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_STRICT & ~E_USER_NOTICE & ~E_COMPILE_WARNING & ~E_DEPRECATED);
 
