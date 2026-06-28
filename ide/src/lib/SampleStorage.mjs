@@ -9,6 +9,10 @@ const files = [
 		url: 'sample/nim.bfp',
 	},
 	{
+		name: 'Простые примеры',
+		url: 'sample/examples.bfp',
+	},
+	{
 		name: 'Home Page',
 		url: 'sample/home.bfp',
 	}

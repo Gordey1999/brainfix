@@ -1,0 +1,38 @@
+[
+  {
+    "code": "# @title: Числа\n\n# Здесь можно посмотреть, как работают арифметические операции с числами.\n# А также особенности ввода чисел\n# Программа просит ввести 2 числа. После этого делает с ними различные вычисления.\n# Результаты выводятся в консоль\n\nbyte a = b = 0;\n\nout 'inter two numbers: ';\nin a, b;\n# Числа читаются до пробела или новой строки\n# Возможные форматы ввода:\n# 200 20\n# или\n# 200\n# 20\n\n\nout eol;\nout a, ' + ', b, ' => ', a + b, eol;\nout a, ' - ', b, ' => ', a - b, eol;\nout a, ' * ', b, ' => ', a * b, eol;\nout a, ' / ', b, ' => ', a / b, eol;\nout a, ' % ', b, ' => ', a % b, eol;\n\nout eol;\nout a, ' == ', b, ' => ', a == b, eol;\nout a, ' != ', b, ' => ', a != b, eol;\nout a, ' > ', b, ' => ', a > b, eol;\nout a, ' < ', b, ' => ', a < b, eol;\n",
+    "input": "",
+    "language": "bb",
+    "isSubtab": false
+  },
+  {
+    "code": "# @title: Умножение\n\n# Таблица умножения\n\nbyte i = 1;\n\nwhile (++i < 10) {\n    for (byte j = 2; j < 10; j++)\n        out i, ' * ', j, ' = ', i * j, eol;\n\n    out eol;\n}",
+    "input": "",
+    "language": "bb",
+    "isSubtab": false
+  },
+  {
+    "code": "# @title: Реверс\n\n# Программа читает строку и выводит символы в ней в обратном порядке.\n# Входные данные берутся из файла ввода справа.\n\nchar str[256];\n\nin str;\n\nfor (byte i = 255; i > 0; i--) {\n    out str[i];\n}\n\nout str[0];\n",
+    "input": " яузьлопси ,йодов доп тёвиж ежот яароток ,иднэС инеми оп аклеб и дравдивкС рамьлак йыннемдан йыньлетижардзар ,киртаП инеми оп адзевз яаксром ,абоБ чнапС гурд йишчул — хин идерС .илетатибо еиксром еынзар тюялватсос моттоБ иникиБ акдорог огондовдоп еинелесаН",
+    "language": "bb",
+    "isSubtab": false
+  },
+  {
+    "code": "# @title: Транслит\n\n# Программа транслитерирует введенную строку.\n# Входные данные берутся из файла ввода справа.\n\n\nchar map[][] = [\n  'a', 'b', 'v', 'g', 'd', 'e', 'zh', 'z', 'i', 'y',\n  'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u',\n  'f', 'h', 'c', 'ch', 'sh', 'shch', '', 'y', '', 'e',\n  'yu', 'ya'\n];\n\nchar letter;\n\ndo\n{\n    in letter;\n\n    if (letter >= 'а' && letter <= 'я')\n    {\n        out map[letter - 'а'];\n    }\n    else if (letter >= 'А' && letter <= 'Я')\n    {\n        for (byte i = 0; i < sizeof map[0]; i++)\n        {\n            if (map[letter - 'А'][i])\n            {\n                char ch = map[letter - 'А'][i] - ('a' - 'A');\n                out ch;\n            }\n        }\n    }\n    else\n    {\n        out letter;\n    }\n}\nwhile (letter != eol);\n",
+    "input": "Население подводного городка Бикини Боттом составляют разные морские обитатели. Среди них — лучший друг Спанч Боба, морская звезда по имени Патрик, раздражительный надменный кальмар Сквидвард и белка по имени Сэнди, которая тоже живёт под водой, используя гидрокостюм. Спанч Боб работает поваром в закусочной «Красти Краб», которой управляет старый скряга мистер Крабс.",
+    "language": "bb",
+    "isSubtab": false
+  },
+  {
+    "code": "# @title: Множители\n\n# Программа вычислет множители для длинных чисел\n# подобно работе функции UGLY в панели управления выше.\n# Находит такие множетели, запись которых в bf будет наиболее короткая.\n# Например число 22 эффективней всего разложить на 3 * 7 + 1\n# ++++++++++++++++++++++  - получим 22\n# +++[->+++++++<]>+       - получим тоже 22, но короче\n\n\nfor (byte search = 16; search <= 128; search++)\n{\n    byte minA, minB, minC;\n    byte minCount = 255;\n\n    for (byte i = 2; i <= 15; i++)\n    {\n        for (byte j = 2; j <= 16; j++)\n        {\n            byte m = i * j;\n\n            if (search >= m)\n            {\n                byte distance = search - m;\n                byte count = i + j + distance;\n\n                if (count < minCount)\n                {\n                    minA = i;\n                    minB = j;\n                    minC = distance;\n                    minCount = count;\n                }\n            }\n        }\n    }\n\n    out search, ' = ', minA, ' * ', minB, ' + ', minC, eol;\n}",
+    "input": "",
+    "language": "bb",
+    "isSubtab": false
+  },
+  {
+    "code": "# @title: Транслятор\n\n# Транслятор кода Brainfuck, работающий на Brainfuck\n# Программа для интерпретации читается из файла ввода справа.\n\nchar code[255];\nchar memory[100];\nbyte pointer, level;\n\nin code;\n\nfor (byte i = 0; i < sizeof code; i++)\n{\n    char command = code[i];\n\n    if (command == '>')\n    {\n        pointer++;\n    }\n    else if (command == '<')\n    {\n        pointer--;\n    }\n    else if (command == '+')\n    {\n        memory[pointer]++;\n    }\n    else if (command == '-')\n    {\n        memory[pointer]--;\n    }\n    else if (command == '.')\n    {\n        out memory[pointer];\n    }\n    else if (command == ',')\n    {\n        in memory[pointer];\n    }\n    else if (command == '[' && !memory[pointer])\n    {\n        level++;\n        while (level)\n        {\n            i++;\n            if      (code[i] == '[') level++;\n            else if (code[i] == ']') level--;\n        }\n    }\n    else if (command == ']' && memory[pointer])\n    {\n        level++;\n        while (level)\n        {\n            i--;\n            if      (code[i] == '[') level--;\n            else if (code[i] == ']') level++;\n        }\n        i--;\n    }\n}",
+    "input": ">++++++++[-<+++++++++>]<.>++++[-<+++++++>]<+.+++++++..+++.>++++++[-<----------->]<-.------------.>++++++++[-<+++++++++++>]<-.--------.+++.------.--------.>++++++[-<----------->]<-.[-]\n",
+    "language": "bb",
+    "isSubtab": false
+  }
+]
