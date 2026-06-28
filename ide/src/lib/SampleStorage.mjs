@@ -1,8 +1,12 @@
 
 const files = [
 	{
-		name: 'Сапер (Minesweeper)',
+		name: 'Игра «САПЕР» (Minesweeper)',
 		url: 'sample/saper.bfp',
+	},
+	{
+		name: 'Игра «НИМ»',
+		url: 'sample/nim.bfp',
 	},
 	{
 		name: 'Home Page',
