@@ -35,8 +35,10 @@ No installation required — you can write, compile, test, and run your code dir
 
 To showcase the capabilities of the language and its compiler, several fully interactive projects have been written entirely in Brainfix:
 
-* **Minesweeper** — The classic puzzle game featuring grid generation, flag placement, and cell revealing.
-* **Nim** — A mathematical strategy game where you play against an AI opponent.
+* **"Minesweeper" Game** — a classic puzzle game featuring three difficulty levels, field generation, flags, and cell revealing.
+* **"Nim" Game** — a mathematical game against an advanced and highly challenging AI.
+* **"Hangman" Game** — an interactive text-based game featuring a built-in database of 512 words, where the user guesses a hidden word letter.
+
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
   <tr>
@@ -47,6 +49,12 @@ To showcase the capabilities of the language and its compiler, several fully int
       <img src="docs/wiki/assets/img/nim.gif" alt="Nim Gameplay Demo" />
     </td>
   </tr>
+    <tr>
+        <td width="50%" align="center">
+          <img src="docs/wiki/assets/img/hangman.gif" alt="Hangman Demo" />
+        </td>
+        <td width="50%" align="center"></td>
+      </tr>
 </table>
 
 These programs (and more) come pre-loaded in the examples menu inside **Brainfix Studio**. You can open them instantly and use them as boilerplate templates to explore the language syntax.
