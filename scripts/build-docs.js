@@ -12,7 +12,11 @@ const docFiles = [
 	{ filename: 'index.md', title: 'Главная страница', hideOnMenu: true },
 	{ filename: 'language.md', title: 'Документация по языку' },
 	{ filename: 'examples.md', title: 'Примеры программ', divider: true },
-	{ filename: 'studio.md', title: 'Руководство Brainfix Studio' }
+	{ filename: 'studio.md', title: 'Руководство Brainfix Studio' },
+	{ filename: 'en/index.md', title: 'Home page', hideOnMenu: true },
+	{ filename: 'en/language.md', title: 'Syntax Documentation' },
+	{ filename: 'en/examples.md', title: 'Code Examples', divider: true },
+	{ filename: 'en/studio.md', title: 'Brainfix Studio Guide' },
 ];
 
 const highlighter = new DocHighlighter();
@@ -71,6 +75,9 @@ function build() {
 	if (!fs.existsSync(outDir)) {
 		fs.mkdirSync(outDir, {recursive: true});
 	}
+	if (!fs.existsSync(path.join(outDir, 'en'))) {
+		fs.mkdirSync(path.join(outDir, 'en'), {recursive: true});
+	}
 
 	const siteMap = [];
 
@@ -97,14 +104,19 @@ function build() {
 			}
 		}
 
-		siteMap.push({
+		const item = {
 			filename: fileInfo.filename,
 			htmlFilename: fileInfo.filename.replace('.md', '.html'),
 			title: fileInfo.title,
 			anchors: anchors,
 			hideOnMenu: fileInfo.hideOnMenu ?? false,
 			divider: fileInfo.divider ?? false,
-		});
+			isEng: fileInfo.filename.startsWith('en/'),
+		}
+
+		item.linkUrl = item.isEng ? item.htmlFilename.substring(3) : item.htmlFilename;
+
+		siteMap.push(item);
 	});
 
 
@@ -115,12 +127,23 @@ function build() {
 
 	siteMap.forEach(currentPage => {
 		const markdownInput = fs.readFileSync(path.join(srcDir, currentPage.filename), 'utf-8');
-		const template = fs.readFileSync(path.join(srcDir, 'template.html'), 'utf-8');
+
+		let template, addToMenu;
+		if (currentPage.isEng) {
+			template = fs.readFileSync(path.join(srcDir, 'template-en.html'), 'utf-8');
+
+			addToMenu = siteMap.filter(item => !item.hideOnMenu && item.isEng);
+		} else {
+			template = fs.readFileSync(path.join(srcDir, 'template.html'), 'utf-8');
+
+			addToMenu = siteMap.filter(item => !item.hideOnMenu && !item.isEng);
+
+		}
 
 		const mainContentHtml = md.render(markdownInput);
 
-		const addToMenu = siteMap.filter(item => !item.hideOnMenu);
 		const sidebarHtml = generateSidebarHTML(addToMenu, currentPage.htmlFilename);
+
 
 		let finalHtml = template
 			.replace('<!-- TITLE -->', `${currentPage.title} — BrainFix Docs`)
@@ -144,7 +167,7 @@ function generateSidebarHTML(siteMap, activeHtmlFilename) {
 
 		html += `	<li class="doc-menu-item ${activeClass}">\n`;
 		html += `		<div class="doc-menu-item__inner">\n`;
-		html += `			<a href="${page.htmlFilename}" class="doc-menu-link">${page.title}</a>\n`;
+		html += `			<a href="${page.linkUrl}" class="doc-menu-link">${page.title}</a>\n`;
 
 		if (isCurrentPage && page.anchors.length > 0) {
 			html += `			<ul class="doc-submenu">\n`;

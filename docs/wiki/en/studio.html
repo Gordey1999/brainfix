@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+		Brainfix Studio Guide — BrainFix Docs
+	</title>
+
+	<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+
+	<link rel="stylesheet" href="../assets/css/code-theme.css">
+	<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div class="container">
+	<div class="nav">
+		<div class="nav-title"><a href="./">BrainFix Docs</a></div>
+		<div class="nav-buttons">
+			<a class="btn" href="../">Rus</a>
+			<a class="btn" target="_blank" href="https://gordey1999.github.io/brainfix/">Brainfix Studio</a>
+			<a class="btn" target="_blank" href="https://github.com/Gordey1999/brainfix">Github</a>
+		</div>
+	</div>
+
+	<div class="content doc-layout">
+
+		<aside class="doc-sidebar">
+			<div class="block-back">
+				<div class="doc-sidebar-top block">
+					<div class="doc-menu-title-back">
+						<div class="doc-menu-title">
+							Brainfix Articles
+						</div>
+					</div>
+
+					<ul class="doc-menu">
+	<li class="doc-menu-item ">
+		<div class="doc-menu-item__inner">
+			<a href="language.html" class="doc-menu-link">Syntax Documentation</a>
+		</div>
+	</li>
+	<li class="doc-menu-item ">
+		<div class="doc-menu-item__inner">
+			<a href="examples.html" class="doc-menu-link">Code Examples</a>
+		</div>
+	</li>
+<div class="doc-menu-divider"></div>
+	<li class="doc-menu-item --active">
+		<div class="doc-menu-item__inner">
+			<a href="studio.html" class="doc-menu-link">Brainfix Studio Guide</a>
+			<ul class="doc-submenu">
+				<li><a href="#interface-overview" class="doc-submenu-link">Interface Overview</a></li>
+				<li><a href="#code-editor" class="doc-submenu-link">Code Editor</a></li>
+				<li><a href="#control-panel-brainfuck-mode" class="doc-submenu-link">Control Panel (Brainfuck Mode)</a></li>
+				<li><a href="#control-panel-brainfix-mode" class="doc-submenu-link">Control Panel (Brainfix Mode)</a></li>
+				<li><a href="#terminal" class="doc-submenu-link">Terminal</a></li>
+				<li><a href="#memory-dump-and-layout-directives" class="doc-submenu-link">Memory Dump and Layout Directives</a></li>
+				<li><a href="#project-management" class="doc-submenu-link">Project Management</a></li>
+				<li><a href="#the-load-menu-and-built-in-examples" class="doc-submenu-link">The Load Menu and Built-in Examples</a></li>
+				<li><a href="#meta-headers-program-configuration" class="doc-submenu-link">Meta-headers (Program Configuration)</a></li>
+			</ul>
+		</div>
+	</li>
+</ul>
+
+				</div>
+			</div>
+		</aside>
+
+		<main class="doc-main">
+			<article class="doc-article">
+
+				<h1>Brainfix Studio Guide</h1>
+<p><strong>Brainfix Studio</strong> is a fully featured, web-based development environment (Web IDE) designed for writing, compiling, debugging, and running programs in both Brainfix and Brainfuck. It provides all the necessary tools for comfortable programming directly in your browser and is accessible via the following link:</p>
+<p><a href="https://gordey1999.github.io/brainfix/">Launch Brainfix Studio</a></p>
+<h2 id="interface-overview" tabindex="-1">Interface Overview</h2>
+<p>The Brainfix Studio interface is designed as a modular workspace divided into several functional areas. <strong>All blocks can be resized</strong> simply by dragging their borders with your mouse.</p>
+<p><img src="../assets/img/studio-interface.png" alt="Studio Interface Layout"></p>
+<p>The layout highlights the following key sections:</p>
+<ul>
+<li><strong>Control Panel (Button Block):</strong> Located at the top of the screen. The set of available tools on this panel <strong>changes dynamically based on the selected language</strong>.</li>
+<li><strong>Code Editor:</strong> The primary workspace on the left side of the screen. It features tab support, separate syntax highlighting, and allows you to quickly switch between high-level source files and low-level machine code.</li>
+<li><strong>Terminal:</strong> A console window in the top-right corner that displays compilation details for <code>.bfx</code> files, as well as the output of the executed <code>.bf</code> program. This is also where you type data for the program's input stream.</li>
+<li><strong>Memory Dump (Tape Visualization):</strong> A window in the bottom-right corner that visualizes the current state of memory cells within the Brainfuck virtual machine. During execution or step-by-step debugging, you can watch live as the pointer shifts and values are written to specific cells.</li>
+<li><strong>Input File Block:</strong> A dedicated block where you can pre-fill input data for the <code>.bf</code> program, preventing the need to re-type it manually on every single run.</li>
+</ul>
+<h2 id="code-editor" tabindex="-1">Code Editor</h2>
+<p>The centerpiece of Brainfix Studio is a tabbed code editor that allows you to work with multiple files simultaneously and even handle different programming languages.</p>
+<h3>Two Environments in a Single Interface</h3>
+<p>The editor is engineered to let you write code in both high-level Brainfix and low-level Brainfuck. Tabs are visually color-coded so you always know which language you are actively working with:</p>
+<ul>
+<li><strong>White Tabs</strong> — Source code files in the <strong>Brainfix</strong> language.</li>
+<li><strong>Yellow Tabs</strong> — Raw code files in the <strong>Brainfuck</strong> language.</li>
+</ul>
+<p>To create a new file, simply click the <strong><code>+</code></strong> (plus) button of the corresponding color.</p>
+<h3>Smart Syntax Highlighting</h3>
+<p>The Brainfix Studio editor features smart, outlined syntax highlighting. It automatically adapts to the active tab type (white or yellow) and handles the following tasks:</p>
+<ul>
+<li><strong>For Brainfix</strong>: Colors highlight keywords (the <code>in</code> and <code>out</code> commands), data types (<code>byte</code>, <code>char</code>, <code>bool</code>), control structures (<code>if</code>, <code>while</code>, <code>for</code>), variables, comments, and project headers.</li>
+<li><strong>For Brainfuck</strong>: The editor applies distinct color schemes to differentiate between various comment types and specific comment contents.</li>
+</ul>
+<h2 id="control-panel-brainfuck-mode" tabindex="-1">Control Panel (Brainfuck Mode)</h2>
+<p>When you switch to a <strong>yellow tab</strong> containing <code>.bf</code> code, the upper control panel transforms into a full-featured console for managing the virtual machine and the debugger.</p>
+<p><img src="../assets/img/studio-buttons-bf.png" alt="Control Panel for BF"></p>
+<h3>Basic Controls</h3>
+<ul>
+<li><strong>RUN</strong> — Launches the program in standard execution mode. The code runs at maximum speed until it encounters the first input request instruction <code>,</code> or reaches the end of the file.</li>
+<li><strong>STOP</strong> — Instantly terminates the execution of a running or actively debugged program and resets the state of the virtual machine.</li>
+</ul>
+<h3>Step-by-Step Debugging Mode</h3>
+<p>To initiate program debugging, simply click the <strong>STEP</strong> or <strong>LINE</strong> button. During a debugging session, a live indicator activates within the editor: the environment visually highlights both the active code line and the specific instruction character where the interpreter is currently paused.</p>
+<p>Three distinct commands are available to control execution stepping:</p>
+<ul>
+<li><strong>STEP</strong> — Executes exactly one low-level Brainfuck instruction (e.g., a single <code>+</code> or <code>&gt;</code>) and pauses execution, awaiting the next action.</li>
+<li><strong>LINE</strong> — Executes the entire current line of code and advances the instruction pointer to the beginning of the next line.</li>
+<li><strong>OUT</strong> — Executes the code at high speed until the program completely steps out of the current <code>[]</code> loop where the pointer is currently located.</li>
+</ul>
+<h3>Test Automation (INPUT)</h3>
+<ul>
+<li><strong>INPUT</strong> — Toggles the input file mode.</li>
+</ul>
+<p>When this button is active, an additional &quot;Input File&quot; panel opens on the right side of the interface. You can pre-fill this block with any text data that your program is expected to process via input commands. This eliminates the need to manually re-type the exact same strings into the console during every test run.</p>
+<blockquote>
+<p>If the pre-filled &quot;input file&quot; data runs out while the program executes another <code>,</code> (input request) instruction, the virtual machine will automatically fall back to waiting for real-time user input via the Terminal.</p>
+</blockquote>
+<h2 id="control-panel-brainfix-mode" tabindex="-1">Control Panel (Brainfix Mode)</h2>
+<p>When you switch to a <strong>white tab</strong> containing <code>.bfx</code> source code, the toolbar reconfigures completely to focus on compilation, code generation, and metadata management tasks.</p>
+<p><img src="../assets/img/studio-buttons-bfx.png" alt="Control Panel for BFX"></p>
+<h3>Compilation Modes</h3>
+<ul>
+<li>
+<p><strong>BUILD</strong> — Standard compilation of source code into readable Brainfuck.
+The assembly result always opens in a <strong>separate new yellow tab</strong>. The generated <code>.bf</code> file includes thorough text comments detailing exactly which high-level source code snippets produced specific low-level instruction blocks.</p>
+<blockquote>
+<p>Along with the code, the compiler bakes special service markup into the comments. Thanks to this, the &quot;Memory Dump&quot; window in Brainfix Studio automatically extracts your variable names from the <code>.bfx</code> file and labels the corresponding cells on the tape during debugging.</p>
+</blockquote>
+</li>
+<li>
+<p><strong>MIN</strong> — Compiles the code into an optimized <code>.min.bf</code> format.
+All service comments and whitespaces are stripped entirely from the resulting file (only the program's meta-headers are retained). The entire generated Brainfuck code is packed into a single, continuous, compact string. This mode is ideal for generating a final script ready to be exported to other platforms.</p>
+</li>
+</ul>
+<h3>Modifiers and Automation</h3>
+<ul>
+<li>
+<p><strong>UGLY</strong> — Toggles the aggressive optimization mode.
+When this button is active, clicking <strong>BUILD</strong> or <strong>MIN</strong> instructs the compiler to employ mathematical compression algorithms: all long sequences of additions or subtractions (e.g., chains of thirty <code>+</code> characters) are replaced with short, generated multiplication loops.</p>
+<p>This makes the final <code>.bf</code> file <strong>significantly shorter in size</strong>, though the code becomes less human-readable and takes slightly longer to execute on the virtual machine due to multiplication loop overhead.</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfuck</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">'</span><span class="cm-doc-brainfuck-0">H</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">,</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">W</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">d</span><span class="cm-doc-brainfuck-0">!</span><span class="cm-doc-brainfuck-0">'</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">p</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">g</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">m</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">w</span><span class="cm-doc-brainfuck-0">i</span><span class="cm-doc-brainfuck-0">t</span><span class="cm-doc-brainfuck-0">h</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">U</span><span class="cm-doc-brainfuck-0">G</span><span class="cm-doc-brainfuck-0">L</span><span class="cm-doc-brainfuck-0">Y</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">p</span><span class="cm-doc-brainfuck-0">t</span><span class="cm-doc-brainfuck-0">i</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">n</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">d</span><span class="cm-doc-brainfuck-0">i</span><span class="cm-doc-brainfuck-0">s</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">b</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">d</span>
+<span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span>[<span class="cm-doc-brainfuck-1">-</span>]
+
+<span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">T</span><span class="cm-doc-brainfuck-0">h</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">s</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">m</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">p</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">g</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">m</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">w</span><span class="cm-doc-brainfuck-0">i</span><span class="cm-doc-brainfuck-0">t</span><span class="cm-doc-brainfuck-0">h</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">U</span><span class="cm-doc-brainfuck-0">G</span><span class="cm-doc-brainfuck-0">L</span><span class="cm-doc-brainfuck-0">Y</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">p</span><span class="cm-doc-brainfuck-0">t</span><span class="cm-doc-brainfuck-0">i</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">n</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">n</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">b</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">d</span>
+<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&gt;</span>]<span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">.</span>[<span class="cm-doc-brainfuck-1">-</span>]
+</code></pre>
+		</div>
+</li>
+<li>
+<p><strong>INPUT</strong> — Toggles the input file panel.
+Operates identically to the Brainfuck mode. If you pre-fill the input file field on a <code>.bfx</code> tab, clicking the compilation buttons will automatically duplicate and transfer those test data fields into the newly opened yellow <code>.bf</code> tab. You will not have to re-enter them manually.</p>
+</li>
+</ul>
+<h2 id="terminal" tabindex="-1">Terminal</h2>
+<p>The Terminal in Brainfix Studio combines the functionalities of a system console, input/output streams (<code>in</code> / <code>out</code>), and a performance monitor for the Brainfuck virtual machine.</p>
+<h3>Performance Monitor and Statuses</h3>
+<p><img src="../assets/img/studio-terminal-status.png" alt="Program Execution Status"></p>
+<p>A status line containing crucial information is located at the top of the terminal window:</p>
+<ul>
+<li><strong>Execution Status (Top-Left Corner):</strong> Displays the current system state in real time. It shows system notifications regarding the <code>.bfx</code> file compilation process, successful assembly completions, active <code>.bf</code> code execution, or terminations.</li>
+<li><strong>Instruction Counter (Top-Right Corner):</strong> A dynamic counter that tracks the exact number of low-level Brainfuck instructions executed since the program started. The counter automatically resets to zero upon every new run, allowing you to accurately measure algorithm efficiency and the degree of compiler optimization.</li>
+</ul>
+<h3>Input and Output Streams</h3>
+<p>The main area of the terminal is dedicated to a classic console window:</p>
+<ul>
+<li><strong>Data Output:</strong> All characters, numbers, and strings sent by the program via the <code>out</code> command are instantly printed here.</li>
+<li><strong>Data Input:</strong> When the program reaches an <code>in</code> reading instruction, you can type data directly into the console. Paste operations (<strong>Ctrl + V</strong>) are also fully supported.</li>
+</ul>
+<h3>Input Buffering Modes</h3>
+<p>By default, the terminal operates with <strong>line buffering</strong> enabled. This means that all characters you type are accumulated in the input bar first and are only sent to the program stream after you press <strong>Enter</strong>. Until Enter is pressed, you can freely edit, erase, or append your text.</p>
+<blockquote>
+<p>If necessary, buffering can be disabled completely (forcing the program to respond to every single keystroke instantly), and the text/background colors of the terminal can be customized. However, these parameters are not configured via interface buttons but are defined directly within the program's source code—this is covered in detail in the <strong>&quot;Meta-headers&quot;</strong> section.</p>
+</blockquote>
+<h3>Compilation Log in the Terminal</h3>
+<p>When you are on a white tab (<code>.bfx</code>) and click the <strong>BUILD</strong> or <strong>MIN</strong> button, the terminal console outputs a detailed technical report regarding the program assembly process. This log allows you to evaluate exactly how the compiler allocated memory on the Brainfuck tape.</p>
+<p><img src="../assets/img/studio-build-info.png" alt="Compilation Log"></p>
+<h4>Log Parameter Breakdown:</h4>
+<ul>
+<li><strong>version</strong> — The current version of the Brainfix language and compiler.</li>
+<li><strong>registry size computed</strong> — The number of service memory cells that the compiler automatically allocated to perform intermediate calculations, mathematical operations, condition processing, and temporary data copying.</li>
+<li><strong>stack size computed</strong> — The volume of memory (in cells) allocated to store all single scalar variables (<code>byte</code>, <code>char</code>, <code>bool</code>) declared in the program.</li>
+<li><strong>arrays stack size computed</strong> — The total volume of memory allocated on the tape to store all arrays and strings.</li>
+<li><strong>finished! code length</strong> — A notification of successful compilation completion, specifying the exact length of the resulting <code>.bf</code> file (the total number of low-level Brainfuck instructions generated).</li>
+</ul>
+<h2 id="memory-dump-and-layout-directives" tabindex="-1">Memory Dump and Layout Directives</h2>
+<p>The <strong>Memory Dump</strong> window is located in the bottom-right corner of the Brainfix Studio interface. It serves as a visual map where the memory cells of the Brainfuck virtual machine are listed sequentially from left to right and top to bottom.</p>
+<p><img src="../assets/img/studio-memory-dump.png" alt="Memory Dump Window"></p>
+<p>This section allows you to monitor the memory state of the running program in real time. Each cell displays three parameters:</p>
+<ol>
+<li>The cell's <strong>index</strong> on the tape (displayed on the left side).</li>
+<li>The cell's textual value as a <strong>Windows-1251 encoded character</strong>.</li>
+<li>The cell's numerical value (ranging from 0 to 255).</li>
+</ol>
+<p>In addition to the cell values themselves, the dump window visualizes the <strong>active memory pointer</strong>. The specific cell where the Brainfuck interpreter's carriage is currently resting is highlighted with color. As the shift instructions <code>&gt;</code> and <code>&lt;</code> execute, you can visually track how this pointer moves across the memory tape.</p>
+<h3>Update and Animation Specifics</h3>
+<ul>
+<li><strong>Update Frequency</strong>: The memory dump is not rendered on every single step of the pointer; instead, it updates cyclically—by default, every <strong>10 million executed instructions</strong>, or whenever the program pauses to await new data input from the user.</li>
+<li><strong>Change Indication</strong>: Cells whose numerical values have changed since the previous render cycle are automatically <strong>highlighted in blue</strong>.</li>
+</ul>
+<h3>Memory Layout Directives (<code>@memory</code>)</h3>
+<p>To prevent the debugging of low-level Brainfuck code from turning into a guessing game of indices, Brainfix Studio includes built-in support for <strong>memory layout directives</strong>. These are written into the code as special comments following this specific format:</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfuck</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-5"># @memory ADDRESS:LABEL ADDRESS:LABEL ...</span>
+</code></pre>
+		</div>
+<p>For a standard Brainfuck interpreter, these lines remain regular comments and are completely ignored. However, the internal Memory Dump module in Brainfix Studio scans the program code: during execution, the interpreter reads all layout directives located above the current instruction pointer position and replaces the standard numerical cell indices with clear, readable textual aliases (<strong>LABEL</strong>).</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfuck</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">L</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">y</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">u</span><span class="cm-doc-brainfuck-0">t</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">d</span><span class="cm-doc-brainfuck-0">i</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">c</span><span class="cm-doc-brainfuck-0">t</span><span class="cm-doc-brainfuck-0">i</span><span class="cm-doc-brainfuck-0">v</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">u</span><span class="cm-doc-brainfuck-0">s</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">g</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">x</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">m</span><span class="cm-doc-brainfuck-0">p</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">e</span>
+<span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">M</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">m</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">y</span><span class="cm-doc-brainfuck-0">:</span>
+<span class="cm-doc-brainfuck-5"># @memory 0:dividend</span>
+<span class="cm-doc-brainfuck-5"># @memory 1:divisor</span>
+<span class="cm-doc-brainfuck-5"># @memory 2:quotient</span>
+<span class="cm-doc-brainfuck-5"># @memory 3:remainder</span>
+<span class="cm-doc-brainfuck-5"># @memory 4:tmp</span>
+<span class="cm-doc-brainfuck-5"># @memory 5:tmp</span>
+<span class="cm-doc-brainfuck-5"># @memory 6:tmp</span>
+</code></pre>
+		</div>
+<h3>Automatic Layout Mapping During Compilation</h3>
+<p>When you compile high-level <code>.bfx</code> code into the <code>.bf</code> format using the <strong>BUILD</strong> button, the compiler automatically generates and inserts all the necessary layout directives. It transforms abstract variables into a well-defined structure on the memory tape:</p>
+<ol>
+<li><strong>General-Purpose Registers (<code>R0</code>, <code>R1</code>, <code>R2</code>...)</strong> — Occupy the very first cells of the tape. The compiler uses these to store intermediate results of mathematical calculations and logical checks.</li>
+<li><strong>Variable Stack</strong> — Positioned directly after the registers. Cells in this region automatically receive the exact same names you gave to single scalar variables (<code>byte</code>, <code>char</code>, <code>bool</code>) in your <code>.bfx</code> source code.</li>
+<li><strong>Array Control Service Cells (<code>adr_s</code>, <code>adr_d</code>)</strong> — Placed right after the variable stack. These two cells are critical for the compiler: they are used for address calculation and executing pointer &quot;jumps&quot; across data structure elements.</li>
+<li><strong>Array Block</strong> — The final part of the layout. For each element of any declared array, the compiler allocates exactly <strong>two physical cells</strong>:
+<ul>
+<li><em>Index Cell (<code>i0</code>, <code>i1</code>, <code>i2</code>...)</em> — A service marker required by the compiler's internal algorithms to traverse the structure correctly.</li>
+<li><em>Value Cell</em> — Stores the actual data of the element. It is labeled with the array name from the <code>.bfx</code> source along with its respective index, for example: <code>arr[0]</code>, <code>arr[1]</code>, <code>arr[2]</code>.</li>
+</ul>
+</li>
+</ol>
+<p>Thanks to this automatic layout mapping, when you start a step-by-step debugging session of your compiled code, you will see a highly intuitive map in the dump window instead of a faceless array of numbers: you will know exactly where your variables reside, how the elements of a <code>matrix</code> array change, and which registers are actively processing calculations at any given second.</p>
+<h2 id="project-management" tabindex="-1">Project Management</h2>
+<p>Brainfix Studio features a built-in project management system that allows you to save your progress, export files to your local machine, and share your code.</p>
+<h3>Data Storage and Security</h3>
+<p>All projects, file history, and interface configurations are saved <strong>strictly within your browser's local storage (IndexedDB)</strong>. The Studio handles your files locally: your project source code remains entirely on your machine and is never sent or saved to external servers.</p>
+<blockquote>
+<p><strong>Compilation Specifics:</strong> The development environment operates in a hybrid mode. While data storage and code execution happen entirely locally on your computer, the process of translating high-level <code>.bfx</code> code into low-level <code>.bf</code> instructions is handled on a remote server.</p>
+</blockquote>
+<h3>The Save Menu</h3>
+<p>To commit your progress, use the save menu accessible via the <strong>SAVE</strong> button on the upper control panel.</p>
+<p><img src="../assets/img/studio-save.png" alt="Save Menu"></p>
+<p>The project management workflow inside this menu mirrors the slot system commonly found in video games. Within this menu, you can:</p>
+<ul>
+<li>Create a new slot for the current project.</li>
+<li>Overwrite an existing slot.</li>
+<li>Rename a project within the slot list.</li>
+<li>Delete an unwanted slot from the local database.</li>
+</ul>
+<p>To back up and transfer your projects across devices, files with the <code>.bfp</code> (Brainfix Project) extension are used:</p>
+<ul>
+<li><strong>export</strong> — Allows you to dump the project and manually choose a specific target directory and filename on your computer to save it.</li>
+<li><strong>download</strong> — Triggers a quick download of the <code>.bfp</code> project file directly into your browser's default system &quot;Downloads&quot; folder.</li>
+</ul>
+<h3>Autosave State and Critical Limitations</h3>
+<p>The IDE periodically <strong>autosaves the entire state of your workspace</strong>. The cache stores not only the program texts but also the complete file modification history (<strong>Ctrl + Z</strong> / <strong>Ctrl + Shift + Z</strong>), along with the exact current dimensions and proportions of all resizable windows on the screen. If you accidentally close your browser tab or refresh the page, the Studio will restore the interface exactly as it was right before you left.</p>
+<blockquote>
+<p>Due to this built-in autosave mechanism, <strong>it is highly discouraged to open Brainfix Studio in multiple browser tabs or windows simultaneously</strong>. Doing so may result in local storage synchronization conflicts. Always stick to a single active tab.</p>
+</blockquote>
+<h2 id="the-load-menu-and-built-in-examples" tabindex="-1">The Load Menu and Built-in Examples</h2>
+<p>To open previously saved projects or launch demonstration programs, use the load menu accessible by clicking the <strong>LOAD</strong> button on the upper control panel.</p>
+<p>The interface of this menu is split into several blocks and provides the following features:</p>
+<h3>Managing Local Saves</h3>
+<p>The menu displays a comprehensive list of your personal slots previously created via the save menu. Right from this screen, you can:</p>
+<ul>
+<li><strong>Load</strong> a selected project into the editor to resume working on it.</li>
+<li><strong>Rename</strong> a slot directly in the list.</li>
+<li><strong>Delete</strong> an old or unwanted local save.</li>
+</ul>
+<h3>Pre-installed Demo Programs</h3>
+<p>A dedicated section of the load menu features pre-installed demonstration programs (including complex projects like the interactive &quot;Minesweeper&quot;). Every demo program comes complete as a compiled low-level <code>.bf</code> file alongside its original high-level <code>.bfx</code> source code.</p>
+<p>You can freely load any demonstration project, analyze its architecture, modify the code to fit your needs, and save your modifications as a new custom local project.</p>
+<h3>Importing External Projects</h3>
+<p>The <strong>import</strong> button is located at the very bottom of the load menu. It is designed to open <code>.bfp</code> project files stored on your computer. When you select a file through this menu, it is imported into the IDE and deployed across the editor tabs exactly as if you had loaded it from a regular local slot.</p>
+<h2 id="meta-headers-program-configuration" tabindex="-1">Meta-headers (Program Configuration)</h2>
+<p><strong>Meta-headers</strong> are special service comments used by the compiler and the Brainfix Studio environment to configure assembly options, interface settings, and code execution parameters.</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfuck</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfuck-0">#</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">M</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">t</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">-</span><span class="cm-doc-brainfuck-0">h</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">d</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0">s</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">x</span><span class="cm-doc-brainfuck-0">a</span><span class="cm-doc-brainfuck-0">m</span><span class="cm-doc-brainfuck-0">p</span><span class="cm-doc-brainfuck-0">l</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">f</span><span class="cm-doc-brainfuck-0">o</span><span class="cm-doc-brainfuck-0">r</span><span class="cm-doc-brainfuck-0"> </span><span class="cm-doc-brainfuck-0">M</span><span class="cm-doc-brainfuck-0">i</span><span class="cm-doc-brainfuck-0">n</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">s</span><span class="cm-doc-brainfuck-0">w</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">p</span><span class="cm-doc-brainfuck-0">e</span><span class="cm-doc-brainfuck-0">r</span>
+<span class="cm-doc-brainfuck-5"># @TITLE: MINESWEEPER!</span>
+<span class="cm-doc-brainfuck-5"># @BUFFERED_INPUT: FALSE</span>
+<span class="cm-doc-brainfuck-5"># @STEPS_PER_FRAME: 50M</span>
+
+<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span>[<span class="cm-doc-brainfuck-1">-</span>]<span class="cm-doc-brainfuck-1">&lt;</span>  <span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>[<span class="cm-doc-brainfuck-1">-</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>  <span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span>]<span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span><span class="cm-doc-brainfuck-1">&gt;</span>[<span class="cm-doc-brainfuck-1">-</span>]<span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>  <span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">&lt;</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span><span class="cm-doc-brainfuck-1">+</span>
+<span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">.</span><span class="cm-doc-brainfuck-1">.</span>
+</code></pre>
+		</div>
+<p>The primary advantage of this approach is that the configuration for both the IDE and the compiler changes individually for each specific file, rather than modifying the environment as a whole.</p>
+<h3>Layout Rules and Syntax</h3>
+<ul>
+<li><strong>Placement</strong>: Meta-headers must be located <strong>strictly at the very beginning of the file</strong>, preceding the first executable instruction of the program (this applies to both <code>.bf</code> and <code>.bfx</code> files). If even a single language command appears before a meta-header, it will be ignored and treated as a regular comment.</li>
+<li><strong>Case Sensitivity</strong>: Meta-header keys are case-insensitive (<code>@TITLE</code> and <code>@title</code> operate identically).</li>
+<li><strong>Format</strong>: Three syntax variants are permitted to separate the key from its value — via a space, a colon, or an equals sign.</li>
+</ul>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfix</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">C</span><span class="cm-doc-brainfix-0">O</span><span class="cm-doc-brainfix-0">R</span><span class="cm-doc-brainfix-0">R</span><span class="cm-doc-brainfix-0">E</span><span class="cm-doc-brainfix-0">C</span><span class="cm-doc-brainfix-0">T</span><span class="cm-doc-brainfix-0">:</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">h</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">d</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">s</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">d</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">c</span><span class="cm-doc-brainfix-0">l</span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">d</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">b</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">f</span><span class="cm-doc-brainfix-0">o</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">h</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">c</span><span class="cm-doc-brainfix-0">o</span><span class="cm-doc-brainfix-0">d</span><span class="cm-doc-brainfix-0">e</span>
+<span class="cm-doc-brainfix-6"># @title: My Program</span>
+<span class="cm-doc-brainfix-6"># @console_color = #00ff00</span>
+<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">x</span> = <span class="cm-doc-brainfix-3">10</span>;
+<span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">x</span>;
+
+<span class="cm-doc-brainfix-1">byte</span> <span class="cm-doc-brainfix-4">x</span> = <span class="cm-doc-brainfix-3">10</span>;
+<span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">I</span><span class="cm-doc-brainfix-0">N</span><span class="cm-doc-brainfix-0">C</span><span class="cm-doc-brainfix-0">O</span><span class="cm-doc-brainfix-0">R</span><span class="cm-doc-brainfix-0">R</span><span class="cm-doc-brainfix-0">E</span><span class="cm-doc-brainfix-0">C</span><span class="cm-doc-brainfix-0">T</span><span class="cm-doc-brainfix-0">:</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">h</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">d</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">s</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">d</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">c</span><span class="cm-doc-brainfix-0">l</span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">d</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">f</span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">n</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">x</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">c</span><span class="cm-doc-brainfix-0">u</span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">b</span><span class="cm-doc-brainfix-0">l</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">i</span><span class="cm-doc-brainfix-0">n</span><span class="cm-doc-brainfix-0">s</span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">u</span><span class="cm-doc-brainfix-0">c</span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">i</span><span class="cm-doc-brainfix-0">o</span><span class="cm-doc-brainfix-0">n</span>
+<span class="cm-doc-brainfix-0">#</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">@</span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">i</span><span class="cm-doc-brainfix-0">t</span><span class="cm-doc-brainfix-0">l</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">:</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">M</span><span class="cm-doc-brainfix-0">y</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">P</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">o</span><span class="cm-doc-brainfix-0">g</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">a</span><span class="cm-doc-brainfix-0">m</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">(</span><span class="cm-doc-brainfix-0">T</span><span class="cm-doc-brainfix-0">h</span><span class="cm-doc-brainfix-0">i</span><span class="cm-doc-brainfix-0">s</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">w</span><span class="cm-doc-brainfix-0">i</span><span class="cm-doc-brainfix-0">l</span><span class="cm-doc-brainfix-0">l</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">b</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0"> </span><span class="cm-doc-brainfix-0">i</span><span class="cm-doc-brainfix-0">g</span><span class="cm-doc-brainfix-0">n</span><span class="cm-doc-brainfix-0">o</span><span class="cm-doc-brainfix-0">r</span><span class="cm-doc-brainfix-0">e</span><span class="cm-doc-brainfix-0">d</span><span class="cm-doc-brainfix-0">!</span><span class="cm-doc-brainfix-0">)</span>
+<span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-4">x</span>;
+</code></pre>
+		</div>
+<h3>Universal Headers (for both <code>.bf</code> and <code>.bfx</code>)</h3>
+<ul>
+<li>
+<p><strong><code># @title</code></strong><br>
+Defines the program name displayed as the label of the active editor tab within the Studio.</p>
+<div class="doc-code-block">
+			<div class="doc-code-header">
+				<span class="doc-code-header__lang">brainfix</span>
+				<button class="doc-code-header__copy">скопировать</button>
+			</div>
+			<pre class="cm-editor"><code class="cm-scroller"><span class="cm-doc-brainfix-6"># @title: Hello, World!</span>
+<span class="cm-doc-brainfix-1">out</span> <span class="cm-doc-brainfix-2">'</span><span class="cm-doc-brainfix-2">H</span><span class="cm-doc-brainfix-2">e</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2">,</span><span class="cm-doc-brainfix-2"> </span><span class="cm-doc-brainfix-2">W</span><span class="cm-doc-brainfix-2">o</span><span class="cm-doc-brainfix-2">r</span><span class="cm-doc-brainfix-2">l</span><span class="cm-doc-brainfix-2">d</span><span class="cm-doc-brainfix-2">!</span><span class="cm-doc-brainfix-2">'</span>;
+</code></pre>
+		</div>
+</li>
+</ul>
+<h3>Runtime Headers (for <code>.bf</code>)</h3>
+<p>These headers control the behavior of the virtual machine while the script is running. It is important to remember that all settings apply only during program execution and automatically reset to their default values as soon as the program terminates.</p>
+<ul>
+<li>
+<p><strong><code># @console_color</code></strong><br>
+Sets the text color within the Terminal window. The value accepts any valid CSS color format: string name, HEX code, or RGB.<br>
+<em>Examples:</em> <code># @console_color red</code> or <code># @console_color #ff0000</code></p>
+</li>
+<li>
+<p><strong><code># @buffered_input</code></strong><br>
+Enables or disables line buffering for inputs in the Terminal. When buffering is enabled, data typed by the user is sent to the program stream only after pressing the Enter key. When buffering is disabled, the program instantly reads every character the moment a key is pressed.</p>
+<ul>
+<li><em>Enabled (default):</em> <code>true</code>, <code>yes</code>, <code>on</code>, <code>y</code>, <code>1</code></li>
+<li><em>Disabled:</em> <code>false</code>, <code>no</code>, <code>off</code>, <code>n</code>, <code>0</code></li>
+<li><em>Example:</em> <code># @buffered_input false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code># @steps_per_frame</code></strong><br>
+Specifies the number of low-level Brainfuck instructions that the virtual machine must execute before each user interface update (render). Text rendering in the Terminal, Memory Dump animations, and current-line highlighting in the editor occur cyclically after passing this specified step limit (or when the program pauses awaiting user input).</p>
+<ul>
+<li>By default, rendering occurs every <strong>10M</strong> (10 million) instructions.</li>
+<li>Allowed suffixes are <strong>K</strong> (thousands), <strong>M</strong> (millions), or raw integers.</li>
+<li><em>Use Case:</em> Small values (e.g., <code>100</code>) are ideal for visually observing slowed step-by-step execution of an algorithm. Large values (e.g., <code>100M</code>) help eliminate interface freezes and lags if the program cyclically redraws a large amount of content upon every user input.</li>
+<li><em>Example:</em> <code># @steps_per_frame 100K</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Headers meant for <code>.bf</code> can and should be defined within <code>.bfx</code> code headers. During assembly, the compiler will automatically copy them to the beginning of the generated file, saving you from having to configure them manually after every single compilation.</p>
+</blockquote>
+<h3>Compiler Headers (for <code>.bfx</code> only)</h3>
+<p>These directives directly impact the translator's logic during the assembly of high-level source code.</p>
+<ul>
+<li>
+<p><strong><code># @comment_level</code></strong><br>
+Configures the documentation depth within the generated <code>.bf</code> code. The compiler is capable of generating three distinct types of comments:</p>
+<ol>
+<li><em>Memory Mapping (<code># @memory ...</code>)</em> — Service data used to label cells within the dump window.</li>
+<li><em>Source Code Reference (<code>### byte a = 10;</code>)</em> — Blue-colored comments indicating exactly which line of <code>.bfx</code> code produced the subsequent block of Brainfuck instructions.</li>
+<li><em>Operation Explanations (<code># add 72 to R0</code>)</em> — Green-colored comments describing low-level action sequences executed by the compiler.</li>
+</ol>
+<p>Available configuration values include:</p>
+<ul>
+<li><code>full</code> (default) — Retains all generated comments.</li>
+<li><code>source</code> — Retains memory mapping directives and blue source code reference comments only.</li>
+<li><code>memory</code> — Retains memory mapping directives exclusively.</li>
+<li><code>none</code> — Assembles the file without any comments. The output is clean, structured Brainfuck code containing only meta-headers.</li>
+<li><em>Example:</em> <code># @comment_level source</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code># @version</code></strong><br>
+Specifies the target language and compiler version.</p>
+<ul>
+<li><code>1.0</code> — The initial compiler and syntax release.</li>
+<li><code>1.1</code> (default) — The latest version. Features global architecture enhancements that drastically optimize and accelerate multi-dimensional array operations.</li>
+<li><em>Example:</em> <code># @version 1.0</code></li>
+</ul>
+</li>
+</ul>
+
+
+			</article>
+		</main>
+
+	</div>
+
+	<footer>
+		<p>
+			Developed for the <b>Brainfix</b> project • 2026<br>
+			The project is distributed under the <a href="https://opensource.org" target="_blank">MIT License</a>
+		</p>
+	</footer>
+</div>
+
+<script src="../assets/js/script.js"></script>
+
+</body>
+
+<style>
+	blockquote p::before {
+		content: "[WARNING] ";
+		color: var(--text-color-red);
+	}
+</style>
+
+</html>
