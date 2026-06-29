@@ -1,0 +1,864 @@
+# @title: Исходный код
+
+# Это исходный код Виселицы, написанный на BrainFix.
+# И его можно редактировать.
+# Чтобы собрать код в Brainfuck, используй кнопки BUILD или MIN.
+# Но процесс сборки не быстрый.
+
+
+# Темы:
+# 0 - Еда
+# 1 - Животные
+# 2 - Профессии
+# 3 - Техника
+byte seed, topic;
+bool play = true;
+bool randomTopic = false;
+
+
+out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+out 'Для старта нам нужен сид\n';
+out 'для генерации случайных чисел.\n';
+out '\n';
+out 'Введи любое слово или число\n';
+out 'и нажми Enter.\n';
+out '\n> ';
+in seed;
+
+
+
+
+while (topic < '1' || topic > '5')
+{
+    out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+    out '------------   ВИСЕЛИЦА   ------------\n';
+    out '_______                       by Gordy\n';
+    out '|     |    Выбери категорию:\n';
+    out '|     |\n';
+    out '|    / \   1. Еда\n';
+    out '|    \_/   2. Животные\n';
+    out '|          3. Профессии\n';
+    out '|          4. Техника\n';
+    out '|          5. Случайная\n';
+    out '|\n';
+    out '|  Введи номер категории и нажми Enter\n';
+    out '\n> ';
+
+    char input;
+    in input;
+    topic = input;
+    while (input != '\n')
+    {
+        in input;
+    }
+}
+
+topic -= '1';
+if (topic == 4) randomTopic = true;
+
+
+byte wonCount = 0, roundCount = 0;
+
+
+while (play)
+{
+    #################################
+    #         НАЧАЛО РАУНДА         #
+    #################################
+
+    char word[11], wordPrint[11] = 0;
+    bool letters[32] = true;  # Доступные буквы
+    byte lives = 7; # жизни: виселица, голова, тело, рука, рука, нога, нога
+    bool won = false;
+    char letter; # введенная буква
+
+    # Статусы ввода
+    # 0 - Начало раунда
+    # 1 - Введена не буква
+    # 2 - Неверная раскладка
+    # 3 - Буква уже вводилась ранее
+    # 4 - Такой буквы в слове нет
+    # 5 - Буква есть в слове
+    byte status = 0;
+
+    # Если случайная категория, меняем каждую игру
+    if (randomTopic)
+    {
+        seed = 137 * seed + 1;
+        topic = seed / 64;
+    }
+
+    # Перемешиваем сид
+    seed = 137 * seed + 1;
+    byte key = seed / 2;
+
+
+    #################################
+    #         ВЫБИРАЕМ СЛОВО        #
+    #################################
+    if (topic == 0)
+    {
+        if (key == 0)   word = 'песто';
+        if (key == 1)   word = 'баранка';
+        if (key == 2)   word = 'котлета';
+        if (key == 3)   word = 'киви';
+        if (key == 4)   word = 'ряженка';
+        if (key == 5)   word = 'подливка';
+        if (key == 6)   word = 'десерт';
+        if (key == 7)   word = 'какао';
+        if (key == 8)   word = 'компот';
+        if (key == 9)   word = 'кукуруза';
+        if (key == 10)  word = 'сосиска';
+        if (key == 11)  word = 'йогурт';
+        if (key == 12)  word = 'лимон';
+        if (key == 13)  word = 'томат';
+        if (key == 14)  word = 'сливки';
+        if (key == 15)  word = 'булочка';
+        if (key == 16)  word = 'гамбургер';
+        if (key == 17)  word = 'майонез';
+        if (key == 18)  word = 'маринад';
+        if (key == 19)  word = 'пломбир';
+        if (key == 20)  word = 'мармелад';
+        if (key == 21)  word = 'спаржа';
+        if (key == 22)  word = 'колбаса';
+        if (key == 23)  word = 'авокадо';
+        if (key == 24)  word = 'картофель';
+        if (key == 25)  word = 'каша';
+        if (key == 26)  word = 'кетчуп';
+        if (key == 27)  word = 'тыква';
+        if (key == 28)  word = 'грейпфрут';
+        if (key == 29)  word = 'арбуз';
+        if (key == 30)  word = 'брокколи';
+        if (key == 31)  word = 'кофе';
+        if (key == 32)  word = 'инжир';
+        if (key == 33)  word = 'банан';
+        if (key == 34)  word = 'креветка';
+        if (key == 35)  word = 'уксус';
+        if (key == 36)  word = 'кекс';
+        if (key == 37)  word = 'карбонара';
+        if (key == 38)  word = 'ананас';
+        if (key == 39)  word = 'свекла';
+        if (key == 40)  word = 'гуакамоле';
+        if (key == 41)  word = 'брауни';
+        if (key == 42)  word = 'пастила';
+        if (key == 43)  word = 'мороженое';
+        if (key == 44)  word = 'имбирь';
+        if (key == 45)  word = 'сельдерей';
+        if (key == 46)  word = 'мандарин';
+        if (key == 47)  word = 'васаби';
+        if (key == 48)  word = 'пельмени';
+        if (key == 49)  word = 'бутерброд';
+        if (key == 50)  word = 'творог';
+        if (key == 51)  word = 'сальса';
+        if (key == 52)  word = 'медовик';
+        if (key == 53)  word = 'винегрет';
+        if (key == 54)  word = 'борщ';
+        if (key == 55)  word = 'виноград';
+        if (key == 56)  word = 'терияки';
+        if (key == 57)  word = 'папайя';
+        if (key == 58)  word = 'сельдь';
+        if (key == 59)  word = 'выпечка';
+        if (key == 60)  word = 'морковь';
+        if (key == 61)  word = 'груша';
+        if (key == 62)  word = 'нектарин';
+        if (key == 63)  word = 'слива';
+        if (key == 64)  word = 'зефир';
+        if (key == 65)  word = 'конфета';
+        if (key == 66)  word = 'редис';
+        if (key == 67)  word = 'сметана';
+        if (key == 68)  word = 'суфле';
+        if (key == 69)  word = 'марципан';
+        if (key == 70)  word = 'тирамису';
+        if (key == 71)  word = 'бублик';
+        if (key == 72)  word = 'пармезан';
+        if (key == 73)  word = 'грильяж';
+        if (key == 74)  word = 'кабачок';
+        if (key == 75)  word = 'клубника';
+        if (key == 76)  word = 'брынза';
+        if (key == 77)  word = 'пирог';
+        if (key == 78)  word = 'сухарь';
+        if (key == 79)  word = 'кисель';
+        if (key == 80)  word = 'пирожное';
+        if (key == 81)  word = 'круассан';
+        if (key == 82)  word = 'ветчина';
+        if (key == 83)  word = 'кефир';
+        if (key == 84)  word = 'запеканка';
+        if (key == 85)  word = 'бекон';
+        if (key == 86)  word = 'лазанья';
+        if (key == 87)  word = 'апельсин';
+        if (key == 88)  word = 'манго';
+        if (key == 89)  word = 'гуляш';
+        if (key == 90)  word = 'земляника';
+        if (key == 91)  word = 'онигири';
+        if (key == 92)  word = 'повидло';
+        if (key == 93)  word = 'болоньезе';
+        if (key == 94)  word = 'лайм';
+        if (key == 95)  word = 'сацебели';
+        if (key == 96)  word = 'питание';
+        if (key == 97)  word = 'торт';
+        if (key == 98)  word = 'карамель';
+        if (key == 99)  word = 'баклажан';
+        if (key == 100) word = 'оладьи';
+        if (key == 101) word = 'кальмар';
+        if (key == 102) word = 'плов';
+        if (key == 103) word = 'квас';
+        if (key == 104) word = 'абрикос';
+        if (key == 105) word = 'аджика';
+        if (key == 106) word = 'вафля';
+        if (key == 107) word = 'персик';
+        if (key == 108) word = 'дыня';
+        if (key == 109) word = 'репа';
+        if (key == 110) word = 'макароны';
+        if (key == 111) word = 'лимонад';
+        if (key == 112) word = 'маффин';
+        if (key == 113) word = 'пицца';
+        if (key == 114) word = 'нуга';
+        if (key == 115) word = 'салат';
+        if (key == 116) word = 'сэндвич';
+        if (key == 117) word = 'рагу';
+        if (key == 118) word = 'кумкват';
+        if (key == 119) word = 'блин';
+        if (key == 120) word = 'лосось';
+        if (key == 121) word = 'огурец';
+        if (key == 122) word = 'пряник';
+        if (key == 123) word = 'гарнир';
+        if (key == 124) word = 'омлет';
+        if (key == 125) word = 'тартар';
+        if (key == 126) word = 'ежевика';
+        if (key == 127) word = 'помело';
+    }
+    else if (topic == 1)
+    {
+        if (key == 0)   word = 'верблюд';
+        if (key == 1)   word = 'дельфин';
+        if (key == 2)   word = 'тритон';
+        if (key == 3)   word = 'баран';
+        if (key == 4)   word = 'бегемот';
+        if (key == 5)   word = 'синица';
+        if (key == 6)   word = 'нутрия';
+        if (key == 7)   word = 'слон';
+        if (key == 8)   word = 'дрозд';
+        if (key == 9)   word = 'лама';
+        if (key == 10)  word = 'вомбат';
+        if (key == 11)  word = 'краб';
+        if (key == 12)  word = 'пума';
+        if (key == 13)  word = 'заяц';
+        if (key == 14)  word = 'крот';
+        if (key == 15)  word = 'зубр';
+        if (key == 16)  word = 'медведь';
+        if (key == 17)  word = 'муравьед';
+        if (key == 18)  word = 'курица';
+        if (key == 19)  word = 'мамонт';
+        if (key == 20)  word = 'ворон';
+        if (key == 21)  word = 'свинья';
+        if (key == 22)  word = 'окунь';
+        if (key == 23)  word = 'скорпион';
+        if (key == 24)  word = 'альпака';
+        if (key == 25)  word = 'тигр';
+        if (key == 26)  word = 'сапсан';
+        if (key == 27)  word = 'кабан';
+        if (key == 28)  word = 'какаду';
+        if (key == 29)  word = 'карась';
+        if (key == 30)  word = 'росомаха';
+        if (key == 31)  word = 'осетр';
+        if (key == 32)  word = 'лошадь';
+        if (key == 33)  word = 'утконос';
+        if (key == 34)  word = 'козел';
+        if (key == 35)  word = 'касатка';
+        if (key == 36)  word = 'грач';
+        if (key == 37)  word = 'кальмар';
+        if (key == 38)  word = 'панда';
+        if (key == 39)  word = 'кондор';
+        if (key == 40)  word = 'лебедь';
+        if (key == 41)  word = 'жаба';
+        if (key == 42)  word = 'барсук';
+        if (key == 43)  word = 'жираф';
+        if (key == 44)  word = 'журавль';
+        if (key == 45)  word = 'глухарь';
+        if (key == 46)  word = 'рябчик';
+        if (key == 47)  word = 'лемур';
+        if (key == 48)  word = 'дикобраз';
+        if (key == 49)  word = 'кукушка';
+        if (key == 50)  word = 'сельдь';
+        if (key == 51)  word = 'индюк';
+        if (key == 52)  word = 'горилла';
+        if (key == 53)  word = 'сокол';
+        if (key == 54)  word = 'койот';
+        if (key == 55)  word = 'снегирь';
+        if (key == 56)  word = 'канарейка';
+        if (key == 57)  word = 'павлин';
+        if (key == 58)  word = 'леопард';
+        if (key == 59)  word = 'игуана';
+        if (key == 60)  word = 'выхухоль';
+        if (key == 61)  word = 'лось';
+        if (key == 62)  word = 'медуза';
+        if (key == 63)  word = 'лягушка';
+        if (key == 64)  word = 'бобр';
+        if (key == 65)  word = 'осьминог';
+        if (key == 66)  word = 'гиена';
+        if (key == 67)  word = 'буйвол';
+        if (key == 68)  word = 'коала';
+        if (key == 69)  word = 'обезьяна';
+        if (key == 70)  word = 'газель';
+        if (key == 71)  word = 'носорог';
+        if (key == 72)  word = 'суслик';
+        if (key == 73)  word = 'гриф';
+        if (key == 74)  word = 'мангуст';
+        if (key == 75)  word = 'кенгуру';
+        if (key == 76)  word = 'ласка';
+        if (key == 77)  word = 'варан';
+        if (key == 78)  word = 'дятел';
+        if (key == 79)  word = 'питон';
+        if (key == 80)  word = 'пантера';
+        if (key == 81)  word = 'бабуин';
+        if (key == 82)  word = 'коршун';
+        if (key == 83)  word = 'кобра';
+        if (key == 84)  word = 'утка';
+        if (key == 85)  word = 'гусь';
+        if (key == 86)  word = 'лиса';
+        if (key == 87)  word = 'волк';
+        if (key == 88)  word = 'гепард';
+        if (key == 89)  word = 'тюлень';
+        if (key == 90)  word = 'крыса';
+        if (key == 91)  word = 'выдра';
+        if (key == 92)  word = 'пингвин';
+        if (key == 93)  word = 'зебра';
+        if (key == 94)  word = 'куница';
+        if (key == 95)  word = 'ехидна';
+        if (key == 96)  word = 'нарвал';
+        if (key == 97)  word = 'аист';
+        if (key == 98)  word = 'акула';
+        if (key == 99)  word = 'сова';
+        if (key == 100) word = 'гиппопотам';
+        if (key == 101) word = 'рысь';
+        if (key == 102) word = 'улитка';
+        if (key == 103) word = 'енот';
+        if (key == 104) word = 'колибри';
+        if (key == 105) word = 'гадюка';
+        if (key == 106) word = 'макака';
+        if (key == 107) word = 'антилопа';
+        if (key == 108) word = 'овца';
+        if (key == 109) word = 'орел';
+        if (key == 110) word = 'морж';
+        if (key == 111) word = 'тушканчик';
+        if (key == 112) word = 'корова';
+        if (key == 113) word = 'кролик';
+        if (key == 114) word = 'горностай';
+        if (key == 115) word = 'осел';
+        if (key == 116) word = 'кашалот';
+        if (key == 117) word = 'попугай';
+        if (key == 118) word = 'олень';
+        if (key == 119) word = 'аллигатор';
+        if (key == 120) word = 'удав';
+        if (key == 121) word = 'крокодил';
+        if (key == 122) word = 'сорока';
+        if (key == 123) word = 'бурундук';
+        if (key == 124) word = 'ондатра';
+        if (key == 125) word = 'тапир';
+        if (key == 126) word = 'белка';
+        if (key == 127) word = 'тунец';
+    }
+    else if (topic == 2)
+    {
+        if (key == 0)   word = 'сварщик';
+        if (key == 1)   word = 'агроном';
+        if (key == 2)   word = 'пожарный';
+        if (key == 3)   word = 'пилот';
+        if (key == 4)   word = 'тренер';
+        if (key == 5)   word = 'архитектор';
+        if (key == 6)   word = 'гончар';
+        if (key == 7)   word = 'пчеловод';
+        if (key == 8)   word = 'судья';
+        if (key == 9)   word = 'блогер';
+        if (key == 10)  word = 'водитель';
+        if (key == 11)  word = 'модельер';
+        if (key == 12)  word = 'сантехник';
+        if (key == 13)  word = 'автомеханик';
+        if (key == 14)  word = 'рыбак';
+        if (key == 15)  word = 'повар';
+        if (key == 16)  word = 'стилист';
+        if (key == 17)  word = 'логопед';
+        if (key == 18)  word = 'астроном';
+        if (key == 19)  word = 'топограф';
+        if (key == 20)  word = 'ткач';
+        if (key == 21)  word = 'офтальмолог';
+        if (key == 22)  word = 'кузнец';
+        if (key == 23)  word = 'егерь';
+        if (key == 24)  word = 'токарь';
+        if (key == 25)  word = 'прокурор';
+        if (key == 26)  word = 'драматург';
+        if (key == 27)  word = 'парфюмер';
+        if (key == 28)  word = 'татуировщик';
+        if (key == 29)  word = 'сиделка';
+        if (key == 30)  word = 'парикмахер';
+        if (key == 31)  word = 'стюардесса';
+        if (key == 32)  word = 'кочегар';
+        if (key == 33)  word = 'консультант';
+        if (key == 34)  word = 'пекарь';
+        if (key == 35)  word = 'актер';
+        if (key == 36)  word = 'бухгалтер';
+        if (key == 37)  word = 'репортер';
+        if (key == 38)  word = 'массажист';
+        if (key == 39)  word = 'клоун';
+        if (key == 40)  word = 'иллюзионист';
+        if (key == 41)  word = 'крановщик';
+        if (key == 42)  word = 'тамада';
+        if (key == 43)  word = 'секретарь';
+        if (key == 44)  word = 'бариста';
+        if (key == 45)  word = 'писатель';
+        if (key == 46)  word = 'кинолог';
+        if (key == 47)  word = 'инженер';
+        if (key == 48)  word = 'продавец';
+        if (key == 49)  word = 'охранник';
+        if (key == 50)  word = 'аниматор';
+        if (key == 51)  word = 'синоптик';
+        if (key == 52)  word = 'космонавт';
+        if (key == 53)  word = 'кассир';
+        if (key == 54)  word = 'грузчик';
+        if (key == 55)  word = 'сценарист';
+        if (key == 56)  word = 'психолог';
+        if (key == 57)  word = 'ученый';
+        if (key == 58)  word = 'жестянщик';
+        if (key == 59)  word = 'лаборант';
+        if (key == 60)  word = 'лесничий';
+        if (key == 61)  word = 'дизайнер';
+        if (key == 62)  word = 'лифтер';
+        if (key == 63)  word = 'риелтор';
+        if (key == 64)  word = 'режиссер';
+        if (key == 65)  word = 'воспитатель';
+        if (key == 66)  word = 'микробиолог';
+        if (key == 67)  word = 'генетик';
+        if (key == 68)  word = 'металлург';
+        if (key == 69)  word = 'директор';
+        if (key == 70)  word = 'клерк';
+        if (key == 71)  word = 'спасатель';
+        if (key == 72)  word = 'модель';
+        if (key == 73)  word = 'музыкант';
+        if (key == 74)  word = 'строитель';
+        if (key == 75)  word = 'метеоролог';
+        if (key == 76)  word = 'кондитер';
+        if (key == 77)  word = 'радист';
+        if (key == 78)  word = 'монтажник';
+        if (key == 79)  word = 'летчик';
+        if (key == 80)  word = 'дворник';
+        if (key == 81)  word = 'курьер';
+        if (key == 82)  word = 'редактор';
+        if (key == 83)  word = 'политолог';
+        if (key == 84)  word = 'банкир';
+        if (key == 85)  word = 'социолог';
+        if (key == 86)  word = 'программист';
+        if (key == 87)  word = 'журналист';
+        if (key == 88)  word = 'аудитор';
+        if (key == 89)  word = 'адвокат';
+        if (key == 90)  word = 'бармен';
+        if (key == 91)  word = 'официант';
+        if (key == 92)  word = 'охотник';
+        if (key == 93)  word = 'геолог';
+        if (key == 94)  word = 'гувернантка';
+        if (key == 95)  word = 'капитан';
+        if (key == 96)  word = 'диспетчер';
+        if (key == 97)  word = 'дирижер';
+        if (key == 98)  word = 'врач';
+        if (key == 99)  word = 'механик';
+        if (key == 100) word = 'конструктор';
+        if (key == 101) word = 'селекционер';
+        if (key == 102) word = 'реставратор';
+        if (key == 103) word = 'менеджер';
+        if (key == 104) word = 'полицейский';
+        if (key == 105) word = 'маляр';
+        if (key == 106) word = 'водолаз';
+        if (key == 107) word = 'аналитик';
+        if (key == 108) word = 'продюсер';
+        if (key == 109) word = 'машинист';
+        if (key == 110) word = 'инспектор';
+        if (key == 111) word = 'фермер';
+        if (key == 112) word = 'таксист';
+        if (key == 113) word = 'кондуктор';
+        if (key == 114) word = 'авиатор';
+        if (key == 115) word = 'ветеринар';
+        if (key == 116) word = 'визажист';
+        if (key == 117) word = 'нотариус';
+        if (key == 118) word = 'плотник';
+        if (key == 119) word = 'биолог';
+        if (key == 120) word = 'дипломат';
+        if (key == 121) word = 'каменщик';
+        if (key == 122) word = 'стоматолог';
+        if (key == 123) word = 'учитель';
+        if (key == 124) word = 'переводчик';
+        if (key == 125) word = 'маркетолог';
+        if (key == 126) word = 'столяр';
+        if (key == 127) word = 'слесарь';
+    }
+    else if (topic == 3)
+    {
+        if (key == 0)   word = 'видеокамера';
+        if (key == 1)   word = 'турбина';
+        if (key == 2)   word = 'пневмопочта';
+        if (key == 3)   word = 'утюг';
+        if (key == 4)   word = 'осциллограф';
+        if (key == 5)   word = 'колонка';
+        if (key == 6)   word = 'робот';
+        if (key == 7)   word = 'шуруповерт';
+        if (key == 8)   word = 'миксер';
+        if (key == 9)   word = 'культиватор';
+        if (key == 10)  word = 'комбайн';
+        if (key == 11)  word = 'дрон';
+        if (key == 12)  word = 'радар';
+        if (key == 13)  word = 'дирижабль';
+        if (key == 14)  word = 'аппарат';
+        if (key == 15)  word = 'рация';
+        if (key == 16)  word = 'кабель';
+        if (key == 17)  word = 'дробилка';
+        if (key == 18)  word = 'наушники';
+        if (key == 19)  word = 'плеер';
+        if (key == 20)  word = 'якорь';
+        if (key == 21)  word = 'спутник';
+        if (key == 22)  word = 'мопед';
+        if (key == 23)  word = 'конвектор';
+        if (key == 24)  word = 'бульдозер';
+        if (key == 25)  word = 'троллейбус';
+        if (key == 26)  word = 'роутер';
+        if (key == 27)  word = 'яхта';
+        if (key == 28)  word = 'фрезер';
+        if (key == 29)  word = 'корабль';
+        if (key == 30)  word = 'мотоблок';
+        if (key == 31)  word = 'паровоз';
+        if (key == 32)  word = 'микроскоп';
+        if (key == 33)  word = 'кипятильник';
+        if (key == 34)  word = 'магнитофон';
+        if (key == 35)  word = 'самолет';
+        if (key == 36)  word = 'коллайдер';
+        if (key == 37)  word = 'генератор';
+        if (key == 38)  word = 'планшет';
+        if (key == 39)  word = 'ресивер';
+        if (key == 40)  word = 'самокат';
+        if (key == 41)  word = 'внедорожник';
+        if (key == 42)  word = 'вытяжка';
+        if (key == 43)  word = 'станок';
+        if (key == 44)  word = 'аэроплан';
+        if (key == 45)  word = 'трактор';
+        if (key == 46)  word = 'эвакуатор';
+        if (key == 47)  word = 'смартфон';
+        if (key == 48)  word = 'квадроцикл';
+        if (key == 49)  word = 'навигатор';
+        if (key == 50)  word = 'сушилка';
+        if (key == 51)  word = 'вентилятор';
+        if (key == 52)  word = 'гироскутер';
+        if (key == 53)  word = 'автомобиль';
+        if (key == 54)  word = 'автобус';
+        if (key == 55)  word = 'мотоцикл';
+        if (key == 56)  word = 'лимузин';
+        if (key == 57)  word = 'эхолот';
+        if (key == 58)  word = 'центрифуга';
+        if (key == 59)  word = 'локомотив';
+        if (key == 60)  word = 'компрессор';
+        if (key == 61)  word = 'посудомойка';
+        if (key == 62)  word = 'амперметр';
+        if (key == 63)  word = 'микрофон';
+        if (key == 64)  word = 'мультиметр';
+        if (key == 65)  word = 'спектрометр';
+        if (key == 66)  word = 'компьютер';
+        if (key == 67)  word = 'эпилятор';
+        if (key == 68)  word = 'вертолет';
+        if (key == 69)  word = 'телескоп';
+        if (key == 70)  word = 'моноблок';
+        if (key == 71)  word = 'экскаватор';
+        if (key == 72)  word = 'увлажнитель';
+        if (key == 73)  word = 'хлебопечка';
+        if (key == 74)  word = 'шокер';
+        if (key == 75)  word = 'блендер';
+        if (key == 76)  word = 'поезд';
+        if (key == 77)  word = 'мясорубка';
+        if (key == 78)  word = 'бойлер';
+        if (key == 79)  word = 'моноколесо';
+        if (key == 80)  word = 'перфоратор';
+        if (key == 81)  word = 'монитор';
+        if (key == 82)  word = 'тепловоз';
+        if (key == 83)  word = 'агрегат';
+        if (key == 84)  word = 'калькулятор';
+        if (key == 85)  word = 'самосвал';
+        if (key == 86)  word = 'телевизор';
+        if (key == 87)  word = 'пылесос';
+        if (key == 88)  word = 'дрель';
+        if (key == 89)  word = 'тепловизор';
+        if (key == 90)  word = 'объектив';
+        if (key == 91)  word = 'кран';
+        if (key == 92)  word = 'светофор';
+        if (key == 93)  word = 'видеоплеер';
+        if (key == 94)  word = 'ионизатор';
+        if (key == 95)  word = 'снегоход';
+        if (key == 96)  word = 'пароход';
+        if (key == 97)  word = 'кондиционер';
+        if (key == 98)  word = 'прицеп';
+        if (key == 99)  word = 'камера';
+        if (key == 100) word = 'реактор';
+        if (key == 101) word = 'теплоход';
+        if (key == 102) word = 'ледокол';
+        if (key == 103) word = 'клавиатура';
+        if (key == 104) word = 'диктофон';
+        if (key == 105) word = 'холодильник';
+        if (key == 106) word = 'трамвай';
+        if (key == 107) word = 'ноутбук';
+        if (key == 108) word = 'лазер';
+        if (key == 109) word = 'тостер';
+        if (key == 110) word = 'радиатор';
+        if (key == 111) word = 'фотоаппарат';
+        if (key == 112) word = 'марсоход';
+        if (key == 113) word = 'мультиварка';
+        if (key == 114) word = 'испаритель';
+        if (key == 115) word = 'принтер';
+        if (key == 116) word = 'телефон';
+        if (key == 117) word = 'акустика';
+        if (key == 118) word = 'вагон';
+        if (key == 119) word = 'приставка';
+        if (key == 120) word = 'телеграф';
+        if (key == 121) word = 'хронометр';
+        if (key == 122) word = 'катамаран';
+        if (key == 123) word = 'сервер';
+        if (key == 124) word = 'трейлер';
+        if (key == 125) word = 'проектор';
+        if (key == 126) word = 'факс';
+        if (key == 127) word = 'процессор';
+    }
+
+
+    # Заполняем wordPrint
+    for (byte i = 0; i < sizeof word; i++)
+    {
+        if (word[i]) wordPrint[i] = '_';
+    }
+
+    roundCount++;
+
+    # Цикл раунда
+    bool round = true;
+    while (round)
+    {
+        #################################
+        #           ОТРИСОВКА           #
+        #################################
+
+        out '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+
+        if (lives == 7) out '             ';
+        else            out '_______      ';
+        if (topic == 0)      out '--------   ЕДА   --------\n';
+        else if (topic == 1) out '------   ЖИВОТНЫЕ   -----\n';
+        else if (topic == 2) out '-----   ПРОФЕССИИ   -----\n';
+        else if (topic == 3) out '------   ТЕХНИКА   ------\n';
+
+        if (lives == 7) out '             \n';
+        else            out '|     |      \n';
+
+        if (lives == 7) out '    ';
+        else            out '|   ';
+        if (lives > 5)  out '    ';
+        else            out ' -V-';
+        out '     Слово:\n';
+
+        if (lives == 7) out '    ';
+        else            out '|   ';
+        if (lives > 5)  out '         ';
+        else if (lives) out '(o o)    ';
+        else            out '(x x)    ';
+        for (byte i = 0; i < sizeof wordPrint; i++)
+        {
+            out wordPrint[i], ' ';
+        }
+        out eol;
+
+        if (lives == 7) out '    ';
+        else            out '|   ';
+        if (lives > 5)  out '         ';
+        else            out ' -^-     ';
+        out eol;
+
+        if (lives == 7) out '    ';
+        else            out '|   ';
+        if (lives > 3)  out '  ';
+        else            out ' /';
+        if (lives > 4)  out ' ';
+        else            out '|';
+        if (lives > 2)  out '      ';
+        else            out '\     ';
+        if (lives == 0) out 'Ты проиграл!\n';
+        else if (won)   out 'Ты победил!\n';
+        else            out 'Доступные буквы:\n';
+
+        if (lives == 7) out '    ';
+        else            out '|   ';
+        if (lives > 3)  out '  ';
+        else            out '/ ';
+        if (lives > 4)  out ' ';
+        else            out '|';
+        if (lives > 2)  out '      ';
+        else            out ' \    ';
+        if (lives && !won)
+        {
+            for (byte i = 0; i < 11; i++)
+            {
+                char letter = 'А' + i;
+                if (letters[i]) out letter, ' ';
+                else            out '  ';
+            }
+        }
+        out eol;
+
+        if (lives == 7) out '    ';
+        else            out '|   ';
+        if (lives > 4)  out '         ';
+        else            out '  |      ';
+        if (lives && !won)
+        {
+            for (byte i = 11; i < 22; i++)
+            {
+                char letter = 'А' + i;
+                if (letters[i]) out letter, ' ';
+                else            out '  ';
+            }
+        }
+        out eol;
+
+        if (lives == 7) out '    ';
+        else            out '|   ';
+        if (lives > 1)  out '   ';
+        else            out ' / ';
+        if (lives)      out '      ';
+        else            out '\     ';
+        if (lives && !won)
+        {
+            for (byte i = 22; i < 32; i++)
+            {
+                char letter = 'А' + i;
+                if (letters[i]) out letter, ' ';
+                else            out '  ';
+            }
+        }
+        else
+        {
+            out 'Отгадано слов: ', wonCount, ' из ', roundCount;
+        }
+        out eol;
+
+        if (lives == 7) out '    ';
+        else            out '|   ';
+        if (lives > 1)  out '   ';
+        else            out '/  ';
+        if (lives)      out '  ';
+        else            out ' \';
+        out eol;
+
+        if (lives == 7) out '             ';
+        else            out '|            ';
+        if (lives == 0 || won) out 'Enter - продолжить';
+        else if (status == 0)  out 'Введи букву и нажми Enter';
+        else if (status == 1)  out 'Введена не буква!';
+        else if (status == 2)  out 'Неверная раскладка!';
+        else if (status == 3)  out 'Буква ', letter, ' уже была!';
+        else if (status == 4)  out 'Буквы ', letter, ' в слове нет!';
+        else                   out 'Буква ', letter, ' в слове есть!';
+
+        out '\n\n> ';
+
+
+        #################################
+        #        ОБРАБОТКА ВВОДА        #
+        #################################
+        char input;
+        in input;
+        letter = input;
+        while (input != '\n')
+        {
+            in input;
+        }
+
+        if (letter >= 'а' && letter <= 'я') letter -= ('а' - 'А');
+        if (letter >= 'a' && letter <= 'z') letter -= ('a' - 'A');
+
+        if (won || lives == 0)
+        {
+            # При завершении раунда выходим из цикла
+            round = false;
+            status = 0;
+        }
+        else if (letter >= 'А' && letter <= 'Я')
+        {
+            # Если буквы еще не было
+            if (letters[letter - 'А'])
+            {
+                bool found = false;
+
+                # Проверяем слово
+                for (byte i = 0; i < sizeof word; i++)
+                {
+                    if (letter + 32 == word[i])
+                    {
+                        found = true;
+                        wordPrint[i] = letter;
+                    }
+                }
+
+                if (found)
+                {
+                    status = 5;
+                }
+                else
+                {
+                    status = 4;
+                    lives--;
+                }
+
+                letters[letter - 'А'] = false;
+
+                # Обновляем сид, чтобы слова не повторялись
+                seed = 137 * seed + 1;
+            }
+            else
+            {
+                status = 3; # уже была
+            }
+        }
+        else if (letter >= 'A' && letter <= 'Z')
+        {
+            status = 2; # неверная раскладка
+        }
+        else
+        {
+            status = 1; # введена не буква
+        }
+
+
+        #################################
+        #          КОНЕЦ ИГРЫ           #
+        #################################
+
+        # Если попытки закончились, открываем слово
+        if (lives == 0)
+        {
+            for (byte i = 0; i < sizeof word; i++)
+            {
+                if (word[i])
+                {
+                    wordPrint[i] = word[i] - 32;
+                }
+            }
+        }
+        # Если введена верная буква, отгадано ли все слово
+        else if (status == 5)
+        {
+            won = true;
+            for (byte i = 0; i < sizeof word; i++)
+            {
+                if (word[i] && wordPrint[i] == '_')
+                {
+                    won = false;
+                }
+            }
+            if (won)
+            {
+                wonCount++;
+            }
+        }
+
+    }
+}

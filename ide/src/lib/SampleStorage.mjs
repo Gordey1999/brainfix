@@ -9,6 +9,10 @@ const files = [
 		url: 'sample/nim.bfp',
 	},
 	{
+		name: 'Игра «Виселица»',
+		url: 'sample/hangman.bfp',
+	},
+	{
 		name: 'Простые примеры',
 		url: 'sample/examples.bfp',
 	},
