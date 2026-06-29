@@ -6,6 +6,6 @@
 	<polygon points="2,1 5,1 5,26 2,34" fill="#00000012" />
 	<polygon points="215,1 218,1 218,34 215,26" fill="#00000054" />
 	<polygon points="5,26 215,26 218,34 2,34" fill="#00000030" />
-	<text x="50%" y="39%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="14" font-weight="600" letter-spacing="0.5">ЧИТАТЬ ДОКУМЕНТАЦИЮ</text>
-	<text x="50%" y="37%" dominant-baseline="middle" text-anchor="middle" fill="#0000009e" font-family="monospace" font-size="14" font-weight="600" letter-spacing="0.5">ЧИТАТЬ ДОКУМЕНТАЦИЮ</text>
+	<text x="50%" y="39%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="14" font-weight="600" letter-spacing="0.5">READ DOCUMENTATION</text>
+	<text x="50%" y="37%" dominant-baseline="middle" text-anchor="middle" fill="#0000009e" font-family="monospace" font-size="14" font-weight="600" letter-spacing="0.5">READ DOCUMENTATION</text>
 </svg>

@@ -1,50 +1,52 @@
+**English** | [Русский](README.ru.md)
+
 # Brainfix
 
-**Brainfix** — это Си-подобный строго типизированный язык программирования высокого уровня, разработанный специально для компиляции в ультракомпактный и оптимизированный код **Brainfuck**. 
+**Brainfix** is a C-like, statically typed, high-level programming language designed specifically to compile into ultra-compact and highly optimized **Brainfuck** code.
 
-Проект призван решить главную проблему эзотерического программирования — экстремально высокую сложность написания, чтения и отладки алгоритмов на чистом Brainfuck. Язык предоставляет разработчику привычные абстракции (переменные, многомерные массивы, циклы и условия), скрывая под капотом всю рутинную и сложную работу.
+The project aims to solve the core issue of esoteric programming: the extreme difficulty of writing, reading, and debugging algorithms in pure Brainfuck. The language provides familiar abstractions (variables, multi-dimensional arrays, loops, and conditionals) while handling all the tedious, low-level memory manipulation under the hood.
 
-![Пример кода на Brainfix](docs/wiki/assets/img/brainfix-preview.png)
+![Brainfix Code Example](docs/wiki/assets/img/brainfix-preview.png)
 
-**Главные фишки Brainfix**
-* **Си-синтаксис:** Забудьте про хаос из `><+-`. Используйте привычные переменные, многомерные массивы, циклы (`for`, `while`, `do-while`) и условия (`if-else`).
-* **Удобная работа с данными:** Нативная поддержка строк и упрощенный ввод/вывод чисел.
-* **Экстремальная оптимизация:** Умный компилятор анализирует ваш код и генерирует максимально короткие и быстрые цепочки команд для Brainfuck.
-* **Защита вашего разума:** Название говорит само за себя. Проект создан для того, чтобы писать сложные программы на Brainfuck и сохранять рассудок.
+**Key Features**
+* **C-like Syntax:** Forget the chaotic mess of `><+-`. Use familiar variables, multi-dimensional arrays, loops (`for`, `while`, `do-while`), and conditionals (`if-else`).
+* **Easy Data Handling:** Native support for strings and simplified numerical input/output.
+* **Extreme Optimization:** The smart compiler analyzes your code and generates the shortest, fastest possible instruction sequences for Brainfuck.
+* **Sanity Saver:** The name speaks for itself. This project is built to let you write complex Brainfuck programs while keeping your sanity intact.
 
-[![Читать документацию](docs/wiki/assets/img/btn-docs.svg)](https://gordey1999.github.io/brainfix/wiki/)
+[![Read the Documentation](docs/wiki/assets/img/btn-docs-en.svg)](https://gordey1999.github.io/brainfix/wiki/)
 
-## Экосистема и Веб-IDE (Brainfix Studio)
+## Ecosystem & Web IDE (Brainfix Studio)
 
-Вместе с языком доступна полноценная среда разработки прямо в браузере.
-Вам не нужно ничего устанавливать — писать, компилировать, тестировать и запускать код можно в удобном редакторе.
+The language comes with a fully-featured, browser-based development environment.
+No installation required — you can write, compile, test, and run your code directly in a user-friendly editor.
 
-![Интерфейс BrainFix Studio](docs/wiki/assets/img/studio-preview.png)
+![Brainfix Studio Interface](docs/wiki/assets/img/studio-preview.png)
 
-**Возможности IDE:**
-*  **Два редактора в одном:** Пишите код на `Brainfix (.bfx)` или сразу на чистом `Brainfuck (.bf)`.
-*  **Встроенный компилятор:** Превращайте `.bfx` код в инструкции `.bf` одним нажатием.
-*  **Встроенный интерпретатор:** Запускайте готовые `.bf` программы любой сложности и взаимодействуйте с ними через удобный терминал.
-*  **Визуальная отладка:** Следите за каждым шагом программы и значениями в ячейках памяти для быстрого поиска и исправления ошибок.
+**IDE Features:**
+* **Two Editors in One:** Write code in `Brainfix (.bfx)` or switch instantly to pure `Brainfuck (.bf)`.
+* **Built-in Compiler:** Transform your `.bfx` code into `.bf` instructions with a single click.
+* **Built-in Interpreter:** Run complex `.bf` programs and interact with them via an intuitive terminal interface.
+* **Visual Debugger:** Track every program step and monitor memory cell values in real time to find and fix bugs faster.
 
-[![Запустить онлайн-редактор](docs/wiki/assets/img/btn-ide.svg)](https://gordey1999.github.io/brainfix/)
+[![Launch Online Editor](docs/wiki/assets/img/btn-ide.svg)](https://gordey1999.github.io/brainfix/)
 
-## Проекты, созданные на Brainfix
+## Projects Built with Brainfix
 
-Чтобы продемонстрировать возможности языка и компилятора, на Brainfix было написано несколько полноценных интерактивных проектов:
+To showcase the capabilities of the language and its compiler, several fully interactive projects have been written entirely in Brainfix:
 
-* **Игра «Сапер»** — классическая головоломка с генерацией поля, флагами и открытием ячеек.
-* **Игра «Ним»** — математическая игра против искусственного интеллекта.
+* **Minesweeper** — The classic puzzle game featuring grid generation, flag placement, and cell revealing.
+* **Nim** — A mathematical strategy game where you play against an AI opponent.
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
   <tr>
     <td width="50%" align="center">
-      <img src="docs/wiki/assets/img/saper.gif" alt="Демо игры Сапер" />
+      <img src="docs/wiki/assets/img/saper.gif" alt="Minesweeper Gameplay Demo" />
     </td>
     <td width="50%" align="center">
-      <img src="docs/wiki/assets/img/nim.gif" alt="Демо игры Ним" />
+      <img src="docs/wiki/assets/img/nim.gif" alt="Nim Gameplay Demo" />
     </td>
   </tr>
 </table>
 
-Эти и другие программы уже встроены в меню примеров внутри **Brainfix Studio**. Вы можете открыть их в один клик и использовать как готовые шаблоны для изучения синтаксиса языка.
+These programs (and more) come pre-loaded in the examples menu inside **Brainfix Studio**. You can open them instantly and use them as boilerplate templates to explore the language syntax.

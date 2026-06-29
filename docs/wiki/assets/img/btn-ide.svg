@@ -1,25 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="220" height="42" viewBox="0 0 220 42">
-	<!-- Глубокая подложка-тень (из .btn::after) -->
 	<rect x="0" y="0" width="220" height="40" rx="3" fill="#0000001b" />
-
-	<!-- Задний фон для боковых граней, чтобы не было щелей -->
 	<rect x="2" y="1" width="216" height="34" rx="2" fill="#00000030" />
-
-	<!-- Основная верхняя крышка кнопки -->
 	<rect x="2" y="1" width="216" height="33" rx="1" fill="#f2ead0"/>
-
 	<rect x="5" y="1" width="210" height="1" rx="1" fill="#ffffff" />
-
-	<!-- ЛЕВАЯ ГРАНЬ (Трапеция) -->
 	<polygon points="2,1 5,1 5,26 2,34" fill="#00000012" />
-
-	<!-- ПРАВАЯ ГРАНЬ (Трапеция) -->
 	<polygon points="215,1 218,1 218,34 215,26" fill="#00000054" />
-
-	<!-- НИЖНЯЯ ГРАНЬ (Трапеция) -->
 	<polygon points="5,26 215,26 218,34 2,34" fill="#00000030" />
-
-	<!-- Текст с эффектом тени -->
 	<text x="50%" y="39%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="14" font-weight="600" letter-spacing="0.5">BRAINFIX STUDIO</text>
 	<text x="50%" y="37%" dominant-baseline="middle" text-anchor="middle" fill="#0000009e" font-family="monospace" font-size="14" font-weight="600" letter-spacing="0.5">BRAINFIX STUDIO</text>
 </svg>
