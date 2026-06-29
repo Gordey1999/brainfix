@@ -14,7 +14,7 @@ The project aims to solve the core issue of esoteric programming: the extreme di
 * **Extreme Optimization:** The smart compiler analyzes your code and generates the shortest, fastest possible instruction sequences for Brainfuck.
 * **Sanity Saver:** The name speaks for itself. This project is built to let you write complex Brainfuck programs while keeping your sanity intact.
 
-[![Read the Documentation](docs/wiki/assets/img/btn-docs-en.svg)](https://gordey1999.github.io/brainfix/wiki/)
+[![Read the Documentation](docs/wiki/assets/img/btn-docs-en.svg)](https://gordey1999.github.io/brainfix/wiki/en/)
 
 ## Ecosystem & Web IDE (Brainfix Studio)
 
