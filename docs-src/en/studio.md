@@ -1,5 +1,7 @@
 # Brainfix Studio Guide
 
+> This documentation is automatically translated by an AI language model. If you notice any inaccuracies or prefer the original text, you can switch to the **[Russian Version](../)**.
+
 **Brainfix Studio** is a fully featured, web-based development environment (Web IDE) designed for writing, compiling, debugging, and running programs in both Brainfix and Brainfuck. It provides all the necessary tools for comfortable programming directly in your browser and is accessible via the following link:
 
 [Launch Brainfix Studio](https://gordey1999.github.io/brainfix/)
