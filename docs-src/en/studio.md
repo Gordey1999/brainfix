@@ -226,6 +226,8 @@ The IDE periodically **autosaves the entire state of your workspace**. The cache
 
 ## The Load Menu and Built-in Examples
 
+![Load Menu](../assets/img/studio-load.png)
+
 To open previously saved projects or launch demonstration programs, use the load menu accessible by clicking the **LOAD** button on the upper control panel.
 
 The interface of this menu is split into several blocks and provides the following features:
